@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SLBS.Membership.Web.Models.Member>
+
+
+   <div>
+       <table class="table">
+           <tr>
+               <th>
+                   @Html.DisplayNameFor(model => model.MemberNo)
+               </th>
+               <th>
+                   @Html.DisplayNameFor(model => model.Email)
+               </th>
+               <th>
+                   @Html.DisplayNameFor(model => model.PaymentStatus)
+               </th>
+               <th></th>
+           </tr>
+
+           @foreach (var item in Model)
+           {
+               <tr>
+                   <td>
+                       @Html.DisplayFor(modelItem => item.MemberNo)
+                   </td>
+                   <td>
+                       @Html.DisplayFor(modelItem => item.Email)
+                   </td>
+                   <td>
+                       @Html.DisplayFor(modelItem => item.PaymentStatus)
+                   </td>
+               </tr>
+           }
+
+       </table>
+   </div>
+
+    <p>
+       Send Email Button
+    </p>
+

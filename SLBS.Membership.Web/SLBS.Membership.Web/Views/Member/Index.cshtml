@@ -1,0 +1,19 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h2>Load the membership excel</h2>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-12">
+        @using (Html.BeginForm("Load", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="file" name="file" class="btn btn-default" />
+            <input type="submit" name="Submit" id="Submit" value="Upload" class="btn btn-default"/>
+        }
+    </div>
+
+</div>
+
+ 
