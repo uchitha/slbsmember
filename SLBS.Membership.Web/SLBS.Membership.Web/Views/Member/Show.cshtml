@@ -1,40 +1,45 @@
 ﻿@model IEnumerable<SLBS.Membership.Web.Models.Member>
 
+@using (Html.BeginForm("Send", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PaymentStatus)
+                </th>
+                <th></th>
+            </tr>
 
-   <div>
-       <table class="table">
-           <tr>
-               <th>
-                   @Html.DisplayNameFor(model => model.MemberNo)
-               </th>
-               <th>
-                   @Html.DisplayNameFor(model => model.Email)
-               </th>
-               <th>
-                   @Html.DisplayNameFor(model => model.PaymentStatus)
-               </th>
-               <th></th>
-           </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MemberNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentStatus)
+                    </td>
+                </tr>
+            }
 
-           @foreach (var item in Model)
-           {
-               <tr>
-                   <td>
-                       @Html.DisplayFor(modelItem => item.MemberNo)
-                   </td>
-                   <td>
-                       @Html.DisplayFor(modelItem => item.Email)
-                   </td>
-                   <td>
-                       @Html.DisplayFor(modelItem => item.PaymentStatus)
-                   </td>
-               </tr>
-           }
-
-       </table>
-   </div>
+        </table>
+    </div>
 
     <p>
-       Send Email Button
+        <div>
+            <input type="submit" name="submit" id="Submit" value="Send" class="btn btn-default" />
+        </div>
     </p>
+}
+ 
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -38,6 +39,24 @@ namespace SLBS.Membership.Web.Controllers
             return Show(list);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Send()
+        {
+            var list = new List<Member>();
+            var sender = new EmailSender(list);
+            try
+            {
+                Task t = sender.SendAll();
+                await t;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+            return Show(list);
+        }
+
         public ActionResult Show(List<Member> list)
         {
             return View("Show",list);
@@ -48,14 +67,13 @@ namespace SLBS.Membership.Web.Controllers
             using (var package = new ExcelPackage(file.InputStream))
             {
                 // get the first worksheet in the workbook
-                ExcelWorksheet worksheet = package.Workbook.Worksheets["MEM_BF"];
-                int col = 12;
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[SystemConfig.SheetName];
                 var list = new List<Member>();
-                for (int row = 6; worksheet.Cells[row, col].Value != null; row++)
+                for (int row = 6; worksheet.Cells[row, SystemConfig.PayColumnIndex].Value != null; row++)
                 {
-                    var email = worksheet.Cells[row, col - 3].Value != null ? worksheet.Cells[row, col - 3].Value.ToString() : string.Empty;
-                    var memberNo = worksheet.Cells[row, col - 2].Value.ToString();
-                    var paymentStatus = worksheet.Cells[row, col].Value.ToString();
+                    var email = worksheet.Cells[row, SystemConfig.EmailColumnIndex].Value != null ? worksheet.Cells[row, SystemConfig.EmailColumnIndex].Value.ToString() : string.Empty;
+                    var memberNo = worksheet.Cells[row, SystemConfig.MemberNumberColumnIndex].Value.ToString();
+                    var paymentStatus = worksheet.Cells[row, SystemConfig.PayColumnIndex].Value.ToString();
                     if (paymentStatus == "Pay")
                     {
                         list.Add(new Member
