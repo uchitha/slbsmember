@@ -2,44 +2,57 @@
 
 @using (Html.BeginForm("Send", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.MemberNo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PaymentStatus)
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MemberNo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PaymentStatus)
-                    </td>
-                </tr>
-            }
-
-        </table>
-    </div>
-
-    <p>
-        <div>
-            <input type="submit" name="submit" id="Submit" value="Send" class="btn btn-default" />
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Select the people you'd like to send the notification to and click send. 
+            </p>
+            <input type="submit" name="submit" id="Submit" value="Send" class="btn btn-primary" />
         </div>
-    </p>
+    </div>
+    
+    <br/>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MemberNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaymentStatus)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selectedMemberIds" value="@item.MemberNo" /> <!-- HOW SHOULD THIS BE RENDERED? -->
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MemberNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentStatus)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+  
 }
  
 

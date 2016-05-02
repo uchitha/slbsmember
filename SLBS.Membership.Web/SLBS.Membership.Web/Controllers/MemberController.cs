@@ -40,7 +40,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Send()
+        public async Task<ActionResult> Send(List<string> selectedMemberIds)
         {
             var list = new List<Member>();
             var sender = new EmailSender(list);
