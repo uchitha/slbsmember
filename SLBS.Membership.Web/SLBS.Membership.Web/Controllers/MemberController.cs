@@ -40,21 +40,14 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Send(List<Member> selectedMemberIds)
+        public async Task<ActionResult> Send(List<string> selectedMemberEmails)
         {
-            var list = new List<Member>();
-            var sender = new EmailSender(list);
-            try
-            {
-                Task t = sender.SendAll();
-                await t;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            var sender = new EmailSender(selectedMemberEmails);
+            //TODO: Error handling
+            Task<int> t = sender.SendAll();
+            ViewBag.SentCount = await t;
+            return View("SendReport");
 
-            return Show(list);
         }
 
         public ActionResult Show(List<Member> list)
@@ -73,6 +66,7 @@ namespace SLBS.Membership.Web.Controllers
                 {
                     var email = worksheet.Cells[row, SystemConfig.EmailColumnIndex].Value != null ? worksheet.Cells[row, SystemConfig.EmailColumnIndex].Value.ToString() : string.Empty;
                     var memberNo = worksheet.Cells[row, SystemConfig.MemberNumberColumnIndex].Value.ToString();
+                    var memberName = worksheet.Cells[row, SystemConfig.MemberNameColumnIndex].Value.ToString();
                     var paymentStatus = worksheet.Cells[row, SystemConfig.PayColumnIndex].Value.ToString();
                     if (paymentStatus == "Pay")
                     {
@@ -80,7 +74,8 @@ namespace SLBS.Membership.Web.Controllers
                         {
                             MemberNo = memberNo,
                             Email = email,
-                            PaymentStatus = paymentStatus
+                            PaymentStatus = paymentStatus,
+                            MemberName = memberName
                         });
                     }
                    

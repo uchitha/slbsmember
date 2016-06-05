@@ -1,4 +1,18 @@
 ﻿@model IEnumerable<SLBS.Membership.Web.Models.Member>
+           
+@section scripts
+{
+    <script type="text/javascript" >
+        $(document).ready(function () {
+            $("#toggleAll").click(function () {
+                $(".selectMember").prop("checked", $("#toggleAll:checked").length > 0);
+                console.log('done');
+            });
+        });
+    </script>
+   
+
+}
 
 @using (Html.BeginForm("Send", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -18,9 +32,12 @@
         <div class="col-md-12">
             <table class="table">
                 <tr>
-                    <th></th>
+                    <th><input type="checkbox" name="selectAll"  id="toggleAll" /></th>
                     <th>
                         @Html.DisplayNameFor(model => model.MemberNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MemberName)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Email)
@@ -35,14 +52,18 @@
                 {
                     <tr>
                         <td>
-                            <input type="checkbox" name="selectedMemberIds" value="@item.MemberNo" /> <!-- HOW SHOULD THIS BE RENDERED? -->
+                            <input type="checkbox" name="selectedMemberEmails" value="@item.Email" class="selectMember" />
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.MemberNo)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.MemberName)
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Email)
                         </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.PaymentStatus)
                         </td>
