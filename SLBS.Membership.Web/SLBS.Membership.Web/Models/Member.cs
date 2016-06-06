@@ -11,5 +11,6 @@ namespace SLBS.Membership.Web.Models
         public string MemberName { get; set; }
         public string Email { get; set; }
         public string PaymentStatus { get; set; }
+        public decimal Payment { get; set; }
     }
 }

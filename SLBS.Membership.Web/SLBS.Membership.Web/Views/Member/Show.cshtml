@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SLBS.Membership.Web.Models.Member>
+﻿@using SLBS.Membership.Web.Models
+@model IEnumerable<SLBS.Membership.Web.Models.Member>
            
 @section scripts
 {
@@ -14,13 +15,21 @@
 
 }
 
-@using (Html.BeginForm("Send", "Member", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Send", "Member",   new { mode = @ViewBag.Mode }, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <br/>
     <div class="row">
         <div class="col-md-12">
+            <h3>@ViewBag.Mode Notification</h3>
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-md-12">
+            <h3>
+                Found @Model.Count() members who have paid for this cycle
+            </h3>
             <p>
-                Select the people you'd like to send the notification to and click send. 
+                Select the people you'd like to send the notification to and click send.
             </p>
             <input type="submit" name="submit" id="Submit" value="Send" class="btn btn-primary" />
         </div>
@@ -43,7 +52,7 @@
                         @Html.DisplayNameFor(model => model.Email)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.PaymentStatus)
+                        @Html.DisplayNameFor(model => model.Payment)
                     </th>
                     <th></th>
                 </tr>
@@ -52,7 +61,7 @@
                 {
                     <tr>
                         <td>
-                            <input type="checkbox" name="selectedMemberEmails" value="@item.Email" class="selectMember" />
+                            <input type="checkbox" name="selectedMemberNumbers" value="@item.MemberNo" class="selectMember" />
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.MemberNo)
@@ -65,7 +74,7 @@
                         </td>
 
                         <td>
-                            @Html.DisplayFor(modelItem => item.PaymentStatus)
+                            @Html.DisplayFor(modelItem => item.Payment)
                         </td>
                     </tr>
                 }

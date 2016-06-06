@@ -1,0 +1,20 @@
+﻿@using SLBS.Membership.Web.Models
+<div class="row">
+    <div class="col-md-12">
+        <h2>Membership excel loaded. Please select a mode of operation.</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Send Membership Acknowledgement</h3>
+        <p><input type="button" value="Send" onclick="location.href='@Url.Action("Show", "Member", new { mode = EnumMode.Membership})'" class="btn btn-primary" /></p>
+    </div>
+    
+    <div class="col-md-6">
+        <h3>Send Building Fund Acknowledgement</h3>
+        <p><input type="button" value="Send" onclick="location.href='@Url.Action("Show", "Member", new { mode = EnumMode.BuildingFund })'" class="btn btn-primary" /></p>
+    </div>
+</div>
+
+

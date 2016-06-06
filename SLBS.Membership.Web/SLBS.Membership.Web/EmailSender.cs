@@ -13,39 +13,67 @@ namespace SLBS.Membership.Web
     public class EmailSender
     {
         private string ApiKey = "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";
-        private List<string> _emailList;
+        private List<Member> _memeberList;
+        private EnumMode _mode;
 
-        public EmailSender(List<string> emailList)
+        public EmailSender(EnumMode mode)
         {
-            _emailList = emailList;
+            _mode = mode;
         }
 
-        public async Task<int> SendAll()
+        public async Task<int> SendAll(List<Member> memberList)
         {
             int count = 0;
-            foreach (var email in _emailList)
+            foreach (var member in memberList)
             {
-                if (IsValidEmail(email))
+                if (IsValidEmail(member.Email))
                 {
-                    await Send(email);
-                    count++;
+                    if (_mode == EnumMode.Membership)
+                    {
+                        await SendMembershipEmail(member);
+                        count++;
+                    }
+                    else if (_mode == EnumMode.BuildingFund)
+                    {
+                        await SendBuildingFundEmail(member);
+                        count++;
+                    } 
                 }
-                
             }
 
             return count;
         }
 
-        private async Task Send(string email)
+
+        public async Task SendMembershipEmail(Member member)
         {
             var myMessage = new SendGrid.SendGridMessage();
             myMessage.AddTo("slbsmembershipstatus@gmail.com");
             myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Admin");
-            myMessage.Subject = string.Format("Sending email to {0}", email);
-            myMessage.Text = "Test mail from SLBS Membership";
+            myMessage.Subject = string.Format("Sending membership email to {0}", member.Email);
+            myMessage.Text = string.Format("Received ${0} from {1} as SLSBS membership. Thank you very much for your support",member.Payment,member.MemberName);
 
+            await Send(myMessage);
+        }
+
+
+        public async Task SendBuildingFundEmail(Member member)
+        {
+            var myMessage = new SendGrid.SendGridMessage();
+            myMessage.AddTo("slbsmembershipstatus@gmail.com");
+            myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Admin");
+            myMessage.Subject = string.Format("Sending building fund email to {0}", member.Email);
+            myMessage.Text = string.Format("Received ${0} from {1} for SLSBS building fund. Thank you very much for your support", member.Payment, member.MemberName);
+
+            await Send(myMessage);
+        }
+
+
+
+        private async Task Send(SendGrid.SendGridMessage message)
+        {
             var transportWeb = new SendGrid.Web(ApiKey);
-            await transportWeb.DeliverAsync(myMessage);
+            await transportWeb.DeliverAsync(message);
         }
 
         private bool IsValidEmail(string email)
