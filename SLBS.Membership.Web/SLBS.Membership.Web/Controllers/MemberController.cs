@@ -70,7 +70,7 @@ namespace SLBS.Membership.Web.Controllers
             else if (mode.Equals(EnumMode.BuildingFund))
             {
                 membershipList = (List<Member>) Session["BuildingFundList"];
-                sender = new EmailSender(EnumMode.Membership);
+                sender = new EmailSender(EnumMode.BuildingFund);
             }
          
             if (membershipList.Count > 0)
