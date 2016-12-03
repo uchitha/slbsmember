@@ -1,5 +1,0 @@
-D:\Projects\SLBS-Program\SLBS.Membership.Web\SLBS.Membership.Data\bin\Debug\SLBS.Membership.Data.dacpac
-D:\Projects\SLBS-Program\SLBS.Membership.Web\SLBS.Membership.Data\bin\Debug\SLBS.Membership.Data.dll
-D:\Projects\SLBS-Program\SLBS.Membership.Web\SLBS.Membership.Data\bin\Debug\SLBS.Membership.Data.pdb
-D:\Projects\SLBS-Program\SLBS.Membership.Web\SLBS.Membership.Data\obj\Debug\SLBS.Membership.Data.dll
-D:\Projects\SLBS-Program\SLBS.Membership.Web\SLBS.Membership.Data\obj\Debug\SLBS.Membership.Data.pdb

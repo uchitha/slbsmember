@@ -48,14 +48,18 @@ USE [$(DatabaseName)];
 
 
 GO
-PRINT N'Creating [dbo].[ProcessCycle]...';
+PRINT N'Creating [dbo].[Payment]...';
 
 
 GO
-CREATE TABLE [dbo].[ProcessCycle] (
-    [Id]            INT            NOT NULL,
-    [StartDateTime] DATETIME       NOT NULL,
-    [StartedBy]     NVARCHAR (MAX) NULL,
+CREATE TABLE [dbo].[Payment] (
+    [Id]                INT           NOT NULL,
+    [MemberId]          INT           NOT NULL,
+    [ProcessId]         INT           NOT NULL,
+    [PaymentStatus]     NVARCHAR (50) NULL,
+    [PaymentUntilYear]  NVARCHAR (50) NULL,
+    [PaymentUntilMonth] NVARCHAR (50) NULL,
+    [IsEmailSent]       BIT           NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
@@ -76,18 +80,14 @@ CREATE TABLE [dbo].[Member] (
 
 
 GO
-PRINT N'Creating [dbo].[Payment]...';
+PRINT N'Creating [dbo].[ProcessCycle]...';
 
 
 GO
-CREATE TABLE [dbo].[Payment] (
-    [Id]                INT           NOT NULL,
-    [MemberId]          INT           NOT NULL,
-    [ProcessId]         INT           NOT NULL,
-    [PaymentStatus]     NVARCHAR (50) NULL,
-    [PaymentUntilYear]  NVARCHAR (50) NULL,
-    [PaymentUntilMonth] NVARCHAR (50) NULL,
-    [IsEmailSent]       BIT           NULL,
+CREATE TABLE [dbo].[ProcessCycle] (
+    [Id]            INT            NOT NULL,
+    [StartDateTime] DATETIME       NOT NULL,
+    [StartedBy]     NVARCHAR (MAX) NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

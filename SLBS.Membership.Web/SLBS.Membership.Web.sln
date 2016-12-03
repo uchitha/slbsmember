@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLBS.Membership.Web", "SLBS
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SLBS.Membership.Data", "SLBS.Membership.Data\SLBS.Membership.Data.sqlproj", "{70C32C8E-5D96-4940-AB14-1405B275ED46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLBS.Membership.Domain", "SLBS.Membership.Domain\SLBS.Membership.Domain.csproj", "{D4BD621E-CA50-4C40-BCE4-7B4A34C6BB44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{70C32C8E-5D96-4940-AB14-1405B275ED46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70C32C8E-5D96-4940-AB14-1405B275ED46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70C32C8E-5D96-4940-AB14-1405B275ED46}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D4BD621E-CA50-4C40-BCE4-7B4A34C6BB44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4BD621E-CA50-4C40-BCE4-7B4A34C6BB44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4BD621E-CA50-4C40-BCE4-7B4A34C6BB44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4BD621E-CA50-4C40-BCE4-7B4A34C6BB44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

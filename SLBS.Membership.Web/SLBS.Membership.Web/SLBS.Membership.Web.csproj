@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="EPPlus">
       <HintPath>..\packages\EPPlus.4.0.5\lib\net20\EPPlus.dll</HintPath>
     </Reference>
@@ -135,8 +141,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ChildrenController.cs" />
+    <Compile Include="Controllers\FathersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\MothersController.cs" />
     <Compile Include="Data\MainRepository.cs" />
     <Compile Include="EmailSender.cs" />
     <Compile Include="Global.asax.cs">
@@ -187,6 +197,27 @@
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Member\SendReport.cshtml" />
     <Content Include="Views\Member\Mode.cshtml" />
+    <Content Include="Views\Members\Create.cshtml" />
+    <Content Include="Views\Members\Delete.cshtml" />
+    <Content Include="Views\Members\Details.cshtml" />
+    <Content Include="Views\Members\Edit.cshtml" />
+    <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\Fathers\Create.cshtml" />
+    <Content Include="Views\Fathers\Delete.cshtml" />
+    <Content Include="Views\Fathers\Details.cshtml" />
+    <Content Include="Views\Fathers\Edit.cshtml" />
+    <Content Include="Views\Fathers\Index.cshtml" />
+    <Content Include="Views\Mothers\Create.cshtml" />
+    <Content Include="Views\Mothers\Delete.cshtml" />
+    <Content Include="Views\Mothers\Details.cshtml" />
+    <Content Include="Views\Mothers\Edit.cshtml" />
+    <Content Include="Views\Mothers\Index.cshtml" />
+    <Content Include="Views\Index.cshtml" />
+    <Content Include="Views\Children\Create.cshtml" />
+    <Content Include="Views\Children\Delete.cshtml" />
+    <Content Include="Views\Children\Details.cshtml" />
+    <Content Include="Views\Children\Edit.cshtml" />
+    <Content Include="Views\Children\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -197,6 +228,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SLBS.Membership.Domain\SLBS.Membership.Domain.csproj">
+      <Project>{d4bd621e-ca50-4c40-bce4-7b4a34c6bb44}</Project>
+      <Name>SLBS.Membership.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

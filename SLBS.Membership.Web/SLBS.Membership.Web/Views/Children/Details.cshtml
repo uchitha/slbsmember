@@ -1,0 +1,66 @@
+﻿@model SLBS.Membership.Domain.Child
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Child</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.MemberNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.MemberNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MediaConsent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MediaConsent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmbulanceCover)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmbulanceCover)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaidUpTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaidUpTo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
