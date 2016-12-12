@@ -75,7 +75,7 @@ namespace SLBS.Membership.Web.Controllers
          
             if (membershipList.Count > 0)
             {
-                foreach (var memberNo in selectedMemberNumbers)
+                foreach (var memberNo in selectedMemberNumbers) 
                 {
                     var member = membershipList.FirstOrDefault(m => m.MemberNo == memberNo);
                     if (member != null)
@@ -85,7 +85,7 @@ namespace SLBS.Membership.Web.Controllers
                 }
             }
 
-            ViewBag.SentCount = await sender.SendAll(memberSendList);
+            //ViewBag.SentCount = await sender.SendAll(memberSendList);
             return View("SendReport");
 
         }

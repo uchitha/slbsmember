@@ -1,16 +1,27 @@
 ﻿@model IEnumerable<SLBS.Membership.Domain.Member>
 
 @{
-    ViewBag.Title = "SLSBS Members";
+    ViewBag.Title = "Members";
 }
 
 <h2>Members</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    <div class="row">
+        <div class="col-md-4">
+            @Html.ActionLink("Create New", "Create")
+        </div>
+        <div class="col-md-8">
+            <span id ="userMessage">@ViewBag.UserMessage</span>
+            <span style="color:red" id="errorMessage"></span>
+        </div>
+    </div>
+   
+
 <table class="table">
     <tr>
+        <th>
+            
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.MemberNo)
         </th>
@@ -18,10 +29,13 @@
             @Html.DisplayNameFor(model => model.FamilyName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Mother)
+            @Html.DisplayNameFor(model => model.Father.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Father)
+            @Html.DisplayNameFor(model => model.Mother.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaidUpTo)
         </th>
         <th></th>
     </tr>
@@ -29,23 +43,75 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            <input type="checkbox" name="memberSelect" value="@item.Id"/>
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.MemberNo)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FamilyName)
         </td>
         <td>
-            @Html.ActionLink(item.Mother.Name, "Details", "Mothers",new { id = item.Mother.Id},null)
+            @Html.DisplayFor(modelItem => item.Father.Name)
         </td>
         <td>
-            @Html.ActionLink(item.Father.Name,"Details","Fathers", new { id = item.Father.Id}, null)
+            @Html.DisplayFor(modelItem => item.Mother.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaidUpTo)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) 
-     @*       @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }
 
 </table>
+
+@Html.AntiForgeryToken()
+
+<div class="row">
+    <div class="col-md-12">
+        
+        <a href="#" onclick="sendMail()" class="btn btn-primary">Send</a>
+    </div>
+</div>
+
+<script>
+    
+    function addAntiForgeryToken(data) {
+        data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+        return data;
+    };
+
+    function sendMail() {
+        var url = '@Url.Action("Send")';
+
+        var selected = [];
+        $("input:checkbox[name=memberSelect]:checked").each(function () {
+            console.log($(this).val());
+            selected.push($(this).val());
+        });
+
+        var param = {
+            ids: selected,
+            __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
+        };
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: param,
+            dataType: "json",
+            success: function(data) {
+                console.log('done');
+            },
+            error: function(error) {
+                $("#errorMessage").html("Error occured");
+            }
+
+        });
+    }
+</script>

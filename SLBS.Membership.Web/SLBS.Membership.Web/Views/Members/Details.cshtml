@@ -10,6 +10,8 @@
     <h4>Member</h4>
     <hr />
     <dl class="dl-horizontal">
+       
+       
         <dt>
             @Html.DisplayNameFor(model => model.MemberNo)
         </dt>
@@ -19,11 +21,34 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ContactName)
+            @Html.DisplayNameFor(model => model.FamilyName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ContactName)
+            @Html.DisplayFor(model => model.FamilyName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Father.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Father.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mother.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mother.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaidUpTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaidUpTo)
         </dd>
 
     </dl>

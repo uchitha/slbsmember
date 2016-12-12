@@ -49,7 +49,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,MemberId,Name,ClassLevel,MediaConsent,AmbulanceCover,PaidUpTo")] Child child)
+        public async Task<ActionResult> Create([Bind(Include = "Id,MemberId,Name,ClassLevel,MediaConsent,AmbulanceCover")] Child child)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,MemberId,Name,ClassLevel,MediaConsent,AmbulanceCover,PaidUpTo")] Child child)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,MemberId,Name,ClassLevel,MediaConsent,AmbulanceCover")] Child child)
         {
             if (ModelState.IsValid)
             {

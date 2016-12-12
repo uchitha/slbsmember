@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SLBS.Membership.Domain
 {
@@ -7,6 +8,7 @@ namespace SLBS.Membership.Domain
         [ScaffoldColumn(false)]
         public int Id { get; set; }
         public int MemberId { get; set; }
+        [DisplayName("Fathers Name")]
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }

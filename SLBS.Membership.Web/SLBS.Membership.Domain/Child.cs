@@ -19,10 +19,7 @@ namespace SLBS.Membership.Domain
         [DisplayName("Ambulance Cover")]
         public bool? AmbulanceCover { get; set; }
 
-        [DisplayName("Payment Status")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? PaidUpTo { get; set; }
+       
         public virtual Member Member { get; set; }
     }
 

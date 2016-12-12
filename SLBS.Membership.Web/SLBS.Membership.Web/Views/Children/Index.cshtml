@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Dhamma School Students</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -26,9 +26,6 @@
         <th>
             @Html.DisplayNameFor(model => model.AmbulanceCover)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaidUpTo)
-        </th>
         <th></th>
     </tr>
 
@@ -48,9 +45,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AmbulanceCover)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaidUpTo)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

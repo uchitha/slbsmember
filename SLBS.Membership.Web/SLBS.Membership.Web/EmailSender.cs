@@ -5,10 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using System.Web;
-using System.Net.Http;
 using System.Threading.Tasks;
-using WebGrease.Css.Extensions;
 
 namespace SLBS.Membership.Web
 {
@@ -25,12 +22,12 @@ namespace SLBS.Membership.Web
             _mode = mode;
         }
 
-        public async Task<int> SendAll(List<Member> memberList)
+        public async Task<int> SendAll(List<Domain.Member> memberList)
         {
             int count = 0;
             foreach (var member in memberList)
             {
-                if (IsValidEmail(member.Email))
+                if (IsValidEmail(member.Mother.Email))
                 {
                     if (_mode == EnumMode.Membership)
                     {
@@ -49,38 +46,56 @@ namespace SLBS.Membership.Web
         }
 
 
-        public async Task SendMembershipEmail(Member member)
+        //public async Task SendMembershipEmail(Member member)
+        //{
+        //    var myMessage = new SendGrid.SendGridMessage();
+        //    myMessage.AddTo("slbsmembershipstatus@gmail.com"); //member.Email
+        //    myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Treasurer");
+        //    myMessage.Subject = string.Format("THANK YOU - Acknowledgement of Payments for Membership ({0})", member.Email);
+        //    myMessage.Text = "Much Merits to You and Your Family members.";
+
+        //    myMessage.EnableTemplateEngine(MembershipTemplateId);
+        //    var amountString = string.Format("${0}", member.Payment);
+
+        //    myMessage.AddSubstitution("-SECRETARY-",new List<string>{ SystemConfig.SecretaryName});
+        //    myMessage.AddSubstitution("-NAME-", new List<string> { member.MemberName });
+        //    myMessage.AddSubstitution("-AMOUNT-", new List<string> { amountString });
+
+        //    await Send(myMessage);
+        //}
+
+        public async Task SendMembershipEmail(Domain.Member member)
         {
             var myMessage = new SendGrid.SendGridMessage();
             myMessage.AddTo("slbsmembershipstatus@gmail.com"); //member.Email
             myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Treasurer");
-            myMessage.Subject = string.Format("THANK YOU - Acknowledgement of Payments for Membership ({0})", member.Email);
+            myMessage.Subject = string.Format("Dhamma School - Membership Payment Status for ({0})", member.MemberNo);
             myMessage.Text = "Much Merits to You and Your Family members.";
 
             myMessage.EnableTemplateEngine(MembershipTemplateId);
-            var amountString = string.Format("${0}", member.Payment);
+            var amountString = string.Format("${0}", member.PaidUpTo.ToString());
 
-            myMessage.AddSubstitution("-SECRETARY-",new List<string>{ SystemConfig.SecretaryName});
-            myMessage.AddSubstitution("-NAME-", new List<string> { member.MemberName });
+            myMessage.AddSubstitution("-SECRETARY-", new List<string> { SystemConfig.SecretaryName });
+            myMessage.AddSubstitution("-NAME-", new List<string> { member.FamilyName });
             myMessage.AddSubstitution("-AMOUNT-", new List<string> { amountString });
 
             await Send(myMessage);
         }
 
 
-        public async Task SendBuildingFundEmail(Member member)
+        public async Task SendBuildingFundEmail(Domain.Member member)
         {
             var myMessage = new SendGrid.SendGridMessage();
             myMessage.AddTo("slbsmembershipstatus@gmail.com");
             myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Admin");
-            myMessage.Subject = string.Format("THANK YOU - Acknowledgement of Payments for Building Fund ({0})", member.Email);
+            myMessage.Subject = string.Format("THANK YOU - Acknowledgement of Payments for Building Fund ({0})", member.MemberNo);
             myMessage.Text = "Much Merits to You and Your Family members.";
 
             myMessage.EnableTemplateEngine(BuildingTemplateId);
-            var amountString = string.Format("${0}", member.Payment);
+            var amountString = string.Format("${0}", member.PaidUpTo);
 
             myMessage.AddSubstitution("-SECRETARY-", new List<string> { SystemConfig.SecretaryName });
-            myMessage.AddSubstitution("-NAME-", new List<string> { member.MemberName });
+            myMessage.AddSubstitution("-NAME-", new List<string> { member.FamilyName });
             myMessage.AddSubstitution("-AMOUNT-", new List<string> { amountString });
 
             await Send(myMessage);
@@ -112,6 +127,7 @@ namespace SLBS.Membership.Web
 
         private bool IsValidEmail(string email)
         {
+            if (string.IsNullOrEmpty(email)) throw new ApplicationException("Invalid email");
             return email.Contains("@") ;
         }
     }
