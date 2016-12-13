@@ -52,10 +52,21 @@
             @Html.DisplayFor(modelItem => item.FamilyName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Father.Name)
+            @{
+                if (item.Father != null)
+                {
+                    @Html.ActionLink(item.Father.Name, "Edit", "Fathers", new { id = item.Father.Id }, null)
+                }
+
+            }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Mother.Name)
+            @{
+                if (item.Mother != null)
+                {
+                    @Html.ActionLink(item.Mother.Name, "Edit", "Mothers", new { id = item.Mother.Id }, null)
+                }
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PaidUpTo)

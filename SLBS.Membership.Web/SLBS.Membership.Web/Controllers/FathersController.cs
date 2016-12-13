@@ -40,7 +40,7 @@ namespace SLBS.Membership.Web.Controllers
         // GET: Fathers/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.Members, "Id", "MemberNo");
+            ViewBag.MemberId = new SelectList(db.Members, "Id", "MemberNo");
             return View();
         }
 

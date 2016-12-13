@@ -40,7 +40,7 @@ namespace SLBS.Membership.Web.Controllers
         // GET: Mothers/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.Members, "Id", "MemberNo");
+            ViewBag.MemberId = new SelectList(db.Members, "Id", "MemberNo");
             return View();
         }
 
@@ -49,7 +49,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,MemberId,Name,Phone,Email")] Mother mother)
+        public async Task<ActionResult> Create([Bind(Include = "Name,Phone,Email")] Mother mother)
         {
             if (ModelState.IsValid)
             {

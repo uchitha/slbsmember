@@ -20,10 +20,20 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("SLSBS", "Index", "Members")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            SLSBS
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Families", "Index", "Members")</li>
+                            <li>@Html.ActionLink("Mothers", "Index", "Mothers")</li>
+                            <li>@Html.ActionLink("Fathers", "Index", "Fathers")</li>
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("Dhamma School", "Index", "Children")</li>
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
             </div>
         </div>

@@ -42,8 +42,14 @@ namespace SLBS.Membership.Web.Controllers
         // GET: Members/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.Fathers, "Id", "Name");
-            ViewBag.Id = new SelectList(db.Mothers, "Id", "Name");
+            var fatherList = db.Fathers.Select(f => new {Id = f.Id, Name = f.Name}).ToList();
+            fatherList.Insert(0,new { Id = 0, Name = "-Select-"});
+
+            var mothersList = db.Mothers.Select(f => new { Id = f.Id, Name = f.Name }).ToList();
+            mothersList.Insert(0, new { Id = 0, Name = "-Select-" });
+
+            ViewBag.Fathers = new SelectList(fatherList, "Id", "Name", "-Select-");
+            ViewBag.Mothers = new SelectList(mothersList, "Id", "Name", "-Select-");
             return View();
         }
 
@@ -56,6 +62,16 @@ namespace SLBS.Membership.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (member.MotherId == 0)
+                {
+                    member.MotherId = null;
+                }
+
+                if (member.FatherId == 0)
+                {
+                    member.FatherId = null;
+                }
+
                 db.Members.Add(member);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
