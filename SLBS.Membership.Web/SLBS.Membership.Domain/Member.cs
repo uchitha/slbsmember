@@ -14,11 +14,15 @@ namespace SLBS.Membership.Domain
         }
 
         [ScaffoldColumn(false)]
+        [Key]
         public int Id { get; set; }
-         [ScaffoldColumn(false)]
+
+        [ScaffoldColumn(false)]
         public int? MotherId { get; set; }
-         [ScaffoldColumn(false)]
+
+        [ScaffoldColumn(false)]
         public int? FatherId { get; set; }
+        
         [DisplayName("Member Number")]
         public string MemberNo { get; set; }
 

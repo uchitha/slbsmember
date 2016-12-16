@@ -8,118 +8,124 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SLBS.Membership.Domain;
+using SLBS.Membership.Web.Models;
+using Membership = SLBS.Membership.Domain.Membership;
 
 namespace SLBS.Membership.Web.Controllers
 {
-    public class MothersController : Controller
+    public class MembershipsController : Controller
     {
         private SlsbsContext db = new SlsbsContext();
 
-        // GET: Mothers
+        // GET: Memberships
         public async Task<ActionResult> Index()
         {
-            var mothers = db.Mothers.Include(m => m.Member);
-            return View(await mothers.ToListAsync());
+            return View(await db.Memberships.ToListAsync());
         }
 
-        // GET: Mothers/Details/5
+        // GET: Memberships/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mother mother = await db.Mothers.FindAsync(id);
-            if (mother == null)
+            var membership = await db.Memberships.FindAsync(id);
+            if (membership == null)
             {
                 return HttpNotFound();
             }
-            return View(mother);
+            return View(membership);
         }
 
-        // GET: Mothers/Create
+        // GET: Memberships/Create
         public ActionResult Create()
         {
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "MemberNo");
             return View();
         }
 
-        // POST: Mothers/Create
+        // POST: Memberships/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Name,Phone,Email")] Mother mother)
+        public async Task<ActionResult> Create([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo")] Domain.Membership membership)
         {
             if (ModelState.IsValid)
             {
-                db.Mothers.Add(mother);
+                db.Memberships.Add(membership);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.Members, "Id", "MemberNo", mother.Id);
-            return View(mother);
+            return View(membership);
         }
 
-        // GET: Mothers/Edit/5
+        // GET: Memberships/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mother mother = await db.Mothers.FindAsync(id);
-            if (mother == null)
+            var membership = await db.Memberships.FindAsync(id);
+            if (membership == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.Members, "Id", "MemberNo", mother.Id);
-            return View(mother);
+            return View(membership);
         }
 
-        // POST: Mothers/Edit/5
+        // POST: Memberships/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,MemberId,Name,Phone,Email")] Mother mother)
+        public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo")] Domain.Membership membership)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(mother).State = EntityState.Modified;
+                db.Entry(membership).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(db.Members, "Id", "MemberNo", mother.Id);
-            return View(mother);
+            return View(membership);
         }
 
-        // GET: Mothers/Delete/5
+        // GET: Memberships/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mother mother = await db.Mothers.FindAsync(id);
-            if (mother == null)
+            var membership = await db.Memberships.FindAsync(id);
+            if (membership == null)
             {
                 return HttpNotFound();
             }
-            return View(mother);
+            return View(membership);
         }
 
-        // POST: Mothers/Delete/5
+        // POST: Memberships/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Mother mother = await db.Mothers.FindAsync(id);
-            db.Mothers.Remove(mother);
+            var membership = await db.Memberships.FindAsync(id);
+            db.Memberships.Remove(membership);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        [HttpPost, ActionName("SaveSendList")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SaveSendList(List<int> ids)
+        {
+            TempData["SelectedMemberIds"] = ids;
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

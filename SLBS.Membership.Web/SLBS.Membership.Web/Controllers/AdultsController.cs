@@ -11,112 +11,121 @@ using SLBS.Membership.Domain;
 
 namespace SLBS.Membership.Web.Controllers
 {
-    public class FathersController : Controller
+    public class AdultsController : Controller
     {
         private SlsbsContext db = new SlsbsContext();
 
-        // GET: Fathers
+        // GET: Adults
         public async Task<ActionResult> Index()
         {
-            var fathers = db.Fathers.Include(f => f.Member);
-            return View(await fathers.ToListAsync());
+            var adults = db.Adults.Include(a => a.Membership);
+            return View(await adults.ToListAsync());
         }
 
-        // GET: Fathers/Details/5
+        // GET: Adults for membership
+        [ActionName("Members")]
+        [HttpGet]
+        public async Task<ActionResult> Membership(int id)
+        {
+            var adults = db.Adults.Include(a => a.Membership).Where(a => a.MembershipId == id);
+            return View("Index",await adults.ToListAsync());
+        }
+
+        // GET: Adults/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Father father = await db.Fathers.FindAsync(id);
-            if (father == null)
+            Adult adult = await db.Adults.FindAsync(id);
+            if (adult == null)
             {
                 return HttpNotFound();
             }
-            return View(father);
+            return View(adult);
         }
 
-        // GET: Fathers/Create
+        // GET: Adults/Create
         public ActionResult Create()
         {
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "MemberNo");
+            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber");
             return View();
         }
 
-        // POST: Fathers/Create
+        // POST: Adults/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,MemberId,Name,Phone,Email")] Father father)
+        public async Task<ActionResult> Create([Bind(Include = "AdultId,MembershipId,FullName,Address,Phone,Email,Role")] Adult adult)
         {
             if (ModelState.IsValid)
             {
-                db.Fathers.Add(father);
+                db.Adults.Add(adult);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.Members, "Id", "MemberNo", father.Id);
-            return View(father);
+            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", adult.MembershipId);
+            return View(adult);
         }
 
-        // GET: Fathers/Edit/5
+        // GET: Adults/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Father father = await db.Fathers.FindAsync(id);
-            if (father == null)
+            Adult adult = await db.Adults.FindAsync(id);
+            if (adult == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.Members, "Id", "MemberNo", father.Id);
-            return View(father);
+            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", adult.MembershipId);
+            return View(adult);
         }
 
-        // POST: Fathers/Edit/5
+        // POST: Adults/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,MemberId,Name,Phone,Email")] Father father)
+        public async Task<ActionResult> Edit([Bind(Include = "AdultId,MembershipId,FullName,Address,Phone,Email,Role")] Adult adult)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(father).State = EntityState.Modified;
+                db.Entry(adult).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(db.Members, "Id", "MemberNo", father.Id);
-            return View(father);
+            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", adult.MembershipId);
+            return View(adult);
         }
 
-        // GET: Fathers/Delete/5
+        // GET: Adults/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Father father = await db.Fathers.FindAsync(id);
-            if (father == null)
+            Adult adult = await db.Adults.FindAsync(id);
+            if (adult == null)
             {
                 return HttpNotFound();
             }
-            return View(father);
+            return View(adult);
         }
 
-        // POST: Fathers/Delete/5
+        // POST: Adults/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Father father = await db.Fathers.FindAsync(id);
-            db.Fathers.Remove(father);
+            Adult adult = await db.Adults.FindAsync(id);
+            db.Adults.Remove(adult);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

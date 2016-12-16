@@ -1,4 +1,4 @@
-﻿@model SLBS.Membership.Domain.Father
+﻿@model SLBS.Membership.Domain.Adult
 
 @{
     ViewBag.Title = "Details";
@@ -7,31 +7,31 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Father</h4>
+    <h4>Adult</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Member.MemberNo)
+            @Html.DisplayNameFor(model => model.Membership.MembershipNumber)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Member.MemberNo)
+            @Html.DisplayFor(model => model.Membership.MembershipNumber)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MemberId)
+            @Html.DisplayNameFor(model => model.FullName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MemberId)
+            @Html.DisplayFor(model => model.FullName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Address)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Address)
         </dd>
 
         <dt>
@@ -50,9 +50,17 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AdultId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

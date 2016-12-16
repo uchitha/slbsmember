@@ -1,16 +1,22 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace SLBS.Membership.Domain
 {
     public class Child
     {
-        [ScaffoldColumn(false)]
-        public int Id { get; set; }
-        public int MemberId { get; set; }
+        [HiddenInput(DisplayValue = false)]
+        public int ChildId { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        [ForeignKey("Membership")]
+        [Required]
+        public int MembershipId { get; set; }
         [DisplayName("Child Name")]
-        public string Name { get; set; }
+        public string FullName { get; set; }
         [DisplayName("Class Level")]
         public ClassLevelEnum ClassLevel { get; set; }
 
@@ -20,7 +26,7 @@ namespace SLBS.Membership.Domain
         public bool? AmbulanceCover { get; set; }
 
        
-        public virtual Member Member { get; set; }
+        public virtual Membership Membership { get; set; }
     }
 
     public enum ClassLevelEnum

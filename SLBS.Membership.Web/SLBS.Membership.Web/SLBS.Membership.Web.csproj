@@ -141,19 +141,23 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AdultsController.cs" />
     <Compile Include="Controllers\ChildrenController.cs" />
-    <Compile Include="Controllers\FathersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
-    <Compile Include="Controllers\MembersController.cs" />
-    <Compile Include="Controllers\MothersController.cs" />
+    <Compile Include="Controllers\MembershipsController.cs" />
+    <Compile Include="Controllers\NoticesController.cs" />
     <Compile Include="Data\MainRepository.cs" />
     <Compile Include="EmailSender.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EnumHelper.cs" />
     <Compile Include="Models\EnumMode.cs" />
+    <Compile Include="Models\EnumNoticeTypes.cs" />
     <Compile Include="Models\Member.cs" />
+    <Compile Include="Models\MotherViewModel.cs" />
+    <Compile Include="Models\NoticeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemConfig.cs" />
   </ItemGroup>
@@ -197,27 +201,24 @@
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Member\SendReport.cshtml" />
     <Content Include="Views\Member\Mode.cshtml" />
-    <Content Include="Views\Members\Create.cshtml" />
-    <Content Include="Views\Members\Delete.cshtml" />
-    <Content Include="Views\Members\Details.cshtml" />
-    <Content Include="Views\Members\Edit.cshtml" />
-    <Content Include="Views\Members\Index.cshtml" />
-    <Content Include="Views\Fathers\Create.cshtml" />
-    <Content Include="Views\Fathers\Delete.cshtml" />
-    <Content Include="Views\Fathers\Details.cshtml" />
-    <Content Include="Views\Fathers\Edit.cshtml" />
-    <Content Include="Views\Fathers\Index.cshtml" />
-    <Content Include="Views\Mothers\Create.cshtml" />
-    <Content Include="Views\Mothers\Delete.cshtml" />
-    <Content Include="Views\Mothers\Details.cshtml" />
-    <Content Include="Views\Mothers\Edit.cshtml" />
-    <Content Include="Views\Mothers\Index.cshtml" />
     <Content Include="Views\Index.cshtml" />
+    <Content Include="Views\Memberships\Create.cshtml" />
+    <Content Include="Views\Memberships\Delete.cshtml" />
+    <Content Include="Views\Memberships\Details.cshtml" />
+    <Content Include="Views\Memberships\Edit.cshtml" />
+    <Content Include="Views\Memberships\Index.cshtml" />
     <Content Include="Views\Children\Create.cshtml" />
     <Content Include="Views\Children\Delete.cshtml" />
     <Content Include="Views\Children\Details.cshtml" />
     <Content Include="Views\Children\Edit.cshtml" />
     <Content Include="Views\Children\Index.cshtml" />
+    <Content Include="Views\Adults\Create.cshtml" />
+    <Content Include="Views\Adults\Delete.cshtml" />
+    <Content Include="Views\Adults\Details.cshtml" />
+    <Content Include="Views\Adults\Edit.cshtml" />
+    <Content Include="Views\Adults\Index.cshtml" />
+    <Content Include="Views\Notices\Index.cshtml" />
+    <Content Include="Views\Notices\_Members.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

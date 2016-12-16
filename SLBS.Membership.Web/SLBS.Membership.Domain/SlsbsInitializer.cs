@@ -11,36 +11,35 @@ namespace SLBS.Membership.Domain
     {
         protected override void Seed(SlsbsContext context)
         {
-            var members = new List<Member>()
+            var members = new List<Membership>()
             {
-                new Member {Id = 1, MemberNo = "M001", FamilyName = "Mr. & Mrs. M01"},
-                new Member {Id = 2, MemberNo = "M002", FamilyName = "Mr. & Mrs. M02"},
-                new Member {Id = 3, MemberNo = "M003", FamilyName = "Mr. & Mrs. M03"},
+                new Membership {MembershipId = 1, MembershipNumber = "M001", ContactName = "Mr. & Mrs. M01"},
+                new Membership {MembershipId = 2, MembershipNumber = "M002", ContactName = "Mr. & Mrs. M02"},
+                new Membership {MembershipId = 3, MembershipNumber = "M003", ContactName = "Mr. & Mrs. M03"},
             };
 
-            members.ForEach(m => context.Members.Add(m));
+            members.ForEach(m => context.Memberships.Add(m));
             context.SaveChanges();
 
-            var mothers = new List<Mother>()
+            var mothers = new List<Adult>()
             {
-                new Mother() {Id = 1, MemberId = 1, Name = "Mom 1"},
-                new Mother() {Id = 2, MemberId = 2, Name = "Mom 2"},
-                new Mother() {Id = 3, MemberId = 3, Name = "Mom 3"},
+                new Adult() {AdultId = 1, MembershipId = 1, FullName = "Mom 1", Role = MembershipRole.Mother},
+                new Adult() {AdultId = 2, MembershipId = 2, FullName = "Mom 2", Role = MembershipRole.Mother},
+                new Adult() {AdultId = 3, MembershipId = 3, FullName = "Mom 3", Role = MembershipRole.Mother},
             };
 
-            mothers.ForEach(m => context.Mothers.Add(m));
+            mothers.ForEach(m => context.Adults.Add(m));
             context.SaveChanges();
 
-            var fathers = new List<Father>()
+            var fathers = new List<Adult>()
             {
-                new Father() {Id = 1, MemberId = 1, Name = "Dad 1"},
-                new Father() {Id = 2, MemberId = 2, Name = "Dad 2"},
-                new Father() {Id = 3, MemberId = 3, Name = "Dad 3"},
+                new Adult() {AdultId = 4, MembershipId = 1, FullName = "Dad 1", Role = MembershipRole.Father},
+                new Adult() {AdultId = 5, MembershipId = 2, FullName = "Dad 2", Role = MembershipRole.Father},
+                new Adult() {AdultId = 6, MembershipId = 3, FullName = "Dad 3", Role = MembershipRole.Father},
             };
 
-            fathers.ForEach(m => context.Fathers.Add(m));
+            fathers.ForEach(m => context.Adults.Add(m));
             context.SaveChanges();
-
 
         }
     }

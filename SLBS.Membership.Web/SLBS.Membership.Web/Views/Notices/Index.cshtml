@@ -1,0 +1,85 @@
+﻿@using SLBS.Membership.Web.Models
+@model NoticeViewModel
+
+@{
+    ViewBag.Title = "SLSBS Notices Page";
+}
+
+<h2>SLSBS Notices Page</h2>
+
+<h3>You are about to send a notice to following members</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        <span class="pull-right text-success" id="userMessage"></span>
+        <span class ="pull-right text-danger" id="errorMessage"></span>
+</div>
+</div>
+
+@{
+    Html.RenderPartial("_Members",Model.Receipients);
+}
+
+
+@Html.AntiForgeryToken()
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.DropDownList("NoticeType", EnumHelper.GetSelectList(typeof (EnumNoticeTypes), EnumNoticeTypes.PaymentStatusDhammaSchool), "Please select")
+    </div>
+
+    <div class="col-md-8">
+        <span class="pull-right">
+            <a href="#" onclick="showMailPage()" class="btn btn-primary">View Notice</a>
+            <a href="#" onclick="sendMail()" class="btn btn-primary">Send Notice</a>
+        </span>
+     
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        
+    </div>
+</div>
+
+<script>
+
+    function addAntiForgeryToken(data) {
+        data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+        return data;
+    };
+
+    function sendMail() {
+        var url = '@Url.Action("Send")';
+
+        var param = { noticeType: $("#noticeType").val()};
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: param,
+            dataType: "json",
+            success: function (data) {
+                console.log("Emails sent");
+                showSuccess("Emails sent successfully");
+            },
+            error: function (error) {
+                console.error("error occured " + error);
+            }
+        });
+    }
+
+    function showMailPage() {
+        
+    }
+
+    function showSuccess(message) {
+        $("#userMessage").html(message);
+    }
+
+    function showError(message) {
+        $("#errorMessage").html(message);
+    }
+</script>
+

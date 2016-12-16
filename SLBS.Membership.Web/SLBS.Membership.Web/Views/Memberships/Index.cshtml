@@ -1,0 +1,117 @@
+﻿@model IEnumerable<SLBS.Membership.Domain.Membership>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Memberships</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.ActionLink("Create New", "Create")
+    </div>
+    <div class="col-md-8">
+        <span id="userMessage"></span>
+        <span style="color: red" id="errorMessage"></span>
+    </div>
+</div>
+
+
+<table class="table">
+    <tr>
+        <th>
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MembershipNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaidUpTo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <input type="checkbox" name="memberSelect" value="@item.MembershipId"/>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MembershipNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaidUpTo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id = item.MembershipId}) |
+                @Html.ActionLink("Adults", "Members", "Adults", new {id = item.MembershipId}, null) |
+                @Html.ActionLink("Children", "Members", "Children", new {id = item.MembershipId}, null) |
+                @Html.ActionLink("Details", "Details", new {id = item.MembershipId}) |
+                @Html.ActionLink("Delete", "Delete", new {id = item.MembershipId})
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.AntiForgeryToken()
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="#" onclick="showMailPage()" class="btn btn-primary">Send Notice</a>
+    </div>
+</div>
+
+<script>
+
+    function addAntiForgeryToken(data) {
+        data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+        return data;
+    };
+
+    function showMailPage() {
+        var url = '@Url.Action("SaveSendList")';
+        var noticePage = '@Url.Action("Index","Notices")';
+
+        var selected = [];
+        $("input:checkbox[name=memberSelect]:checked").each(function () {
+            console.log($(this).val());
+            selected.push($(this).val());
+        });
+
+        var param = {
+            ids: selected,
+            __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
+        };
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: param,
+            dataType: "json",
+            success: function (data) {
+                //show email send page
+                window.location = noticePage;
+            },
+            error: function (error) {
+                console.error("error occured " + error);
+            }
+        });
+    }
+
+    function showSuccess(message) {
+        $("#userMessage").html(message);
+    }
+
+    function showError(message) {
+        $("#errorMessage").html(message);
+    }
+</script>
+

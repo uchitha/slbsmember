@@ -18,8 +18,16 @@ namespace SLBS.Membership.Web.Controllers
         // GET: Children
         public async Task<ActionResult> Index()
         {
-            var children = db.Children.Include(c => c.Member);
+            var children = db.Children.Include(c => c.Membership);
             return View(await children.ToListAsync());
+        }
+        
+        // GET: Children for membership
+          [ActionName("Members")]
+        public async Task<ActionResult> Membership(int id)
+        {
+            var children = db.Children.Include(c => c.Membership).Where(i => i.MembershipId == id);
+            return View("Index",await children.ToListAsync());
         }
 
         // GET: Children/Details/5
@@ -40,7 +48,7 @@ namespace SLBS.Membership.Web.Controllers
         // GET: Children/Create
         public ActionResult Create()
         {
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "MemberNo");
+            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber");
             return View();
         }
 
@@ -49,7 +57,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,MemberId,Name,ClassLevel,MediaConsent,AmbulanceCover")] Child child)
+        public async Task<ActionResult> Create([Bind(Include = "ChildId,MembershipId,FullName,ClassLevel,MediaConsent,AmbulanceCover")] Child child)
         {
             if (ModelState.IsValid)
             {
@@ -58,7 +66,7 @@ namespace SLBS.Membership.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "MemberNo", child.MemberId);
+            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", child.MembershipId);
             return View(child);
         }
 
@@ -74,7 +82,7 @@ namespace SLBS.Membership.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "MemberNo", child.MemberId);
+            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", child.MembershipId);
             return View(child);
         }
 
@@ -83,7 +91,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,MemberId,Name,ClassLevel,MediaConsent,AmbulanceCover")] Child child)
+        public async Task<ActionResult> Edit([Bind(Include = "ChildId,MembershipId,FullName,ClassLevel,MediaConsent,AmbulanceCover")] Child child)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +99,7 @@ namespace SLBS.Membership.Web.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "MemberNo", child.MemberId);
+            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", child.MembershipId);
             return View(child);
         }
 

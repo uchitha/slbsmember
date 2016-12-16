@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SLBS.Membership.Domain
 {
@@ -15,9 +10,8 @@ namespace SLBS.Membership.Domain
             
         }
 
-        public DbSet<Member> Members { get; set; }
-        public DbSet<Mother> Mothers { get; set; }
-        public DbSet<Father> Fathers { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
+        public DbSet<Adult> Adults { get; set; }
         public DbSet<Child> Children { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

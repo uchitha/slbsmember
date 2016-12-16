@@ -1,4 +1,4 @@
-﻿@model SLBS.Membership.Domain.Child
+﻿@model SLBS.Membership.Domain.Adult
 
 @{
     ViewBag.Title = "Edit";
@@ -12,13 +12,13 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Child</h4>
+        <h4>Adult</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ChildId)
+        @Html.HiddenFor(model => model.AdultId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MembershipId, "Membership", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MembershipId, "MembershipId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("MembershipId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.MembershipId, "", new { @class = "text-danger" })
@@ -34,30 +34,34 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ClassLevel, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.ClassLevel, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ClassLevel, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MediaConsent, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.MediaConsent)
-                    @Html.ValidationMessageFor(model => model.MediaConsent, "", new { @class = "text-danger" })
-                </div>
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AmbulanceCover, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.AmbulanceCover)
-                    @Html.ValidationMessageFor(model => model.AmbulanceCover, "", new { @class = "text-danger" })
-                </div>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Role, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
             </div>
         </div>
 
