@@ -1,5 +1,6 @@
 **/*.exe
 
 /SLBS.Membership.Web/SLBS.Membership.Data/*.dbmdl
+/SLBS.Membership.Web/SLBS.Membership.Data/*.jfm
 **/bin
 **/obj

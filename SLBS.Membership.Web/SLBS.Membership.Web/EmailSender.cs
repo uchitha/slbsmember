@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Configuration;
+using System.Text;
 using Exceptions;
 using SLBS.Membership.Web.Models;
 using System;
@@ -11,7 +12,6 @@ namespace SLBS.Membership.Web
 {
     public class EmailSender
     {
-        private const string ApiKey = "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";
         private const string MembershipTemplateId = "cbff537b-6b71-4d32-af3d-45363c5540a9";
         private const string BuildingTemplateId = "fce5f540-5873-438f-bd4b-f52cced63abf";
         private List<Member> _memeberList;
@@ -20,6 +20,22 @@ namespace SLBS.Membership.Web
         public EmailSender(EnumMode mode)
         {
             _mode = mode;
+        }
+
+        public async Task SendMail(List<Domain.Membership> members, EnumNoticeTypes noticeType)
+        {
+            int count = 0;
+            foreach (var member in members)
+            {
+                var emails = member.Adults.Select(a => a.Email);
+
+                var toList = emails.Where(IsValidEmail).ToList();
+
+                if (noticeType == EnumNoticeTypes.PaymentStatusDhammaSchool)
+                {
+                    await SendMembershipEmail(member);
+                }
+            }
         }
 
         public async Task<int> SendAll(List<Domain.Member> memberList)
@@ -31,7 +47,7 @@ namespace SLBS.Membership.Web
                 {
                     if (_mode == EnumMode.Membership)
                     {
-                        await SendMembershipEmail(member);
+                        //await SendMembershipEmail(member);
                         count++;
                     }
                     else if (_mode == EnumMode.BuildingFund)
@@ -64,19 +80,19 @@ namespace SLBS.Membership.Web
         //    await Send(myMessage);
         //}
 
-        public async Task SendMembershipEmail(Domain.Member member)
+        public async Task SendMembershipEmail(Domain.Membership member)
         {
             var myMessage = new SendGrid.SendGridMessage();
             myMessage.AddTo("slbsmembershipstatus@gmail.com"); //member.Email
             myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Treasurer");
-            myMessage.Subject = string.Format("Dhamma School - Membership Payment Status for ({0})", member.MemberNo);
+            myMessage.Subject = string.Format("Dhamma School - Membership Payment Status for ({0})", member.MembershipNumber);
             myMessage.Text = "Much Merits to You and Your Family members.";
 
             myMessage.EnableTemplateEngine(MembershipTemplateId);
             var amountString = string.Format("${0}", member.PaidUpTo.ToString());
 
             myMessage.AddSubstitution("-SECRETARY-", new List<string> { SystemConfig.SecretaryName });
-            myMessage.AddSubstitution("-NAME-", new List<string> { member.FamilyName });
+            myMessage.AddSubstitution("-NAME-", new List<string> { member.ContactName });
             myMessage.AddSubstitution("-AMOUNT-", new List<string> { amountString });
 
             await Send(myMessage);
@@ -86,7 +102,7 @@ namespace SLBS.Membership.Web
         public async Task SendBuildingFundEmail(Domain.Member member)
         {
             var myMessage = new SendGrid.SendGridMessage();
-            myMessage.AddTo("slbsmembershipstatus@gmail.com");
+            myMessage.AddTo("uchitha.r@gmail.com");
             myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Admin");
             myMessage.Subject = string.Format("THANK YOU - Acknowledgement of Payments for Building Fund ({0})", member.MemberNo);
             myMessage.Text = "Much Merits to You and Your Family members.";
@@ -107,7 +123,8 @@ namespace SLBS.Membership.Web
         {
             try
             {
-                var transportWeb = new SendGrid.Web(ApiKey);
+                var apiKey = ConfigurationManager.AppSettings["SendgridKey"];
+                var transportWeb = new SendGrid.Web(apiKey);
                 await transportWeb.DeliverAsync(message);
             }
             catch (InvalidApiRequestException apiEx)
