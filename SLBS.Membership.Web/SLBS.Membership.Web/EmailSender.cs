@@ -27,13 +27,14 @@ namespace SLBS.Membership.Web
             int count = 0;
             foreach (var member in members)
             {
-                var emails = member.Adults.Select(a => a.Email);
+                var validEmails = member.Adults.Where(a => !string.IsNullOrEmpty(a.Email) && IsValidEmail(a.Email)).Select(a => a.Email);
 
-                var toList = emails.Where(IsValidEmail).ToList();
-
-                if (noticeType == EnumNoticeTypes.PaymentStatusDhammaSchool)
+                foreach (var email in validEmails)
                 {
-                    await SendMembershipEmail(member);
+                    if (noticeType == EnumNoticeTypes.PaymentStatusDhammaSchool)
+                    {
+                        await SendMembershipEmail(member, email);
+                    }
                 }
             }
         }
@@ -80,7 +81,7 @@ namespace SLBS.Membership.Web
         //    await Send(myMessage);
         //}
 
-        public async Task SendMembershipEmail(Domain.Membership member)
+        public async Task SendMembershipEmail(Domain.Membership member, string email)
         {
             var myMessage = new SendGrid.SendGridMessage();
             myMessage.AddTo("slbsmembershipstatus@gmail.com"); //member.Email

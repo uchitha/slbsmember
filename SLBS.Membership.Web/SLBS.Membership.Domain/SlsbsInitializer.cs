@@ -23,9 +23,9 @@ namespace SLBS.Membership.Domain
 
             var mothers = new List<Adult>()
             {
-                new Adult() {AdultId = 1, MembershipId = 1, FullName = "Mom 1", Role = MembershipRole.Mother},
-                new Adult() {AdultId = 2, MembershipId = 2, FullName = "Mom 2", Role = MembershipRole.Mother},
-                new Adult() {AdultId = 3, MembershipId = 3, FullName = "Mom 3", Role = MembershipRole.Mother},
+                new Adult() {AdultId = 1, MembershipId = 1, FullName = "Mom 1", Role = MembershipRole.Mother, Email = "mom1@gmail.com"},
+                new Adult() {AdultId = 2, MembershipId = 2, FullName = "Mom 2", Role = MembershipRole.Mother, Email = "mom2@gmail.com"},
+                new Adult() {AdultId = 3, MembershipId = 3, FullName = "Mom 3", Role = MembershipRole.Mother, Email = "mom3@gmail.com"},
             };
 
             mothers.ForEach(m => context.Adults.Add(m));
@@ -33,9 +33,9 @@ namespace SLBS.Membership.Domain
 
             var fathers = new List<Adult>()
             {
-                new Adult() {AdultId = 4, MembershipId = 1, FullName = "Dad 1", Role = MembershipRole.Father},
-                new Adult() {AdultId = 5, MembershipId = 2, FullName = "Dad 2", Role = MembershipRole.Father},
-                new Adult() {AdultId = 6, MembershipId = 3, FullName = "Dad 3", Role = MembershipRole.Father},
+                new Adult() {AdultId = 4, MembershipId = 1, FullName = "Dad 1", Role = MembershipRole.Father, Email = "dad1@gmail.com"},
+                new Adult() {AdultId = 5, MembershipId = 2, FullName = "Dad 2", Role = MembershipRole.Father, Email = "dad2@gmail.com"},
+                new Adult() {AdultId = 6, MembershipId = 3, FullName = "Dad 3", Role = MembershipRole.Father, Email = "dad3@gmail.com"},
             };
 
             fathers.ForEach(m => context.Adults.Add(m));

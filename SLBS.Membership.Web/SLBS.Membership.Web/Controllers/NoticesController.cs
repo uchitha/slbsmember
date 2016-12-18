@@ -17,9 +17,9 @@ namespace SLBS.Membership.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
-            if (TempData["SelectedMemberIds"] != null)
+            if (Session["SelectedMemberIds"] != null)
             {
-                var ids = (List<int>)TempData["SelectedMemberIds"];
+                var ids = (List<int>)Session["SelectedMemberIds"];
 
                 var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
 
@@ -31,15 +31,18 @@ namespace SLBS.Membership.Web.Controllers
 
                 return View(model);
             }
-
             return View(new NoticeViewModel());
-
         }
 
         public async Task<ActionResult> Send()
         {
             //Send emails
-            await Task.Delay(500);
+            var sender = new EmailSender(EnumMode.Membership);
+            var ids = (List<int>)Session["SelectedMemberIds"];
+            var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
+
+            await sender.SendMail(members, EnumNoticeTypes.PaymentStatusDhammaSchool);
+
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 

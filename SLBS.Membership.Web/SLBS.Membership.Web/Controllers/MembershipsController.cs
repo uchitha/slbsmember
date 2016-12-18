@@ -122,7 +122,7 @@ namespace SLBS.Membership.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveSendList(List<int> ids)
         {
-            TempData["SelectedMemberIds"] = ids;
+            Session["SelectedMemberIds"] = ids;
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
