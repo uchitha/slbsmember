@@ -6,6 +6,6 @@ namespace SLBS.Membership.Web.Models
     {
         [Description("Dhamma school payment status")]
         PaymentStatusDhammaSchool = 1,
-        PaymentStatusSlsbsMembership = 2
+      //  PaymentStatusSlsbsMembership = 2
     }
 }

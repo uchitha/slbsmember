@@ -13,7 +13,7 @@ namespace SLBS.Membership.Web
         public static int MembershipPayStatusColumnIndex = 15;
         public static int BuildingFundPayStatusColumnIndex = 16;
 
-        public static string SecretaryName = "Ajith Kankanange";
+        public static string TreasurerName = "Chandana Weerasekera";
 
     }
 }

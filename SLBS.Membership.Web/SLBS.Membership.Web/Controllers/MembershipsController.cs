@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SLBS.Membership.Domain;
-using SLBS.Membership.Web.Models;
-using Membership = SLBS.Membership.Domain.Membership;
 
 namespace SLBS.Membership.Web.Controllers
 {
@@ -122,6 +116,7 @@ namespace SLBS.Membership.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveSendList(List<int> ids)
         {
+            Session["SelectedMemberIds"] = null; //clear
             Session["SelectedMemberIds"] = ids;
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
