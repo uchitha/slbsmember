@@ -106,8 +106,9 @@ namespace SLBS.Membership.Web
             }
             else
             {
-                var to = ConfigurationManager.AppSettings["TestEmailReceipients"];
+                var to = ConfigurationManager.AppSettings["TestEmailReceipients"].Split(',');
                 myMessage.AddTo(to);
+
                 //Add real to address as test message
                 myMessage.Text = string.Format("### This is a test mail intended to be sent to {0} ###",email);
             }
