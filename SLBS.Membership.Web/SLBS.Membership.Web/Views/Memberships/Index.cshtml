@@ -20,7 +20,7 @@
 <table class="table">
     <tr>
         <th>
-
+            <input type="checkbox" id="allMemberSelect" onclick="allSelect()" />
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MembershipNumber)
@@ -104,6 +104,18 @@
                 console.error("error occured " + error);
             }
         });
+    }
+
+    function allSelect() {
+        console.log('all');
+        if ($("#allMemberSelect").hasClass('allChecked')) {
+            $('input[type="checkbox"]').prop('checked', false);
+        } else {
+            $('input[type="checkbox"]').prop('checked', true);
+
+        }
+        $("#allMemberSelect").toggleClass('allChecked');
+
     }
 
     function showSuccess(message) {
