@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
 using System.Web.Mvc;
@@ -47,12 +48,26 @@ namespace SLBS.Membership.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+               // membership.MembershipNumber = GenerateMembershipNumber(membership.MembershipNumber[0]);
+
                 db.Memberships.Add(membership);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
             return View(membership);
+        }
+
+        private string GenerateMembershipNumber(char membershipKey)
+        {
+            var members = db.Memberships.Where(m => m.MembershipNumber[0] == membershipKey);
+
+            if (!members.Any()) return string.Format("{0}0001", membershipKey);
+
+            var latestMember = members.OrderByDescending(m => m.MembershipNumber).First();
+
+            return string.Format("{0}{1}", membershipKey, latestMember.MembershipId + 1);
+
         }
 
         // GET: Memberships/Edit/5
