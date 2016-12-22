@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using NLog;
+using SendGrid;
 
 namespace SLBS.Membership.Web
 {
@@ -98,33 +99,26 @@ namespace SLBS.Membership.Web
 
         public async Task SendPayStatusEmail(Domain.Membership member, string email)
         {
-            var myMessage = new SendGrid.SendGridMessage();
-            
-            if (IsProduction)
-            {
-                myMessage.AddTo(email); //member email
-            }
-            else
-            {
-                var to = ConfigurationManager.AppSettings["TestEmailReceipients"].Split(',');
-                myMessage.AddTo(to);
+        
+            var myMessage = new SendGridMessage();
 
-                //Add real to address as test message
-                myMessage.Text = string.Format("### This is a test mail intended to be sent to {0} ###",email);
-            }
-          
             myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Treasurer"); //This needs to be a valid SLSBS email
             myMessage.Subject = string.Format("Dhamma School - Membership Status for {0}", member.MembershipNumber);
-          
 
             myMessage.EnableTemplateEngine(MembershipPayStatusTemplateId);
+
+            myMessage = HandleIfTest(myMessage, email);
+          
             var payStatus = GetPaidUptoMonth(member.PaidUpTo);
 
             myMessage.AddSubstitution("-TREASURER-", new List<string> { SystemConfig.TreasurerName });
             myMessage.AddSubstitution("-NAME-", new List<string> { member.ContactName });
             myMessage.AddSubstitution("-PAYSTATUS-", new List<string> { payStatus });
             myMessage.AddSubstitution("-MEMBERNO-", new List<string> { member.MembershipNumber });
-            
+
+            myMessage.Html = "<i>Theruwan Saranai, SLSBS</i>";
+            myMessage.Text = "Theruwan Saranai, SLSBS";
+
             await Send(myMessage);
         }
 
@@ -170,9 +164,12 @@ namespace SLBS.Membership.Web
                     i++;
                 }
 
-                log.Error("Error sending emails : {0}",details);
+                log.Error("Error sending emails : {0}", details);
 
-                throw new ApplicationException(details.ToString(), apiEx);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex,"Error sending email to {0}", message.To[0]);
             }
         }
 
@@ -192,6 +189,25 @@ namespace SLBS.Membership.Web
             {
                 return "-";
             }
+        }
+
+        private SendGridMessage HandleIfTest(SendGridMessage myMessage,string email)
+        {
+            if (IsProduction)
+            {
+                myMessage.AddTo(email); //member email
+                myMessage.AddSubstitution("-FOOTER-", new List<string> { string.Empty });
+            }
+            else
+            {
+                var to = ConfigurationManager.AppSettings["TestEmailReceipients"].Split(',');
+                myMessage.AddTo(to);
+
+                //Add real to address as test message
+                var warnMessage = string.Format("### This is a test mail intended to be sent to {0} ###", email);
+                myMessage.AddSubstitution("-FOOTER-", new List<string> { warnMessage });
+            }
+            return myMessage;
         }
     }
 }
