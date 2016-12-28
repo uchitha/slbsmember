@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+
+  <mvcSiteMapNode title="Home" controller="Home" action="Index">
+    <mvcSiteMapNode title="About" controller="Home" action="About"/>
+    <mvcSiteMapNode title="Buddhist Society" controller="Memberships" action="Index">
+      <mvcSiteMapNode title="Create Membership" controller="Memberships" action="Create"/>
+      <mvcSiteMapNode title="Edit Membership" controller="Memberships" action="Edit" />
+      <mvcSiteMapNode title="Delete Membership" controller="Memberships" action="Delete"/>
+      <mvcSiteMapNode title="Membership Details" controller="Memberships" action="Details"/>
+    </mvcSiteMapNode>
+    <mvcSiteMapNode title="Dhamma School" controller="Children" action="Index">
+      <mvcSiteMapNode title="Create Student" controller="Children" action="Create"/>
+      <mvcSiteMapNode title="Edit Student" controller="Children" action="Edit"/>
+      <mvcSiteMapNode title="Delete Student" controller="Children" action="Delete"/>
+      <mvcSiteMapNode title="Student Details" controller="Children" action="Details"/>
+    </mvcSiteMapNode>
+    <mvcSiteMapNode title="Send Notice" controller="Notices" action="Index">
+    </mvcSiteMapNode>
+  </mvcSiteMapNode>
+
+</mvcSiteMap>

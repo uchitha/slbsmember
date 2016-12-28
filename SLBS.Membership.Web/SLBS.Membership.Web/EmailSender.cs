@@ -43,7 +43,7 @@ namespace SLBS.Membership.Web
 
                 foreach (var email in validEmails)
                 {
-                    if (noticeType == EnumNoticeTypes.PaymentStatusDhammaSchool)
+                    if (noticeType == EnumNoticeTypes.PaymentStatusDhammaSchool &&  member.PaidUpTo.HasValue)
                     {
                         await SendPayStatusEmail(member, email);
                         count++;
@@ -100,6 +100,7 @@ namespace SLBS.Membership.Web
         public async Task SendPayStatusEmail(Domain.Membership member, string email)
         {
         
+
             var myMessage = new SendGridMessage();
 
             myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Treasurer"); //This needs to be a valid SLSBS email

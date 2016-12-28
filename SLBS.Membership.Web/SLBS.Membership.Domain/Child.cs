@@ -42,6 +42,8 @@ namespace SLBS.Membership.Domain
         [Description("DS Level 5")]
         Level5,
         [Description("DS Level 6")]
-        Level6
+        Level6,
+        [Description("DS Level 7")]
+        Level7
     }
 }
