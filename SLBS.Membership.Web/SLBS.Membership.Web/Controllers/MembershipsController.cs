@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,11 +45,11 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo")] Domain.Membership membership)
+        public async Task<ActionResult> Create([Bind(Include = "ContactName,PaidUpTo")] Domain.Membership membership)
         {
             if (ModelState.IsValid)
             {
-               // membership.MembershipNumber = GenerateMembershipNumber(membership.MembershipNumber[0]);
+                membership.MembershipNumber = GenerateMembershipNumber(membership.ContactName[0].ToString().ToUpper());
 
                 db.Memberships.Add(membership);
                 await db.SaveChangesAsync();
@@ -58,15 +59,17 @@ namespace SLBS.Membership.Web.Controllers
             return View(membership);
         }
 
-        private string GenerateMembershipNumber(char membershipKey)
+        private string GenerateMembershipNumber(string membershipKey)
         {
-            var members = db.Memberships.Where(m => m.MembershipNumber[0] == membershipKey);
+            var members = db.Memberships.Where(m => m.MembershipNumber.StartsWith(membershipKey)).ToList();
 
             if (!members.Any()) return string.Format("{0}0001", membershipKey);
 
             var latestMember = members.OrderByDescending(m => m.MembershipNumber).First();
 
-            return string.Format("{0}{1}", membershipKey, latestMember.MembershipId + 1);
+            var id =  int.Parse(latestMember.MembershipNumber.Substring(1));
+
+            return string.Format("{0}{1}", membershipKey, (id + 1).ToString("D4"));
 
         }
 
