@@ -12,6 +12,7 @@ namespace SLBS.Membership.Domain
         {
             Children = new List<Child>();
             Adults = new List<Adult>();
+            MembershipComments = new List<MembershipComment>();
         }
 
         [HiddenInput(DisplayValue = false)]
@@ -31,7 +32,8 @@ namespace SLBS.Membership.Domain
 
        
         public virtual ICollection<Child> Children { get; set; }
-        public virtual ICollection<Adult> Adults { get; set; } 
+        public virtual ICollection<Adult> Adults { get; set; }
+        public virtual ICollection<MembershipComment> MembershipComments { get; set; } 
 
     }
 }
