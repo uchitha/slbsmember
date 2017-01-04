@@ -22,6 +22,8 @@ namespace SLBS.Membership.Domain
         public DateTime StatusUpdatedOn { get; set; }
         public string StatusUpdatedBy { get; set; }
 
+        public virtual Membership Membership { get; set; }
+
 
     }
 }
