@@ -20,10 +20,7 @@
         </div>
     </div>
 
-    <div class="col-md-6">
-        <span class="pull-right text-success" id="userMessage"></span>
-        <span class="pull-right text-danger" id="errorMessage"></span>
-    </div>
+ 
 </div>
 
 
@@ -39,7 +36,12 @@
         @Html.DropDownList("NoticeType", EnumHelper.GetSelectList(typeof (EnumNoticeTypes), EnumNoticeTypes.PaymentStatusDhammaSchool), "Please select")
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-4">
+        <h3 class="pull-right text-success" id="userMessage"></h3>
+        <span class="pull-right text-danger" id="errorMessage"></span>
+    </div>
+
+    <div class="col-md-4">
         <span class="pull-right">
             @*<a href="#" onclick="showMailPage()" class="btn btn-primary">View Notice</a>*@
             <a href="#" onclick="sendMail()" class="btn btn-primary">Send</a>
@@ -76,8 +78,7 @@
             dataType: "json"
         }).done(function(data) {
             $("#progressbar").hide();
-            console.log("Emails sent");
-            showSuccess("Emails sent successfully");
+            showSuccess(data.sentCount + " emails sent successfully");
         }).fail(function(error) {
             console.error("error occured " + error);
             showError("Email sending failed");

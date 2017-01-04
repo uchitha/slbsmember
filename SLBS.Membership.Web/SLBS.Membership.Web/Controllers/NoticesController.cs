@@ -41,9 +41,9 @@ namespace SLBS.Membership.Web.Controllers
             var ids = (List<int>)Session["SelectedMemberIds"];
             var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
 
-            await sender.SendMail(members, EnumNoticeTypes.PaymentStatusDhammaSchool);
+            var sentCount = await sender.SendMail(members, EnumNoticeTypes.PaymentStatusDhammaSchool);
 
-            return Json("OK", JsonRequestBehavior.AllowGet);
+            return Json(new {sentCount}, JsonRequestBehavior.AllowGet);
         }
 
         private SelectList BuildEnumList()

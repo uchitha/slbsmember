@@ -32,7 +32,7 @@ namespace SLBS.Membership.Web
             IsProduction = ConfigurationManager.AppSettings["Environment"] == "Production";
         }
 
-        public async Task SendMail(List<Domain.Membership> members, EnumNoticeTypes noticeType)
+        public async Task<int> SendMail(List<Domain.Membership> members, EnumNoticeTypes noticeType)
         {
             int count = 0;
             foreach (var member in members)
@@ -45,14 +45,15 @@ namespace SLBS.Membership.Web
                 {
                     if (noticeType == EnumNoticeTypes.PaymentStatusDhammaSchool &&  member.PaidUpTo.HasValue)
                     {
-                        await SendPayStatusEmail(member, email);
-                        count++;
+                        if (await SendPayStatusEmail(member, email))
+                        {
+                            count++;
+                        }
                     }
                 }
             }
-
-            log.Info("Sent {0} emails",count);
-
+            log.Info("Sent {0} emails out of {1}",count,members.Count);
+            return count;
         }
 
         public async Task<int> SendAll(List<Domain.Member> memberList)
@@ -97,7 +98,7 @@ namespace SLBS.Membership.Web
         //    await Send(myMessage);
         //}
 
-        public async Task SendPayStatusEmail(Domain.Membership member, string email)
+        public async Task<bool> SendPayStatusEmail(Domain.Membership member, string email)
         {
         
 
@@ -120,7 +121,7 @@ namespace SLBS.Membership.Web
             myMessage.Html = "<i>Theruwan Saranai, SLSBS</i>";
             myMessage.Text = "Theruwan Saranai, SLSBS";
 
-            await Send(myMessage);
+            return await Send(myMessage);
         }
 
 
@@ -144,13 +145,14 @@ namespace SLBS.Membership.Web
 
 
 
-        private async Task Send(SendGrid.SendGridMessage message)
+        private async Task<bool> Send(SendGrid.SendGridMessage message)
         {
             try
             {
                 var apiKey = ConfigurationManager.AppSettings["SendgridKey"];
                 var transportWeb = new SendGrid.Web(apiKey);
                 await transportWeb.DeliverAsync(message);
+                return true;
             }
             catch (InvalidApiRequestException apiEx)
             {
@@ -165,12 +167,13 @@ namespace SLBS.Membership.Web
                     i++;
                 }
 
-                log.Error("Error sending emails : {0}", details);
-
+                log.Error("Error sending emails (InvalidApiRequest from Sendgrid): {0}", details);
+                return false;
             }
             catch (Exception ex)
             {
                 log.Error(ex,"Error sending email to {0}", message.To[0]);
+                return false;
             }
         }
 
