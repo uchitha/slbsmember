@@ -24,7 +24,7 @@
                 @Html.DisplayFor(modelItem => item.ContactName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PaidUpTo)
+                @(item.PaidUpTo.HasValue ? item.PaidUpTo.Value.ToString("yyyy-MMM") : "-")
             </td>
         </tr>
     }

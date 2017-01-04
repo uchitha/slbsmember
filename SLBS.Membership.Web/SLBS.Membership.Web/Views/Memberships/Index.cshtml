@@ -48,7 +48,7 @@
                     @Html.DisplayFor(modelItem => item.ContactName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PaidUpTo)
+                    @(item.PaidUpTo.HasValue ? item.PaidUpTo.Value.ToString("yyyy-MM") : "-")
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.MembershipId }) |
@@ -66,7 +66,7 @@
 
 <div class="row">
     <div class="col-md-12 pull-right">
-        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" }) &nbsp;&nbsp;
+        @Html.ActionLink("Create New Member", "Create", null, new { @class = "btn btn-primary" }) &nbsp;&nbsp;
         <a href="#" onclick="showMailPage()" class="btn btn-primary">Send Notice</a>
     </div>
 </div>
@@ -84,6 +84,10 @@
                 {
                     orderable: false,
                     targets: 4
+                },
+                {
+                    type: "date",
+                    targets: 3
                 }
             ],
             select: {

@@ -45,12 +45,17 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ContactName,PaidUpTo")] Domain.Membership membership)
+        public async Task<ActionResult> Create([Bind(Include = "MembershipNumber,ContactName,PaidUpTo")] Domain.Membership membership)
         {
+            var memberKey = membership.MembershipNumber;
+            if (!Char.IsLetter(memberKey, 0))
+            {
+                ModelState.AddModelError("MembershipNumber", "Please provide a letter for membership key");
+            }
+
             if (ModelState.IsValid)
             {
-                membership.MembershipNumber = GenerateMembershipNumber(membership.ContactName[0].ToString().ToUpper());
-
+                membership.MembershipNumber = GenerateMembershipNumber(memberKey.ToUpper());
                 db.Memberships.Add(membership);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

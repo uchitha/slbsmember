@@ -31,7 +31,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PaidUpTo)
+            @if (Model.PaidUpTo.HasValue)
+            {
+                @(Model.PaidUpTo.Value.ToString("yyyy-MMM"));
+            }
         </dd>
 
     </dl>

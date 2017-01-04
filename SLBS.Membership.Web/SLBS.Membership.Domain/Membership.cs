@@ -27,7 +27,7 @@ namespace SLBS.Membership.Domain
 
         [DisplayName("Payment Status")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? PaidUpTo { get; set; }
 
        
