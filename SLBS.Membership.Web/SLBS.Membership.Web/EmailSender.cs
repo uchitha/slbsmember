@@ -101,7 +101,6 @@ namespace SLBS.Membership.Web
         public async Task<bool> SendPayStatusEmail(Domain.Membership member, string email)
         {
         
-
             var myMessage = new SendGridMessage();
 
             myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Treasurer"); //This needs to be a valid SLSBS email

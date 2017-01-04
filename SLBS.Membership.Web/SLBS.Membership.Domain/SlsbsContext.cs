@@ -2,14 +2,16 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SLBS.Membership.Domain.Identity;
 
 namespace SLBS.Membership.Domain
 {
-    public class SlsbsContext : DbContext
+    public class SlsbsContext : IdentityDbContext<AppUser>
     {
         public SlsbsContext() : base("Slsbs")
         {
-            
+            Database.SetInitializer(new SlsbsInitializer());
         }
 
         public DbSet<Membership> Memberships { get; set; }
@@ -18,6 +20,8 @@ namespace SLBS.Membership.Domain
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder
