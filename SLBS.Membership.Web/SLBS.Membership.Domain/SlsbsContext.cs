@@ -9,7 +9,7 @@ namespace SLBS.Membership.Domain
     {
         public SlsbsContext() : base("Slsbs")
         {
-            
+            //Initializer is set in the App_Start
         }
 
         public DbSet<Membership> Memberships { get; set; }

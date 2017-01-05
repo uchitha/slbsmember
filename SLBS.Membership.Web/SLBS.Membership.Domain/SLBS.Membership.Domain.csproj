@@ -88,6 +88,10 @@
     <Compile Include="Migrations\201701040047354_InitialCreate.Designer.cs">
       <DependentUpon>201701040047354_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701050343270_AddActiveFlag.cs" />
+    <Compile Include="Migrations\201701050343270_AddActiveFlag.Designer.cs">
+      <DependentUpon>201701050343270_AddActiveFlag.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mother.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,6 +113,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201701040047354_InitialCreate.resx">
       <DependentUpon>201701040047354_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701050343270_AddActiveFlag.resx">
+      <DependentUpon>201701050343270_AddActiveFlag.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

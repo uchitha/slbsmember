@@ -8,6 +8,11 @@ namespace SLBS.Membership.Domain
 {
     public class Child
     {
+        public Child()
+        {
+            IsActive = true;
+        }
+
         [HiddenInput(DisplayValue = false)]
         public int ChildId { get; set; }
 
@@ -25,6 +30,7 @@ namespace SLBS.Membership.Domain
         [DisplayName("Ambulance Cover")]
         public bool? AmbulanceCover { get; set; }
 
+        public bool IsActive { get; set; }
        
         public virtual Membership Membership { get; set; }
     }
