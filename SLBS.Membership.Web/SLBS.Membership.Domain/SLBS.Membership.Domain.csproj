@@ -94,12 +94,13 @@
     <Compile Include="Father.cs" />
     <Compile Include="Membership.cs" />
     <Compile Include="MembershipComment.cs" />
-    <Compile Include="Migrations\201701040800023_Identity.cs" />
-    <Compile Include="Migrations\201701040800023_Identity.Designer.cs">
-      <DependentUpon>201701040800023_Identity.cs</DependentUpon>
     <Compile Include="Migrations\201701040047354_InitialCreate.cs" />
     <Compile Include="Migrations\201701040047354_InitialCreate.Designer.cs">
       <DependentUpon>201701040047354_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701040800023_Identity.cs" />
+    <Compile Include="Migrations\201701040800023_Identity.Designer.cs">
+      <DependentUpon>201701040800023_Identity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201701050343270_AddActiveFlag.cs" />
     <Compile Include="Migrations\201701050343270_AddActiveFlag.Designer.cs">
@@ -126,6 +127,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201701040047354_InitialCreate.resx">
       <DependentUpon>201701040047354_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701040800023_Identity.resx">
       <DependentUpon>201701040800023_Identity.cs</DependentUpon>
     </EmbeddedResource>
