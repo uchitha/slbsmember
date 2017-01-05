@@ -4,3 +4,7 @@
 /SLBS.Membership.Web/SLBS.Membership.Data/*.jfm
 **/bin
 **/obj
+/SLBS.Membership.Web/SLBS.Membership.Data/obj/*
+/SLBS.Membership.Web/SLBS.Membership.Data/bin/*
+**/*.user
+/SLBS.Membership.Web/SLBS.Membership.Web/logs/

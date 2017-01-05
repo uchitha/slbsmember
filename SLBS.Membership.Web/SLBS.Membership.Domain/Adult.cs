@@ -7,6 +7,11 @@ namespace SLBS.Membership.Domain
 {
     public class Adult
     {
+        public Adult()
+        {
+            IsActive = true;
+        }
+
         [HiddenInput(DisplayValue = false)]
         public int AdultId { get; set; }
 
@@ -22,6 +27,8 @@ namespace SLBS.Membership.Domain
         public string Phone { get; set; }
         
         public string Email { get; set; }
+
+        public bool IsActive { get; set; }
 
         public MembershipRole Role { get; set; }
 

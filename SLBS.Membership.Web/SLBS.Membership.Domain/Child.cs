@@ -9,7 +9,7 @@ namespace SLBS.Membership.Domain
     public class Child
     {
         [HiddenInput(DisplayValue = false)]
-        public int ChildId { get; set; }
+         public int ChildId { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         [ForeignKey("Membership")]

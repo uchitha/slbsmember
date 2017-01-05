@@ -7,6 +7,7 @@ namespace SLBS.Membership.Domain.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "SLBS.Membership.Domain.SlsbsContext";
         }
 
         protected override void Seed(SLBS.Membership.Domain.SlsbsContext context)
