@@ -17,7 +17,7 @@ namespace SLBS.Membership.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Database.SetInitializer<SlsbsContext>(null);
+            Database.SetInitializer<SlsbsContext>(new SlsbsInitializer());
         }
     }
 }

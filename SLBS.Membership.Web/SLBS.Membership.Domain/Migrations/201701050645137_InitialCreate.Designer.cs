@@ -7,13 +7,13 @@ namespace SLBS.Membership.Domain.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Identity : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Identity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201701040800023_Identity"; }
+            get { return "201701050645137_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source
