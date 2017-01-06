@@ -11,6 +11,7 @@ using SLBS.Membership.Domain;
 
 namespace SLBS.Membership.Web.Controllers
 {
+    [Authorize]
     public class AdultsController : Controller
     {
         private SlsbsContext db = new SlsbsContext();
@@ -47,6 +48,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         // GET: Adults/Create
+        [SimpleAuthorize(Roles = "BSEditor")]
         public ActionResult Create()
         {
             ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber");
@@ -58,6 +60,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> Create([Bind(Include = "AdultId,MembershipId,FullName,Address,Phone,Email,Role")] Adult adult)
         {
             if (ModelState.IsValid)
@@ -72,6 +75,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         // GET: Adults/Edit/5
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,6 +96,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> Edit([Bind(Include = "AdultId,MembershipId,FullName,Address,Phone,Email,Role")] Adult adult)
         {
             if (ModelState.IsValid)
@@ -105,6 +110,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         // GET: Adults/Delete/5
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -122,6 +128,7 @@ namespace SLBS.Membership.Web.Controllers
         // POST: Adults/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Adult adult = await db.Adults.FindAsync(id);

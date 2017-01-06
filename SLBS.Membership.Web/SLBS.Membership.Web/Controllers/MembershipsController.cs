@@ -9,6 +9,7 @@ using SLBS.Membership.Domain;
 
 namespace SLBS.Membership.Web.Controllers
 {
+    [Authorize]
     public class MembershipsController : Controller
     {
         private SlsbsContext db = new SlsbsContext();
@@ -35,6 +36,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         // GET: Memberships/Create
+        [SimpleAuthorize(Roles = "BSEditor")]
         public ActionResult Create()
         {
             return View();
@@ -45,6 +47,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> Create([Bind(Include = "MembershipNumber,ContactName,PaidUpTo")] Domain.Membership membership)
         {
             var memberKey = membership.MembershipNumber;
@@ -79,6 +82,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         // GET: Memberships/Edit/5
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,6 +102,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo")] Domain.Membership membership)
         {
             if (ModelState.IsValid)
@@ -110,6 +115,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         // GET: Memberships/Delete/5
+        [SimpleAuthorize(Roles = "Admin,BSEditor")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,6 +133,7 @@ namespace SLBS.Membership.Web.Controllers
         // POST: Memberships/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             var membership = await db.Memberships.FindAsync(id);
@@ -137,6 +144,7 @@ namespace SLBS.Membership.Web.Controllers
 
         [HttpPost, ActionName("SaveSendList")]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "Sender")]
         public async Task<ActionResult> SaveSendList(List<int> ids)
         {
             Session["SelectedMemberIds"] = null; //clear

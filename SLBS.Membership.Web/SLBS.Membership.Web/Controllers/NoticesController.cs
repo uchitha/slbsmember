@@ -10,6 +10,7 @@ using SLBS.Membership.Web.Models;
 
 namespace SLBS.Membership.Web.Controllers
 {
+    [SimpleAuthorize(Roles = "Sender")]
     public class NoticesController : Controller
     {
 

@@ -2,7 +2,7 @@
 
 namespace SLBS.Membership.Domain.Identity
 {
-    public class AppUser : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
     }
 }

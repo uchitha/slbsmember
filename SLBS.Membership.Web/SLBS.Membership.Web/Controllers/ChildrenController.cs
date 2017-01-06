@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SLBS.Membership.Domain;
 
 namespace SLBS.Membership.Web.Controllers
 {
+    [Authorize]
     public class ChildrenController : Controller
     {
         private SlsbsContext db = new SlsbsContext();
@@ -23,7 +20,7 @@ namespace SLBS.Membership.Web.Controllers
         }
         
         // GET: Children for membership
-          [ActionName("Members")]
+        [ActionName("Members")]
         public async Task<ActionResult> Membership(int id)
         {
             var children = db.Children.Include(c => c.Membership).Where(i => i.MembershipId == id);
@@ -46,6 +43,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         // GET: Children/Create
+        [SimpleAuthorize(Roles = "DSEditor")]
         public ActionResult Create()
         {
             ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber");
@@ -57,6 +55,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "DSEditor")]
         public async Task<ActionResult> Create([Bind(Include = "ChildId,MembershipId,FullName,ClassLevel,MediaConsent,AmbulanceCover")] Child child)
         {
             if (ModelState.IsValid)
@@ -71,6 +70,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         // GET: Children/Edit/5
+         [SimpleAuthorize(Roles = "DSEditor")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,6 +91,7 @@ namespace SLBS.Membership.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "DSEditor")]
         public async Task<ActionResult> Edit([Bind(Include = "ChildId,MembershipId,FullName,ClassLevel,MediaConsent,AmbulanceCover")] Child child)
         {
             if (ModelState.IsValid)
@@ -104,6 +105,7 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         // GET: Children/Delete/5
+         [SimpleAuthorize(Roles = "DSEditor")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -121,6 +123,7 @@ namespace SLBS.Membership.Web.Controllers
         // POST: Children/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SimpleAuthorize(Roles = "DSEditor")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Child child = await db.Children.FindAsync(id);
