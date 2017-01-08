@@ -1,4 +1,6 @@
-﻿using OfficeOpenXml;
+﻿using System.Globalization;
+using OfficeOpenXml;
+using SLBS.Membership.Domain;
 using SLBS.Membership.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -7,11 +9,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Member = SLBS.Membership.Web.Models.Member;
 
 namespace SLBS.Membership.Web.Controllers
 {
     public class MemberController : Controller
     {
+        private SlsbsContext db = new SlsbsContext();
+
         public ActionResult Index()
         {
             return View();
@@ -94,54 +99,87 @@ namespace SLBS.Membership.Web.Controllers
         {
             using (var package = new ExcelPackage(file.InputStream))
             {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[SystemConfig.SheetName];
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[SystemConfig.MembershipSheetName];
                 var listMembership = new List<Member>();
-                var listBuildingFund = new List<Member>();
-                for (int row = 6; worksheet.Cells[row, SystemConfig.PayColumnIndex].Value != null; row++)
+                var listFathers = new List<Adult>();
+                for (int row = 5; worksheet.Cells[row, 1].Value != null; row++)
                 {
-                    var email = worksheet.Cells[row, SystemConfig.EmailColumnIndex].Value != null ? worksheet.Cells[row, SystemConfig.EmailColumnIndex].Value.ToString() : string.Empty;
-                    var memberNo = worksheet.Cells[row, SystemConfig.MemberNumberColumnIndex].Value.ToString();
-                    var memberName = worksheet.Cells[row, SystemConfig.MemberNameColumnIndex].Value.ToString();
-                    var paymentStatus = worksheet.Cells[row, SystemConfig.PayColumnIndex].Value.ToString();
-                    var membershipPay = worksheet.Cells[row, SystemConfig.MembershipPayStatusColumnIndex].Value;
-                    var buildingPay = worksheet.Cells[row, SystemConfig.BuildingFundPayStatusColumnIndex].Value;
+                    var memberNo = worksheet.Cells[row, 1].Value.ToString();
 
-                    var m = new Member
+                    if (string.IsNullOrEmpty(memberNo))
                     {
-                        MemberNo = memberNo,
-                        Email = email,
-                        MemberName = memberName,
+                        continue;
+                    }
+
+                    var contactName = worksheet.Cells[row, 2].Value.ToString();
+                    var statusString = worksheet.Cells[row, 3].Value.ToString();
+                    DateTime? payStatus = null;
+
+                    if (!string.IsNullOrEmpty(statusString))
+                    {
+                        DateTime payDate;
+                        if (DateTime.TryParse(statusString, out payDate))
+                        {
+                            payStatus = payDate;
+                        }
+                        //var items = statusString.Split(new[] {'/'});
+                    }
+
+                    var m = new Domain.Membership
+                    {
+                        MembershipNumber = memberNo,
+                        ContactName = contactName,
+                        PaidUpTo = payStatus
                     };
 
-                    if (membershipPay != null &&  !string.IsNullOrEmpty(membershipPay.ToString()))
+                    var existingMember = db.Memberships.SingleOrDefault(i => i.MembershipNumber == memberNo);
+                    if (existingMember != null)
                     {
-                        decimal value = 0;
-                        if (decimal.TryParse(membershipPay.ToString(), out value))
-                        {
-                            if (value != 0)
-                            {
-                                m.Payment = value;
-                                listMembership.Add(m);
-                            }
-                        }
+                        m.MembershipId = existingMember.MembershipId;
+                        existingMember.PaidUpTo = m.PaidUpTo;
+                        existingMember.ContactName = m.ContactName;
+                    }
+                    else
+                    {
+                        db.Memberships.Add(m);
+                    }
+                    db.SaveChanges();
+
+                    var fathersName = worksheet.Cells[row, 4].Value == null ? null: worksheet.Cells[row, 4].Value.ToString();
+                    if (!string.IsNullOrEmpty(fathersName))
+                    {
+                        var f = new Adult();
+                        f.FullName = fathersName;
+                        f.MembershipId = m.MembershipId;
+                        f.Address = worksheet.Cells[row, 5].Value == null ? null : worksheet.Cells[row, 5].Value.ToString();
+                        f.Email = worksheet.Cells[row, 6].Value == null ? null : worksheet.Cells[row, 6].Value.ToString();
+
+                        f.Phone = worksheet.Cells[row, 7].Value == null ? null : worksheet.Cells[row, 7].Value.ToString();
+                        f.Role = MembershipRole.Father;
+                        //var fathersLand = worksheet.Cells[row, 8].Value == null ? null : worksheet.Cells[row, 8].Value.ToString();
+                        db.Adults.Add(f);
+                    }
+               
+
+                    var mothersName = worksheet.Cells[row, 9].Value == null ? null : worksheet.Cells[row, 9].Value.ToString();
+
+                    if (!string.IsNullOrEmpty(mothersName))
+                    {
+                        var mother = new Adult();
+                        mother.FullName = mothersName;
+                        mother.MembershipId = m.MembershipId;
+                        mother.Address = worksheet.Cells[row, 10].Value == null ? null : worksheet.Cells[row, 10].Value.ToString();
+                        mother.Email = worksheet.Cells[row, 11].Value == null ? null : worksheet.Cells[row, 11].Value.ToString();
+
+                        mother.Phone = worksheet.Cells[row, 12].Value == null ? null : worksheet.Cells[row, 12].Value.ToString();
+                        //var fathersLand = worksheet.Cells[row, 13].Value == null ? null : worksheet.Cells[row, 13].Value.ToString();
+                        db.Adults.Add(mother);
+
                     }
 
-                    if (buildingPay != null && !string.IsNullOrEmpty(buildingPay.ToString()))
-                    {
-                        decimal value = 0;
-                        if (decimal.TryParse(buildingPay.ToString(), out value))
-                        {
-                            if (value != 0)
-                            {
-                                m.Payment = value;
-                                listBuildingFund.Add(m);
-                            }
-                        }
-                    }
-                   
+                    db.SaveChanges();
                 }
-                Session.Add("MembershipList",listMembership);
-                Session.Add("BuildingFundList", listBuildingFund);
+            
             } 
         }
     }

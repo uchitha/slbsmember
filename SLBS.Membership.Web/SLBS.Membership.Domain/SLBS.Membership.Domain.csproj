@@ -94,6 +94,10 @@
     <Compile Include="Father.cs" />
     <Compile Include="Membership.cs" />
     <Compile Include="MembershipComment.cs" />
+    <Compile Include="Migrations\201701050645137_InitialCreate.cs" />
+    <Compile Include="Migrations\201701050645137_InitialCreate.Designer.cs">
+      <DependentUpon>201701050645137_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mother.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,6 +115,11 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201701050645137_InitialCreate.resx">
+      <DependentUpon>201701050645137_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
