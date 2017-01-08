@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201701050645137_InitialCreate.Designer.cs">
       <DependentUpon>201701050645137_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701080645185_Landphone.cs" />
+    <Compile Include="Migrations\201701080645185_Landphone.Designer.cs">
+      <DependentUpon>201701080645185_Landphone.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mother.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,6 +123,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201701050645137_InitialCreate.resx">
       <DependentUpon>201701050645137_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701080645185_Landphone.resx">
+      <DependentUpon>201701080645185_Landphone.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

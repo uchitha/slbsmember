@@ -152,11 +152,13 @@ namespace SLBS.Membership.Web.Controllers
                         f.FullName = fathersName;
                         f.MembershipId = m.MembershipId;
                         f.Address = worksheet.Cells[row, 5].Value == null ? null : worksheet.Cells[row, 5].Value.ToString();
-                        f.Email = worksheet.Cells[row, 6].Value == null ? null : worksheet.Cells[row, 6].Value.ToString();
+                        f.MobilePhone = worksheet.Cells[row, 6].Value == null ? null : worksheet.Cells[row, 6].Value.ToString();
+                        f.LandPhone = worksheet.Cells[row, 7].Value == null ? null : worksheet.Cells[row, 7].Value.ToString();
+                        
+                        f.Email = worksheet.Cells[row, 8].Value == null ? null : worksheet.Cells[row, 8].Value.ToString();
 
-                        f.Phone = worksheet.Cells[row, 7].Value == null ? null : worksheet.Cells[row, 7].Value.ToString();
                         f.Role = MembershipRole.Father;
-                        //var fathersLand = worksheet.Cells[row, 8].Value == null ? null : worksheet.Cells[row, 8].Value.ToString();
+
                         db.Adults.Add(f);
                     }
                
@@ -169,10 +171,11 @@ namespace SLBS.Membership.Web.Controllers
                         mother.FullName = mothersName;
                         mother.MembershipId = m.MembershipId;
                         mother.Address = worksheet.Cells[row, 10].Value == null ? null : worksheet.Cells[row, 10].Value.ToString();
-                        mother.Email = worksheet.Cells[row, 11].Value == null ? null : worksheet.Cells[row, 11].Value.ToString();
-
-                        mother.Phone = worksheet.Cells[row, 12].Value == null ? null : worksheet.Cells[row, 12].Value.ToString();
-                        //var fathersLand = worksheet.Cells[row, 13].Value == null ? null : worksheet.Cells[row, 13].Value.ToString();
+                        mother.MobilePhone = worksheet.Cells[row, 11].Value == null ? null : worksheet.Cells[row, 11].Value.ToString();
+                        mother.LandPhone = worksheet.Cells[row, 12].Value == null ? null : worksheet.Cells[row, 12].Value.ToString();
+                        mother.Email = worksheet.Cells[row, 13].Value == null ? null : worksheet.Cells[row, 13].Value.ToString();
+                       
+                        mother.Role = MembershipRole.Mother;
                         db.Adults.Add(mother);
 
                     }
