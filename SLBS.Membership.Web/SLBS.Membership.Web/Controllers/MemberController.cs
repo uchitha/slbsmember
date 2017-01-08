@@ -111,6 +111,13 @@ namespace SLBS.Membership.Web.Controllers
                         continue;
                     }
 
+                    var existingMember = db.Memberships.SingleOrDefault(i => i.MembershipNumber == memberNo);
+                    if (existingMember != null)
+                    {
+                        continue;
+                    }
+
+
                     var contactName = worksheet.Cells[row, 2].Value.ToString();
                     var statusString = worksheet.Cells[row, 3].Value.ToString();
                     DateTime? payStatus = null;
@@ -132,17 +139,7 @@ namespace SLBS.Membership.Web.Controllers
                         PaidUpTo = payStatus
                     };
 
-                    var existingMember = db.Memberships.SingleOrDefault(i => i.MembershipNumber == memberNo);
-                    if (existingMember != null)
-                    {
-                        m.MembershipId = existingMember.MembershipId;
-                        existingMember.PaidUpTo = m.PaidUpTo;
-                        existingMember.ContactName = m.ContactName;
-                    }
-                    else
-                    {
-                        db.Memberships.Add(m);
-                    }
+                    db.Memberships.Add(m);
                     db.SaveChanges();
 
                     var fathersName = worksheet.Cells[row, 4].Value == null ? null: worksheet.Cells[row, 4].Value.ToString();
