@@ -18,7 +18,7 @@ namespace SLBS.Membership.Web.App_Start
         public void Configuration(IAppBuilder app)
         {
             app.CreatePerOwinContext(() => new SlsbsContext());
-            app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<RoleManager<AppRole>>((options, context) =>
                 new RoleManager<AppRole>(
                     new RoleStore<AppRole>(context.Get<SlsbsContext>())));

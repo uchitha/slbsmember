@@ -7,11 +7,16 @@ using SLBS.Membership.Domain.Identity;
 
 namespace SLBS.Membership.Domain
 {
-    public class SlsbsContext : IdentityDbContext<AppUser>
+    public class SlsbsContext : IdentityDbContext<ApplicationUser>
     {
         public SlsbsContext() : base("Slsbs")
         {
             //Initializer is set in the App_Start
+        }
+
+        public static SlsbsContext Create()
+        {
+            return new SlsbsContext();
         }
 
         public DbSet<Membership> Memberships { get; set; }

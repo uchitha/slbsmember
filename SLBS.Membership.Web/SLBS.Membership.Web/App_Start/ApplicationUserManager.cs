@@ -7,19 +7,19 @@ using SLBS.Membership.Domain.Identity;
 
 namespace SLBS.Membership.Web
 {
-    public class AppUserManager : UserManager<AppUser>
+    public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public AppUserManager(IUserStore<AppUser> store)
+        public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
         }
 
         // this method is called by Owin therefore best place to configure your User Manager
-        public static AppUserManager Create(
-            IdentityFactoryOptions<AppUserManager> options, IOwinContext context)
+        public static ApplicationUserManager Create(
+            IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new AppUserManager(
-                new UserStore<AppUser>(context.Get<SlsbsContext>()));
+            var manager = new ApplicationUserManager(
+                new UserStore<ApplicationUser>(context.Get<SlsbsContext>()));
 
             // optionally configure your manager
             // ...

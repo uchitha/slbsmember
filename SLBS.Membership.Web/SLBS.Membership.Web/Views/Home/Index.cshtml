@@ -1,21 +1,56 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     ViewBag.Title = "SLSBS Membership";
 }
 
-<div class="jumbotron">
-    <h2>Sri Lankan Sinhalese Buddhist Society (SLSBS)</h2>
-    <p class="lead">Membership management portal</p>
-</div>
 
-<div class="row">
-    <div class="col-md-6">
-        <h2>Buddhist Society</h2>
-        <p><input type="button" value="View" onclick="location.href='@Url.Action("Index", "Memberships")'" class="btn btn-primary"/></p>
+@if (Request.IsAuthenticated)
+{
+    <div class="jumbotron">
+        <h2>Sri Lankan Sinhalese Buddhist Society (SLSBS)</h2>
+        <p class="lead">Membership management portal</p>
     </div>
-    <div class="col-md-6">
-        <h2>Dhamma School</h2>
-        <p>
-        <p><input type="button" value="View" onclick="location.href='@Url.Action("Index", "Children")'" class="btn btn-primary" /></p>
-        </p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Buddhist Society</h2>
+            <p><input type="button" value="View" onclick="location.href = '@Url.Action("Index", "Memberships")'" class="btn btn-primary"/>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h2>Dhamma School</h2>
+            <p>
+                <p>
+                    <input type="button" value="View" onclick="location.href = '@Url.Action("Index", "Children")'" class="btn btn-primary"/>
+                </p>
+            </p>
+        </div>
     </div>
-</div>
+    
+    @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+       
+        @*<ul class="nav navbar-nav navbar-right">
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
+
+        
+    }*@
+}
+else
+{
+    <div class="jumbotron">
+        <h2>Sri Lankan Sinhalese Buddhist Society (SLSBS)</h2>
+        <p class="lead">Membership management portal</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("Login", "Login", "Account", null, new {@class = "btn btn-primary"}) &nbsp;&nbsp;
+            @*@Html.ActionLink("Register", "Register", "Account",null, new { @class = "btn btn-primary" })*@
+        </div>
+    </div>
+}
+
+
