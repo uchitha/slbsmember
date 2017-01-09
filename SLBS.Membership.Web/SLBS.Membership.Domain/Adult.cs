@@ -24,7 +24,11 @@ namespace SLBS.Membership.Domain
 
         public string Address { get; set; }
 
-        public string Phone { get; set; }
+        [DisplayName("Mobile Phone")]
+        public string MobilePhone { get; set; }
+
+        [DisplayName("Land Phone")]
+        public string LandPhone { get; set; }
         
         public string Email { get; set; }
 

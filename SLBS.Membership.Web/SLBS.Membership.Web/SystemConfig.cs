@@ -3,7 +3,7 @@ namespace SLBS.Membership.Web
 {
     public static class SystemConfig
     {
-        public static string SheetName = "MEM_BF";
+        public static string MembershipSheetName = "Memberships";
         public static int MemberNameColumnIndex = 10;
         public static int MemberNumberColumnIndex = 11;
         

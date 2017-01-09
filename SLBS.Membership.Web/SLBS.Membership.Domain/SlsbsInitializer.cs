@@ -4,7 +4,7 @@ using System.Data.Entity;
 
 namespace SLBS.Membership.Domain
 {
-    public class SlsbsInitializer : DropCreateDatabaseIfModelChanges<SlsbsContext>
+    public class SlsbsInitializer : DropCreateDatabaseAlways<SlsbsContext>
     {
         protected override void Seed(SlsbsContext context)
         {
