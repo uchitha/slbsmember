@@ -93,7 +93,8 @@ namespace SLBS.Membership.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", adult.MembershipId);
+            ViewBag.MembershipId = adult.MembershipId;
+            ViewBag.MembershipList = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", adult.MembershipId);
             return View(adult);
         }
 
