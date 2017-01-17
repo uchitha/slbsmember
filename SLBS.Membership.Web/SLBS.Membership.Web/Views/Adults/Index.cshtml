@@ -7,7 +7,8 @@
 <h2>Adults</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.MembershipId }) | 
+    @Html.ActionLink("Back to Memberships","Index","Memberships")
 </p>
 <table class="table">
     <tr>

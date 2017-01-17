@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using SLBS.Membership.Domain;
 
 namespace SLBS.Membership.Web.Controllers
@@ -29,6 +30,7 @@ namespace SLBS.Membership.Web.Controllers
         public async Task<ActionResult> Membership(int id)
         {
             var adults = db.Adults.Include(a => a.Membership).Where(a => a.MembershipId == id);
+            ViewBag.MembershipId = id;
             return View("Index",await adults.ToListAsync());
         }
 
@@ -49,10 +51,14 @@ namespace SLBS.Membership.Web.Controllers
 
         // GET: Adults/Create
         [SimpleAuthorize(Roles = "BSEditor")]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber");
-            return View();
+            ViewBag.MembershipList = new SelectList(db.Memberships, "MembershipId", "MembershipNumber");
+            var adult = new Adult()
+            {
+                MembershipId = id
+            };
+            return View(adult);
         }
 
         // POST: Adults/Create
@@ -67,7 +73,7 @@ namespace SLBS.Membership.Web.Controllers
             {
                 db.Adults.Add(adult);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Members",new { id = adult.MembershipId});
             }
 
             ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", adult.MembershipId);
@@ -103,7 +109,7 @@ namespace SLBS.Membership.Web.Controllers
             {
                 db.Entry(adult).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Members", new { id = adult.MembershipId });
             }
             ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber", adult.MembershipId);
             return View(adult);
