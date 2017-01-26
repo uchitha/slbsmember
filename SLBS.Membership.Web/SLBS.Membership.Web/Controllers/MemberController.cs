@@ -34,9 +34,17 @@ namespace SLBS.Membership.Web.Controllers
 
                 if (file != null && file.ContentLength > 0)
                 {
-                    if (Path.GetExtension(file.FileName) == ".xlsx")
+                    if (file.FileName == "Members.xlsx")
                     {
                         ProcessMembershipFile(file);
+                    }
+                    if (file.FileName == "Children.xlsx")
+                    {
+                        ProcessChildrenFile(file);
+                    }
+                    if (file.FileName == "ChildrenWithoutMember.xlsx")
+                    {
+                        ProcessChildrenWithoutMemberFile(file);
                     }
                 }
             }
@@ -93,6 +101,83 @@ namespace SLBS.Membership.Web.Controllers
             //ViewBag.SentCount = await sender.SendAll(memberSendList);
             return View("SendReport");
 
+        }
+
+        private void ProcessChildrenFile(HttpPostedFileBase file)
+        {
+            using (var package = new ExcelPackage(file.InputStream))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets["Children"];
+                for (int row = 4; worksheet.Cells[row, 1].Value != null; row++)
+                {
+                    var colIndex = 2; //starting column
+                    var memberNo = worksheet.Cells[row, colIndex].Value.ToString();
+
+                    if (string.IsNullOrEmpty(memberNo))
+                    {
+                        continue;
+                    }
+
+                    colIndex++;
+                    var childName = worksheet.Cells[row, colIndex++].Value.ToString();
+                    var level = worksheet.Cells[row, colIndex].Value.ToString() == "senior" ? 10 : int.Parse(worksheet.Cells[row, colIndex].Value.ToString());
+                    colIndex++;
+                    var ambulanceCover = worksheet.Cells[row, colIndex].Value != null && (worksheet.Cells[row, colIndex].Value.ToString() == "YES");
+                    colIndex++;
+                    var mediaConsent = worksheet.Cells[row, colIndex].Value != null && (worksheet.Cells[row, colIndex].Value.ToString() == "YES");
+
+
+                    var existingMember = db.Memberships.SingleOrDefault(i => i.MembershipNumber == memberNo);
+
+                    if (existingMember != null) //member found link kids to this membership
+                    {
+                        var c = new Domain.Child();
+                        c.MembershipId = existingMember.MembershipId;
+                        c.IsActive = true;
+                        c.FullName = childName;
+                        c.MediaConsent = mediaConsent;
+                        c.AmbulanceCover = ambulanceCover;
+                        c.ClassLevel = (ClassLevelEnum)level;
+                        db.Children.Add(c);
+                        db.SaveChanges();
+                    }
+
+                }
+
+            } 
+        }
+
+        private void ProcessChildrenWithoutMemberFile(HttpPostedFileBase file)
+        {
+            using (var package = new ExcelPackage(file.InputStream))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets["Children"];
+                for (int row = 4; worksheet.Cells[row, 1].Value != null; row++)
+                {
+                    var colIndex = 2; //starting column
+                    var memberNo = worksheet.Cells[row, colIndex].Value.ToString();
+
+                    if (string.IsNullOrEmpty(memberNo))
+                    {
+                        continue;
+                    }
+
+                    var existingMember = db.Memberships.SingleOrDefault(i => i.MembershipNumber == memberNo);
+
+                    if (existingMember == null)
+                    {
+                        //no member found //add dummy member
+                        var m = new Domain.Membership();
+                        m.MembershipNumber = memberNo;
+                        m.ContactName = "Membership added temporarily";
+                        db.Memberships.Add(m);
+                    }
+
+                    db.SaveChanges();
+
+                }
+
+            }
         }
 
         private void ProcessMembershipFile(HttpPostedFileBase file)

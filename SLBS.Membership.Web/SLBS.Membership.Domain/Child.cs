@@ -38,7 +38,7 @@ namespace SLBS.Membership.Domain
     public enum ClassLevelEnum
     {
         [Description("DS Level 1")]
-        Level1,
+        Level1 = 1,
         [Description("DS Level 2")]
         Level2,
         [Description("DS Level 3")]
@@ -50,6 +50,8 @@ namespace SLBS.Membership.Domain
         [Description("DS Level 6")]
         Level6,
         [Description("DS Level 7")]
-        Level7
+        Level7,
+        [Description("Senior")]
+        Senior = 10
     }
 }

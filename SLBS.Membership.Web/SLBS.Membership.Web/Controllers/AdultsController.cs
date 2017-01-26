@@ -104,7 +104,7 @@ namespace SLBS.Membership.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SimpleAuthorize(Roles = "BSEditor")]
-        public async Task<ActionResult> Edit([Bind(Include = "AdultId,MembershipId,FullName,Address,Phone,Email,Role")] Adult adult)
+        public async Task<ActionResult> Edit([Bind(Include = "AdultId,MembershipId,FullName,Address,LandPhone,MobilePhone,Email,Role")] Adult adult)
         {
             if (ModelState.IsValid)
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace SLBS.Membership.Domain
@@ -30,6 +31,15 @@ namespace SLBS.Membership.Domain
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? PaidUpTo { get; set; }
+
+        //public string CurrentComment
+        //{
+        //    get { return MembershipComments.Any() ? MembershipComments.Last().Comment : string.Empty; }
+        //    set 
+        //    {
+                
+        //    }
+        //}
 
         public bool IsActive { get; set; }
        

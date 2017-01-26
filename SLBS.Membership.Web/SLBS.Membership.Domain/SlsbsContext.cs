@@ -20,6 +20,7 @@ namespace SLBS.Membership.Domain
         }
 
         public DbSet<Membership> Memberships { get; set; }
+        //public DbSet<Membership> MembershipComments { get; set; }
         public DbSet<Adult> Adults { get; set; }
         public DbSet<Child> Children { get; set; }
 

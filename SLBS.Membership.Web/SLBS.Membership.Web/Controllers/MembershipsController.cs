@@ -90,6 +90,7 @@ namespace SLBS.Membership.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var membership = await db.Memberships.FindAsync(id);
+            //var comments = await db.Memberships
             if (membership == null)
             {
                 return HttpNotFound();
@@ -103,11 +104,21 @@ namespace SLBS.Membership.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SimpleAuthorize(Roles = "BSEditor")]
-        public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo")] Domain.Membership membership)
+        public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo")] Domain.Membership membership, string comment)
         {
             if (ModelState.IsValid)
             {
+                var membershipComment = new MembershipComment();
+                membershipComment.Comment = comment;
+                membershipComment.CommentedOn = DateTime.Now;
+                membershipComment.StatusUpdatedOn = DateTime.Now;
+                membershipComment.MembershipId = membership.MembershipId;
+
+                membership.MembershipComments.Add(membershipComment);
+
                 db.Entry(membership).State = EntityState.Modified;
+                db.Entry(membershipComment).State = EntityState.Added;
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
