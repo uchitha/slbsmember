@@ -9,49 +9,121 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Membership.MembershipNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ClassLevel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MediaConsent)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AmbulanceCover)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Membership.MembershipNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClassLevel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MediaConsent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AmbulanceCover)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ChildId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ChildId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ChildId })
-        </td>
-    </tr>
-}
+<table class="table-striped" id="childTable" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Membership.MembershipNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MediaConsent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmbulanceCover)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="height: 30px">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Membership.MembershipNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassLevel)
+                </td>
+                <td>
+                    @if (item.MediaConsent.HasValue && item.MediaConsent.Value)
+                    {
+                        <span>YES</span>
+                    }
+                    else
+                    {
+                        <span>NO</span>
+                    }
+                </td>
+                <td>
+                    @if (item.AmbulanceCover.HasValue && item.AmbulanceCover.Value)
+                    {
+                        <span>YES</span>
+                    }
+                    else
+                    {
+                        <span>NO</span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ChildId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ChildId }) |
+                    @Html.ActionLink("Membership", "Details", "Memberships", new { id = item.MembershipId }, null) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ChildId })
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+@Html.AntiForgeryToken()
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#childTable').DataTable({
+            stateSave: true,
+            columnDefs: [
+                {
+                    orderable: false,
+                    targets: 4
+                },
+                {
+                     orderable: false,
+                     targets: 5
+                }
+            ],
+            select: {
+                style:    'os',
+                selector: 'td:first-child'
+            },
+            order: [[ 3, 'asc' ]]
+        });
+    });
+
+    function addAntiForgeryToken(data) {
+        data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+        return data;
+    };
+
+   
+
+    function allSelect() {
+        console.log('all');
+        if ($("#allMemberSelect").hasClass('allChecked')) {
+            $('input[type="checkbox"]').prop('checked', false);
+        } else {
+            $('input[type="checkbox"]').prop('checked', true);
+
+        }
+        $("#allMemberSelect").toggleClass('allChecked');
+
+    }
+
+    function showSuccess(message) {
+        $("#userMessage").html(message);
+    }
+
+    function showError(message) {
+        $("#errorMessage").html(message);
+    }
+</script>
