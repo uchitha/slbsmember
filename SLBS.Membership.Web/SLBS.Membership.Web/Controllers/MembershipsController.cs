@@ -69,15 +69,15 @@ namespace SLBS.Membership.Web.Controllers
 
         private string GenerateMembershipNumber(string membershipKey)
         {
-            var members = db.Memberships.Where(m => m.MembershipNumber.StartsWith(membershipKey)).ToList();
+            var memberNumbers = db.Memberships.Where(m => m.MembershipNumber.StartsWith(membershipKey)).Select(m => m.MembershipNumber).ToList();
+            
+            if (!memberNumbers.Any()) return string.Format("{0}0001", membershipKey);
 
-            if (!members.Any()) return string.Format("{0}0001", membershipKey);
+            var memberNumberOrdered = memberNumbers.Select(m => int.Parse(m.Remove(0, 1))).OrderByDescending(m => m).ToList();
 
-            var latestMember = members.OrderByDescending(m => m.MembershipNumber).First();
+            var latestMember = memberNumberOrdered.First();
 
-            var id =  int.Parse(latestMember.MembershipNumber.Substring(1));
-
-            return string.Format("{0}{1}", membershipKey, (id + 1).ToString("D4"));
+            return string.Format("{0}{1}", membershipKey, (latestMember + 1).ToString("D4"));
 
         }
 
