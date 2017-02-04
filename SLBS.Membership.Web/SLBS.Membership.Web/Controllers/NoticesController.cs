@@ -27,7 +27,7 @@ namespace SLBS.Membership.Web.Controllers
                 var model = new NoticeViewModel
                 {
                     Receipients = members,
-                    NoticeType = EnumNoticeTypes.PaymentStatusDhammaSchool //Default
+                    NoticeType = EnumNoticeTypes.PaymentStatus //Default
                 };
 
                 return View(model);
@@ -42,14 +42,14 @@ namespace SLBS.Membership.Web.Controllers
             var ids = (List<int>)Session["SelectedMemberIds"];
             var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
 
-            var sentCount = await sender.SendMail(members, EnumNoticeTypes.PaymentStatusDhammaSchool);
+            var sentCount = await sender.SendMail(members, EnumNoticeTypes.PaymentStatus);
 
             return Json(new {sentCount}, JsonRequestBehavior.AllowGet);
         }
 
         private SelectList BuildEnumList()
         {
-            var list = EnumHelper.GetSelectList(typeof (EnumNoticeTypes), EnumNoticeTypes.PaymentStatusDhammaSchool);
+            var list = EnumHelper.GetSelectList(typeof (EnumNoticeTypes), EnumNoticeTypes.PaymentStatus);
             return new SelectList(list,0);
         } 
     }

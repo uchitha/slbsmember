@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace SLBS.Membership.Web.Models
 {
@@ -9,10 +9,15 @@ namespace SLBS.Membership.Web.Models
     {
         public NoticeViewModel()
         {
-            NoticeType = EnumNoticeTypes.PaymentStatusDhammaSchool;
+            NoticeType = EnumNoticeTypes.PaymentStatus;
         }
 
         public IEnumerable<Domain.Membership> Receipients { get; set; }
         public EnumNoticeTypes NoticeType { get; set; }
+
+        public string NoticeTypeDisplay
+        {
+            get { return NoticeType.GetDescription(); }
+        }
     }
 }

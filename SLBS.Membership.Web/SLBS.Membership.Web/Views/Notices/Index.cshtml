@@ -33,7 +33,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        @Html.DropDownList("NoticeType", EnumHelper.GetSelectList(typeof (EnumNoticeTypes), EnumNoticeTypes.PaymentStatusDhammaSchool), "Please select")
+        @Html.DropDownList("NoticeType", EnumHelper.GetSelectList(typeof (EnumNoticeTypes), EnumNoticeTypes.PaymentStatus), "Please select")
     </div>
 
     <div class="col-md-4">
@@ -78,7 +78,7 @@
             dataType: "json"
         }).done(function(data) {
             $("#progressbar").hide();
-            showSuccess(data.sentCount + " emails sent successfully");
+            showSuccess(data.sentCount + " email(s) sent successfully");
         }).fail(function(error) {
             console.error("error occured " + error);
             showError("Email sending failed");

@@ -4,8 +4,10 @@ namespace SLBS.Membership.Web.Models
 {
     public enum EnumNoticeTypes
     {
-        [Description("Dhamma school payment status")]
-        PaymentStatusDhammaSchool = 1,
+        [Description("Payment Status")]
+        PaymentStatus = 1,
+        [Description("New Member Welcome")]
+        NewMember = 2,
       //  PaymentStatusSlsbsMembership = 2
     }
 }

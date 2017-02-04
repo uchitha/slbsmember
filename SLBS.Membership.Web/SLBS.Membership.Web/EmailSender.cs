@@ -43,7 +43,7 @@ namespace SLBS.Membership.Web
 
                 foreach (var email in validEmails)
                 {
-                    if (noticeType == EnumNoticeTypes.PaymentStatusDhammaSchool &&  member.PaidUpTo.HasValue)
+                    if (noticeType == EnumNoticeTypes.PaymentStatus &&  member.PaidUpTo.HasValue)
                     {
                         if (await SendPayStatusEmail(member, email))
                         {
