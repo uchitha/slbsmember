@@ -47,7 +47,7 @@ namespace SLBS.Membership.Web
             var roleManager = new RoleManager<AppRole>(new RoleStore<AppRole>(context));
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            var defaultRoles = new List<string> {"Admin", "Viewer", "BSEditor", "DSEditor", "Sender"};
+            var defaultRoles = new List<string> {"Admin", "Viewer", "BSEditor", "DSEditor","DSTeacher", "Sender"};
 
             defaultRoles.ForEach(r =>
             {
@@ -71,6 +71,18 @@ namespace SLBS.Membership.Web
             {
                 CreateUser(userManager, "user", "!User123", "user@slsbsmembership.net", new List<string> { "Viewer"});
             }
+
+            var teachers = new List<string> { "L1Teacher", "L2Teacher", "L3Teacher", "L4Teacher", "L5Teacher", "L6Teacher","L7Teacher" };
+
+            foreach (var teacher in teachers)
+            {
+                if (!userManager.Users.Any(u => u.UserName == teacher))
+                {
+                    CreateUser(userManager, teacher, teacher.ToLower(), teacher + "@slsbsmembership.net", new List<string> { "DSTeacher" });
+                }
+            }
+          
+            
 
         }
 

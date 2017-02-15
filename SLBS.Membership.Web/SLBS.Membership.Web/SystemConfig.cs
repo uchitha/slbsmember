@@ -4,6 +4,7 @@ namespace SLBS.Membership.Web
     public static class SystemConfig
     {
         public static string MembershipSheetName = "Memberships";
+        public static string ChildSheetName = "Children";
         public static int MemberNameColumnIndex = 10;
         public static int MemberNumberColumnIndex = 11;
         

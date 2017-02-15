@@ -15,12 +15,14 @@ namespace SLBS.Membership.Web.Controllers
         private SlsbsContext db = new SlsbsContext();
 
         // GET: Memberships
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> Index()
         {
             return View(await db.Memberships.ToListAsync());
         }
 
         // GET: Memberships/Details/5
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)

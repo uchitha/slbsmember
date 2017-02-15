@@ -24,6 +24,7 @@ namespace SLBS.Membership.Web.Controllers
         public async Task<ActionResult> Membership(int id)
         {
             var children = db.Children.Include(c => c.Membership).Where(i => i.MembershipId == id);
+            ViewBag.MembershipId = id;
             return View("Index",await children.ToListAsync());
         }
 
@@ -44,10 +45,14 @@ namespace SLBS.Membership.Web.Controllers
 
         // GET: Children/Create
         [SimpleAuthorize(Roles = "DSEditor")]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.MembershipId = new SelectList(db.Memberships, "MembershipId", "MembershipNumber");
-            return View();
+            ViewBag.MembershipList = new SelectList(db.Memberships, "MembershipId", "MembershipNumber");
+            var child = new Child()
+            {
+                MembershipId = id
+            };
+            return View(child);
         }
 
         // POST: Children/Create

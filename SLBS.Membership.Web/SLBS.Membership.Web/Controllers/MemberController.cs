@@ -23,6 +23,21 @@ namespace SLBS.Membership.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult Update()
+        {
+            if (Request.Files.Count > 0)
+            {
+                var file = Request.Files[0];
+                if (file != null && file.ContentLength > 0)
+                {
+                    SafeUpdateMembers(file);
+                }
+            }
+
+            return View("Mode");
+        }
+
+        [HttpPost]
         public ActionResult Load()
         {
             var list = new List<Member>();
@@ -266,6 +281,77 @@ namespace SLBS.Membership.Web.Controllers
                 }
             
             } 
+        }
+
+        private void SafeUpdateMembers(HttpPostedFileBase file)
+        {
+            using (var package = new ExcelPackage(file.InputStream))
+            {
+                ExcelWorksheet mWorksheet = package.Workbook.Worksheets[SystemConfig.MembershipSheetName];
+                for (int row = 2; mWorksheet.Cells[row, 1].Value != null; row++)
+                {
+                    var memberNo = mWorksheet.Cells[row, 1].Value.ToString();
+                    if (string.IsNullOrEmpty(memberNo))
+                    {
+                        continue;
+                    }
+                    var existingMember = db.Memberships.SingleOrDefault(i => i.MembershipNumber == memberNo);
+                    if (existingMember == null)
+                    {
+                        continue;
+                    }
+
+                    var existingFather = existingMember.Adults.FirstOrDefault(m => m.Role == MembershipRole.Father);
+                    if (existingFather == null) continue;
+
+                    if (string.IsNullOrEmpty(existingFather.FullName))
+                    {
+                        existingFather.FullName = mWorksheet.Cells[row, 3].Value == null ? null : mWorksheet.Cells[row, 3].Value.ToString();
+                    }
+                    if (string.IsNullOrEmpty(existingFather.Address))
+                    {
+                        existingFather.Address = mWorksheet.Cells[row, 4].Value == null ? null : mWorksheet.Cells[row, 4].Value.ToString();
+                    }
+                    if (string.IsNullOrEmpty(existingFather.MobilePhone))
+                    {
+                        existingFather.MobilePhone = mWorksheet.Cells[row, 5].Value == null ? null : mWorksheet.Cells[row, 5].Value.ToString();
+                    }
+                    if (string.IsNullOrEmpty(existingFather.LandPhone))
+                    {
+                        existingFather.LandPhone = mWorksheet.Cells[row, 6].Value == null ? null : mWorksheet.Cells[row, 6].Value.ToString();
+                    }
+                    if (string.IsNullOrEmpty(existingFather.Email))
+                    {
+                        existingFather.Email = mWorksheet.Cells[row, 7].Value == null ? null : mWorksheet.Cells[row, 7].Value.ToString();
+                    }
+
+                    var existingMother = existingMember.Adults.FirstOrDefault(m => m.Role == MembershipRole.Mother);
+                    if (existingMother == null) continue;
+
+                    if (string.IsNullOrEmpty(existingMother.FullName))
+                    {
+                        existingMother.FullName = mWorksheet.Cells[row, 8].Value == null ? null : mWorksheet.Cells[row, 8].Value.ToString();
+                    }
+                    if (string.IsNullOrEmpty(existingFather.Address))
+                    {
+                        existingMother.Address = mWorksheet.Cells[row, 9].Value == null ? null : mWorksheet.Cells[row, 9].Value.ToString();
+                    }
+                    if (string.IsNullOrEmpty(existingFather.MobilePhone))
+                    {
+                        existingMother.MobilePhone = mWorksheet.Cells[row, 10].Value== null ? null : mWorksheet.Cells[row, 10].Value.ToString();
+                    }
+                    if (string.IsNullOrEmpty(existingFather.LandPhone))
+                    {
+                        existingMother.LandPhone = mWorksheet.Cells[row, 11].Value == null ? null : mWorksheet.Cells[row, 11].Value.ToString();
+                    }
+                    if (string.IsNullOrEmpty(existingFather.Email))
+                    {
+                        existingMother.Email = mWorksheet.Cells[row, 12].Value == null ? null : mWorksheet.Cells[row, 12].Value.ToString();
+                    }
+
+                    db.SaveChanges();
+                }
+            }
         }
     }
 }
