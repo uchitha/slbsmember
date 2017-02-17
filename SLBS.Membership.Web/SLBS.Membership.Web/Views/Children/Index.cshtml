@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.AmbulanceCover)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Membership.PaidUpTo)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -62,6 +65,9 @@
                     {
                         <span>NO</span>
                     }
+                </td>
+                <td>
+                   @(item.Membership.PaidUpTo.HasValue ? item.Membership.PaidUpTo.Value.ToString("yyyy-MM") : "-")
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.ChildId }) |

@@ -29,9 +29,7 @@ namespace SLBS.Membership.Web
             app.CreatePerOwinContext<RoleManager<AppRole>>((options, context) =>
               new RoleManager<AppRole>(
                   new RoleStore<AppRole>(context.Get<SlsbsContext>())));
-
-
-
+            
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
@@ -67,10 +65,16 @@ namespace SLBS.Membership.Web
                 CreateUser(userManager, "chandana", "!Chandana123", "treasurer@slsbsmembership.net",new List<string> {"BSEditor", "DSEditor", "Sender"});
             }
 
-            if (!userManager.Users.Any(u => u.UserName == "user"))
+            if (!userManager.Users.Any(u => u.UserName == "BsEditor"))
             {
-                CreateUser(userManager, "user", "!User123", "user@slsbsmembership.net", new List<string> { "Viewer"});
+                CreateUser(userManager, "BsEditor", "!BsEditor123", "bseditor@slsbsmembership.net", new List<string> { "Viewer" });
             }
+
+            if (!userManager.Users.Any(u => u.UserName == "DsEditor"))
+            {
+                CreateUser(userManager, "DsEditor", "!DsEditor123", "dseditor@slsbsmembership.net", new List<string> { "DSEditor" });
+            }
+
 
             var teachers = new List<string> { "L1Teacher", "L2Teacher", "L3Teacher", "L4Teacher", "L5Teacher", "L6Teacher","L7Teacher" };
 
