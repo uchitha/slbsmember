@@ -45,13 +45,14 @@ namespace SLBS.Membership.Web.Controllers
 
         // GET: Children/Create
         [SimpleAuthorize(Roles = "DSEditor")]
-        public ActionResult Create(int id)
+        public ActionResult Create(int? id)
         {
             ViewBag.MembershipList = new SelectList(db.Memberships, "MembershipId", "MembershipNumber");
-            var child = new Child()
+            var child = new Child();
+            if (id.HasValue)
             {
-                MembershipId = id
-            };
+                child.MembershipId = id.Value;
+            }
             return View(child);
         }
 
