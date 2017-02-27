@@ -88,6 +88,8 @@
   <ItemGroup>
     <Compile Include="Adult.cs" />
     <Compile Include="Child.cs" />
+    <Compile Include="ChildComment.cs" />
+    <Compile Include="IAuditable.cs" />
     <Compile Include="Identity\AppRole.cs" />
     <Compile Include="Identity\ApplicationUser.cs" />
     <Compile Include="Member.cs" />
@@ -101,6 +103,10 @@
     <Compile Include="Migrations\201701080645185_Landphone.cs" />
     <Compile Include="Migrations\201701080645185_Landphone.Designer.cs">
       <DependentUpon>201701080645185_Landphone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702271424284_ChildComments.cs" />
+    <Compile Include="Migrations\201702271424284_ChildComments.Designer.cs">
+      <DependentUpon>201702271424284_ChildComments.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mother.cs" />
@@ -126,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701080645185_Landphone.resx">
       <DependentUpon>201701080645185_Landphone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702271424284_ChildComments.resx">
+      <DependentUpon>201702271424284_ChildComments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -29,6 +30,9 @@ namespace SLBS.Membership.Domain
         public bool? MediaConsent { get; set; }
         [DisplayName("Ambulance Cover")]
         public bool? AmbulanceCover { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public List<string> Comments { get; set; }
 
         public bool IsActive { get; set; }
        

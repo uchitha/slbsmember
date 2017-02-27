@@ -23,6 +23,7 @@ namespace SLBS.Membership.Domain
         //public DbSet<Membership> MembershipComments { get; set; }
         public DbSet<Adult> Adults { get; set; }
         public DbSet<Child> Children { get; set; }
+        public DbSet<ChildComment> ChlidComments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
