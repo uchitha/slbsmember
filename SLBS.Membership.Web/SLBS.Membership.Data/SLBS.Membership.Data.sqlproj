@@ -61,11 +61,6 @@
     <Folder Include="Migrations" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="ProcessCycle.sql" />
-    <Build Include="Member.sql" />
-    <Build Include="Payment.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <RefactorLog Include="SLBS.Membership.Data.refactorlog" />
   </ItemGroup>
   <ItemGroup>
