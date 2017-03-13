@@ -23,6 +23,18 @@ namespace SLBS.Membership.Web.Data
             }
         }
 
+        public static async Task<List<MembershipDetailsViewModel>> GetMembershipDatails()
+        {
+            using (var context = new SlsbsContext())
+            {
+                var sqlString = GetMembershipDetailsSql();
+                var mDetails = await context.Database.SqlQuery<MembershipDetailsViewModel>(sqlString).ToListAsync();
+
+                return mDetails;
+
+            }
+        }
+
         public static async Task<List<DsChildDetailsViewModel>> GetChildrenDetails()
         {
             using (var context = new SlsbsContext())
@@ -63,6 +75,28 @@ namespace SLBS.Membership.Web.Data
                 on Mother.MembershipId = Membership.MembershipId) as MemberDetails
                 on MemberDetails.MembershipId = c.MembershipId 
                 order by ClassLevel, MembershipNumber";
+        }
+
+        private static string GetMembershipDetailsSql()
+        {
+            return @"select m.MembershipNumber, m.ContactName,LEFT(CONVERT(VARCHAR, m.PaidUpTo, 120), 10) PaidUpTo,
+                            Father.FullName as FathersName, Father.MobilePhone as FathersMobile, Father.Landphone as FathersLandphone, Father.Email as FathersEmail,
+                            Mother.FullName as MothersName, Mother.MobilePhone as MothersMobile, Mother.Landphone as MothersLandphone, Mother.Email as MothersEmail
+                            from Membership m
+                            left outer join 
+                            (select m.MembershipId, m.MembershipNumber, a.FullName, a.MobilePhone, a.Email, a.LandPhone
+                            from Membership m left outer join Adult a on a.MembershipId = m.MembershipId
+                            where a.[Role] = 1) as Father
+                            on Father.MembershipId = m.MembershipId
+                            left outer join 
+                            (select m.MembershipId, m.MembershipNumber, a.FullName,a.MobilePhone, a.Email,a.LandPhone
+                            from Membership m left outer join Adult a on a.MembershipId = m.MembershipId
+                            where a.[Role] = 2) as Mother
+                            on Mother.MembershipId = m.MembershipId
+
+                            where m.MembershipNumber not like 'X%'
+                            order by m.MembershipNumber
+                            ";
         }
     }
 }

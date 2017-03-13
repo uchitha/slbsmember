@@ -218,6 +218,7 @@
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\MotherViewModel.cs" />
     <Compile Include="Models\NoticeViewModel.cs" />
+    <Compile Include="Models\MembershipDetailsViewModel.cs" />
     <Compile Include="Models\PayStatusViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

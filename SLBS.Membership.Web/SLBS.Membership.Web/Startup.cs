@@ -67,7 +67,7 @@ namespace SLBS.Membership.Web
 
             if (!userManager.Users.Any(u => u.UserName == "BsEditor"))
             {
-                CreateUser(userManager, "BsEditor", "!BsEditor123", "bseditor@slsbsmembership.net", new List<string> { "Viewer" });
+                CreateUser(userManager, "BsEditor", "!BsEditor123", "bseditor@slsbsmembership.net", new List<string> { "BSEditor" });
             }
 
             if (!userManager.Users.Any(u => u.UserName == "DsEditor"))
