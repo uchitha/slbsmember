@@ -15,5 +15,7 @@
         public string MothersMobile { get; set; }
         public string MothersLandphone { get; set; }
         public string MothersEmail { get; set; }
+
+        public bool HasDsKids { get; set; }
     }
 }

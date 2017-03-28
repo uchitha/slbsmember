@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using OfficeOpenXml;
 using SLBS.Membership.Domain;
 using SLBS.Membership.Web.Data;
+using SLBS.Membership.Web.Models;
 
 namespace SLBS.Membership.Web.Controllers
 {
@@ -71,45 +72,14 @@ namespace SLBS.Membership.Web.Controllers
 
             using (var package = new ExcelPackage())
             {
-                ExcelWorksheet ws = package.Workbook.Worksheets.Add("Membership Details");
+                ExcelWorksheet wsBs = package.Workbook.Worksheets.Add("Members without DS Kids");
+                ExcelWorksheet wsDs = package.Workbook.Worksheets.Add("Members with DS Kids");
 
                 var list = await ReportRepository.GetMembershipDatails();
-                int row = 1;
-                ws.Row(row).Style.Font.Bold = true;
-                ws.Cells[row, 1].Value = "Membership Number";
-                ws.Cells[row, 2].Value = "Membership Details";
-                ws.Cells[row, 3].Value = "Paid Upto";
-
-                ws.Cells[row, 4].Value = "Fathers Name";
-                ws.Cells[row, 5].Value = "Fathers Mobile";
-                ws.Cells[row, 6].Value = "Fathers Landphone";
-                ws.Cells[row, 7].Value = "Fathers Email";
-
-                ws.Cells[row, 8].Value = "Mothers Name";
-                ws.Cells[row, 9].Value = "Mothers Mobile";
-                ws.Cells[row, 10].Value = "Mothers Landphone";
-                ws.Cells[row, 11].Value = "Mothers Email";
-
-                row++;
-
-                foreach (var o in list)
-                {
-                    ws.Cells[row, 1].Value = o.MembershipNumber;
-                    ws.Cells[row, 2].Value = o.ContactName;
-                    ws.Cells[row, 3].Value = o.PaidUpto;
-
-                    ws.Cells[row, 4].Value = o.FathersName;
-                    ws.Cells[row, 5].Value = o.FathersMobile;
-                    ws.Cells[row, 6].Value = o.FathersLandphone;
-                    ws.Cells[row, 7].Value = o.FathersEmail;
-
-                    ws.Cells[row, 8].Value = o.MothersName;
-                    ws.Cells[row, 9].Value = o.MothersMobile;
-                    ws.Cells[row, 10].Value = o.MothersLandphone;
-                    ws.Cells[row, 11].Value = o.MothersEmail;
-
-                    row++;
-                }
+                var bsMembers = list.Where(m => !m.HasDsKids);
+                var dsMembers = list.Where(m => m.HasDsKids);
+                AddMemberDetails(bsMembers,wsBs);
+                AddMemberDetails(dsMembers, wsDs);
 
                 var fileStream = new MemoryStream();
                 package.SaveAs(fileStream);
@@ -184,5 +154,47 @@ namespace SLBS.Membership.Web.Controllers
                 return fsr;
             }
         }
+
+          private void AddMemberDetails(IEnumerable<MembershipDetailsViewModel> list, ExcelWorksheet ws)
+          {
+
+              int row = 1;
+              ws.Row(row).Style.Font.Bold = true;
+              ws.Cells[row, 1].Value = "Membership Number";
+              ws.Cells[row, 2].Value = "Membership Details";
+              ws.Cells[row, 3].Value = "Paid Upto";
+
+              ws.Cells[row, 4].Value = "Fathers Name";
+              ws.Cells[row, 5].Value = "Fathers Mobile";
+              ws.Cells[row, 6].Value = "Fathers Landphone";
+              ws.Cells[row, 7].Value = "Fathers Email";
+
+              ws.Cells[row, 8].Value = "Mothers Name";
+              ws.Cells[row, 9].Value = "Mothers Mobile";
+              ws.Cells[row, 10].Value = "Mothers Landphone";
+              ws.Cells[row, 11].Value = "Mothers Email";
+
+              row++;
+
+              foreach (var o in list)
+              {
+                  ws.Cells[row, 1].Value = o.MembershipNumber;
+                  ws.Cells[row, 2].Value = o.ContactName;
+                  ws.Cells[row, 3].Value = o.PaidUpto;
+
+                  ws.Cells[row, 4].Value = o.FathersName;
+                  ws.Cells[row, 5].Value = o.FathersMobile;
+                  ws.Cells[row, 6].Value = o.FathersLandphone;
+                  ws.Cells[row, 7].Value = o.FathersEmail;
+
+                  ws.Cells[row, 8].Value = o.MothersName;
+                  ws.Cells[row, 9].Value = o.MothersMobile;
+                  ws.Cells[row, 10].Value = o.MothersLandphone;
+                  ws.Cells[row, 11].Value = o.MothersEmail;
+
+                  row++;
+              }
+
+          }
     }
 }
