@@ -69,17 +69,13 @@ namespace SLBS.Membership.Web.Controllers
             var fileDownloadName = "MembershipDetails.xlsx";
             var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-
             using (var package = new ExcelPackage())
             {
-                ExcelWorksheet wsBs = package.Workbook.Worksheets.Add("Members without DS Kids");
-                ExcelWorksheet wsDs = package.Workbook.Worksheets.Add("Members with DS Kids");
+                ExcelWorksheet wsBs = package.Workbook.Worksheets.Add("Membership Details");
 
                 var list = await ReportRepository.GetMembershipDatails();
-                var bsMembers = list.Where(m => !m.HasDsKids);
-                var dsMembers = list.Where(m => m.HasDsKids);
-                AddMemberDetails(bsMembers,wsBs);
-                AddMemberDetails(dsMembers, wsDs);
+
+                AddMemberDetails(list, wsBs);
 
                 var fileStream = new MemoryStream();
                 package.SaveAs(fileStream);
@@ -92,6 +88,32 @@ namespace SLBS.Membership.Web.Controllers
             }
         }
 
+        public async Task<ActionResult> BsDsDetailsReport()
+        {
+            var fileDownloadName = "MembershipDetails.xlsx";
+            var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            using (var package = new ExcelPackage())
+            {
+                ExcelWorksheet wsBs = package.Workbook.Worksheets.Add("Members without DS Kids");
+                ExcelWorksheet wsDs = package.Workbook.Worksheets.Add("Members with DS Kids");
+
+                var list = await ReportRepository.GetMembershipDatails();
+                var bsMembers = list.Where(m => !m.HasDsKids);
+                var dsMembers = list.Where(m => m.HasDsKids);
+                AddMemberDetails(bsMembers, wsBs);
+                AddMemberDetails(dsMembers, wsDs);
+
+                var fileStream = new MemoryStream();
+                package.SaveAs(fileStream);
+                fileStream.Position = 0;
+
+                var fsr = new FileStreamResult(fileStream, contentType);
+                fsr.FileDownloadName = fileDownloadName;
+
+                return fsr;
+            }
+        }
 
         public async Task<ActionResult> ChildDetailsReport()
         {
