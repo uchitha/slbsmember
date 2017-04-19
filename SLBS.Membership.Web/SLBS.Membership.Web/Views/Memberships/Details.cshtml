@@ -33,7 +33,18 @@
         <dd>
             @if (Model.PaidUpTo.HasValue)
             {
-                @(Model.PaidUpTo.Value.ToString("yyyy-MMM"));
+                @(Model.PaidUpTo.Value.ToString("MMM-yyyy"));
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationDate)
+        </dt>
+
+        <dd>
+            @if (Model.ApplicationDate.HasValue)
+            {
+                @(Model.ApplicationDate.Value.ToString("dd-MMM-yyyy"));
             }
         </dd>
 

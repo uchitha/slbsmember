@@ -67,7 +67,7 @@
                     }
                 </td>
                 <td>
-                   @(item.Membership.PaidUpTo.HasValue ? item.Membership.PaidUpTo.Value.ToString("yyyy-MM") : "-")
+                   @(item.Membership.PaidUpTo.HasValue ? item.Membership.PaidUpTo.Value.ToString("MMM/yy") : "-")
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.ChildId }) |

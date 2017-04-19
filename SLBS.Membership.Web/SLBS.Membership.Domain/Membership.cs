@@ -32,6 +32,11 @@ namespace SLBS.Membership.Domain
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? PaidUpTo { get; set; }
 
+        [DisplayName("Application Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? ApplicationDate { get; set; }
+
         //public string CurrentComment
         //{
         //    get { return MembershipComments.Any() ? MembershipComments.Last().Comment : string.Empty; }

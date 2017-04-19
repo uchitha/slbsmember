@@ -48,7 +48,7 @@
                     @Html.DisplayFor(modelItem => item.ContactName)
                 </td>
                 <td>
-                    @(item.PaidUpTo.HasValue ? item.PaidUpTo.Value.ToString("yyyy-MM") : "-")
+                    @(item.PaidUpTo.HasValue ? item.PaidUpTo.Value.ToString("MMM/yy") : "-")
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.MembershipId }) |
