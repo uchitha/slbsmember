@@ -203,12 +203,12 @@ namespace SLBS.Membership.Web
             }
             else
             {
-                var to = ConfigurationManager.AppSettings["TestEmailReceipients"].Split(',');
-                myMessage.AddTo(to);
+                myMessage.AddTo(email);
 
                 //Add real to address as test message
-                var warnMessage = string.Format("### This is a test mail intended to be sent to {0} ###", email);
-                myMessage.AddSubstitution("-FOOTER-", new List<string> { warnMessage });
+                //var warnMessage = string.Format("### This is a test mail intended to be sent to {0} ###", email);
+                var warnMessage = "Thank  you for opting in to be in the SLSBS email sending test phase.";
+                myMessage.AddSubstitution("-FOOTER-", new List<string> { string.Empty });
             }
             return myMessage;
         }

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using SLBS.Membership.Domain;
 using SLBS.Membership.Web.Models;
+using System.Configuration;
 
 namespace SLBS.Membership.Web.Controllers
 {
@@ -23,10 +24,17 @@ namespace SLBS.Membership.Web.Controllers
                 var ids = (List<int>)Session["SelectedMemberIds"];
 
                 var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
+                //Do filtering for pilot
+                var pilotMembers = ConfigurationManager.AppSettings["PilotEmailsMemberList"].Split(',');
+                var pilotMemberIdList = await db.Memberships.Where(m => pilotMembers.Contains(m.MembershipNumber)).Select(m => m.MembershipId).ToListAsync();
+
+                var list = members.Where(m => pilotMemberIdList.Contains(m.MembershipId)).ToList();
+
+                Session["SelectedMemberIds"] = list.Select(m => m.MembershipId).ToList();
 
                 var model = new NoticeViewModel
                 {
-                    Receipients = members,
+                    Receipients = list,
                     NoticeType = EnumNoticeTypes.PaymentStatus //Default
                 };
 
@@ -40,6 +48,7 @@ namespace SLBS.Membership.Web.Controllers
             //Send emails
             var sender = new EmailSender(EnumMode.Membership);
             var ids = (List<int>)Session["SelectedMemberIds"];
+
             var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
 
             var sentCount = await sender.SendMail(members, EnumNoticeTypes.PaymentStatus);
