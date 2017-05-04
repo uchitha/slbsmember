@@ -29,6 +29,7 @@
         <dt>
             @Html.DisplayNameFor(model => model.PaidUpTo)
         </dt>
+       
 
         <dd>
             @if (Model.PaidUpTo.HasValue)
@@ -46,6 +47,19 @@
             {
                 @(Model.ApplicationDate.Value.ToString("dd-MMM-yyyy"));
             }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BlockEmails)
+        </dt>
+
+        <dd>
+
+            @if (!Model.BlockEmails.HasValue)
+            {
+                Model.BlockEmails = false;
+            }
+            @Html.CheckBoxFor(model => model.BlockEmails.Value, new { @disabled = "disabled"})
         </dd>
 
     </dl>

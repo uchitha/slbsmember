@@ -112,6 +112,10 @@
     <Compile Include="Migrations\201704191316244_ApplicationDate.Designer.cs">
       <DependentUpon>201704191316244_ApplicationDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705041556137_AddBlockEmails.cs" />
+    <Compile Include="Migrations\201705041556137_AddBlockEmails.Designer.cs">
+      <DependentUpon>201705041556137_AddBlockEmails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mother.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704191316244_ApplicationDate.resx">
       <DependentUpon>201704191316244_ApplicationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705041556137_AddBlockEmails.resx">
+      <DependentUpon>201705041556137_AddBlockEmails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

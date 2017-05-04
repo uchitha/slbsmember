@@ -50,7 +50,7 @@ namespace SLBS.Membership.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SimpleAuthorize(Roles = "BSEditor")]
-        public async Task<ActionResult> Create([Bind(Include = "MembershipNumber,ContactName,PaidUpTo,ApplicationDate")] Domain.Membership membership)
+        public async Task<ActionResult> Create([Bind(Include = "MembershipNumber,ContactName,PaidUpTo,ApplicationDate,BlockEmails")] Domain.Membership membership)
         {
             var memberKey = membership.MembershipNumber;
             if (!Char.IsLetter(memberKey, 0))
@@ -106,7 +106,7 @@ namespace SLBS.Membership.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SimpleAuthorize(Roles = "BSEditor")]
-        public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo,ApplicationDate")] Domain.Membership membership, string comment)
+        public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo,ApplicationDate,BlockEmails")] Domain.Membership membership, string comment)
         {
             if (ModelState.IsValid)
             {

@@ -15,6 +15,7 @@ namespace SLBS.Membership.Domain
             Adults = new List<Adult>();
             MembershipComments = new List<MembershipComment>();
             IsActive = true;
+            BlockEmails = false;
         }
 
         [HiddenInput(DisplayValue = false)]
@@ -37,12 +38,15 @@ namespace SLBS.Membership.Domain
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ApplicationDate { get; set; }
 
+        [DisplayName("Block Emails")]
+        public bool? BlockEmails { get; set; }
+
         //public string CurrentComment
         //{
         //    get { return MembershipComments.Any() ? MembershipComments.Last().Comment : string.Empty; }
         //    set 
         //    {
-                
+
         //    }
         //}
 
