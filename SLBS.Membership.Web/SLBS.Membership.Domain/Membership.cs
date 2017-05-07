@@ -38,7 +38,7 @@ namespace SLBS.Membership.Domain
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ApplicationDate { get; set; }
 
-        [DisplayName("Block Emails")]
+        [DisplayName("Emails Blocked")]
         public bool? BlockEmails { get; set; }
 
         //public string CurrentComment

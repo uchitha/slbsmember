@@ -37,6 +37,8 @@ namespace SLBS.Membership.Web
             int count = 0;
             foreach (var member in members)
             {
+                if (member.BlockEmails.HasValue && member.BlockEmails.Value) continue;
+
                 var validEmails = member.Adults.Where(a => !string.IsNullOrEmpty(a.Email) && IsValidEmail(a.Email)).Select(a => a.Email).ToList();
 
                 log.Debug("Found {0} emails for membership {1}",validEmails.Count(),member.MembershipNumber);

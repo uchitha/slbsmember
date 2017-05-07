@@ -11,7 +11,9 @@
         <th>
             @Html.DisplayNameFor(model => model.PaidUpTo)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.BlockEmails)
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -25,6 +27,9 @@
             </td>
             <td>
                 @(item.PaidUpTo.HasValue ? item.PaidUpTo.Value.ToString("yyyy-MMM") : "-")
+            </td>
+            <td>
+                @( (item.BlockEmails.HasValue && item.BlockEmails.Value) ? "Blocked" : "-")
             </td>
         </tr>
     }
