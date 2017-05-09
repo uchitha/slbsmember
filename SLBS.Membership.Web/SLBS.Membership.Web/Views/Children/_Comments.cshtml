@@ -1,0 +1,70 @@
+﻿@model IEnumerable<SLBS.Membership.Domain.ChildComment>
+
+
+<h4>Child Notes</h4>
+
+<table class="table-striped" id="childCommentTable" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="height: 30px">
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<p>
+    <button type="button" data-toggle="modal" data-target="#commentModal" class="btn btn-primary">Add note</button>
+</p>
+
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">New Note</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Note entered by:</label>
+                        <input type="text" class="form-control" id="createdBy">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">Note:</label>
+                        <textarea class="form-control" id="comment"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addComment()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+

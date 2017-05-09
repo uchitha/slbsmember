@@ -31,12 +31,12 @@ namespace SLBS.Membership.Domain
         [DisplayName("Ambulance Cover")]
         public bool? AmbulanceCover { get; set; }
 
-        [HiddenInput(DisplayValue = false)]
-        public List<string> Comments { get; set; }
+        //public List<string> Comments { get; set; }
 
         public bool IsActive { get; set; }
        
         public virtual Membership Membership { get; set; }
+        public virtual ICollection<ChildComment> Comments { get; set; }
     }
 
     public enum ClassLevelEnum

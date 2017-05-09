@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -21,7 +22,9 @@ namespace SLBS.Membership.Domain
         public string Comment { get; set; }
 
         public virtual Membership Membership { get; set; }
+        [DisplayName("Created On")]
         public DateTime CreatedOn { get; set; }
+        [DisplayName("Created By")]
         public string CreatedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public string ModifiedBy { get; set; }

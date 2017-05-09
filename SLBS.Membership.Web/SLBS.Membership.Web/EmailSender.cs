@@ -105,7 +105,7 @@ namespace SLBS.Membership.Web
         
             var myMessage = new SendGridMessage();
 
-            myMessage.From = new MailAddress("slbsmembershipstatus@srilankanvihara.org.au", "SLSBS Treasurer"); //This needs to be a valid SLSBS email
+            myMessage.From = new MailAddress("slsbsmembership@srilankanvihara.org.au", "SLSBS Treasurer"); //This needs to be a valid SLSBS email
             myMessage.Subject = string.Format("Dhamma School - Membership Status for {0}", member.MembershipNumber);
 
             myMessage.EnableTemplateEngine(MembershipPayStatusTemplateId);

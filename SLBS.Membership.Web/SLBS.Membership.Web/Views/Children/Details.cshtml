@@ -52,7 +52,42 @@
 
     </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ChildId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<hr/>
+
+@{
+    Html.RenderPartial("_Comments", Model.Comments);
+}
+
+<script>
+
+    function addComment() {
+
+        var postData = { ChildId: '@Model.ChildId', Comment: $("#comment").val(), CreatedBy: $("#createdBy").val()};
+
+        jQuery.noConflict();
+        $('#commentModal').modal('hide');
+
+        $.ajax({
+            url: "@Url.Action("AddComment","Children")",
+            type: 'POST',
+            data: JSON.stringify(postData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function () {
+                console.log('added');
+                location.reload();
+
+            },
+            error: function () { alert("Error adding note");}
+        });
+
+    }
+
+</script>
+

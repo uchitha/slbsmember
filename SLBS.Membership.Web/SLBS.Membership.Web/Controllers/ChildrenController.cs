@@ -8,6 +8,7 @@ using SLBS.Membership.Domain;
 namespace SLBS.Membership.Web.Controllers
 {
     [Authorize]
+    [Route("Children")]
     public class ChildrenController : Controller
     {
         private SlsbsContext db = new SlsbsContext();
@@ -35,7 +36,7 @@ namespace SLBS.Membership.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Child child = await db.Children.FindAsync(id);
+            Child child = await db.Children.Include(c => c.Comments).SingleOrDefaultAsync(c => c.ChildId == id);
             if (child == null)
             {
                 return HttpNotFound();
@@ -136,6 +137,18 @@ namespace SLBS.Membership.Web.Controllers
             db.Children.Remove(child);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost, ActionName("AddComment")]
+        public JsonResult AddComment(ChildComment childComment)
+        {
+            Child child = db.Children.Find(childComment.ChildId);
+            childComment.CreatedOn = System.DateTime.Now;
+            child.Comments.Add(childComment);
+
+            db.SaveChanges();
+
+            return Json(new { result = "OK" });
         }
 
         protected override void Dispose(bool disposing)
