@@ -5,6 +5,8 @@ namespace SLBS.Membership.Web
     {
         public static string MembershipSheetName = "Membership";
         public static string ChildSheetName = "Children";
+        public static string PayStatusSheetName = "PayStatus";
+
         public static int MemberNameColumnIndex = 10;
         public static int MemberNumberColumnIndex = 11;
         

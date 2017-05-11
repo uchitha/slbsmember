@@ -53,6 +53,10 @@ namespace SLBS.Membership.Web.Controllers
                     {
                         ProcessMembershipFile(file);
                     }
+                    if (file.FileName == "PayStatus.xlsx")
+                    {
+                        UpdatePayStatus(file);
+                    }
                     if (file.FileName == "Children.xlsx")
                     {
                         ProcessChildrenFile(file);
@@ -350,6 +354,39 @@ namespace SLBS.Membership.Web.Controllers
                     }
 
                     db.SaveChanges();
+                }
+            }
+        }
+
+        private void UpdatePayStatus(HttpPostedFileBase file)
+        {
+            using (var package = new ExcelPackage(file.InputStream))
+            {
+                ExcelWorksheet mWorksheet = package.Workbook.Worksheets[SystemConfig.PayStatusSheetName];
+                for (int row = 3; mWorksheet.Cells[row, 1].Value != null; row++)
+                {
+                    var memberNo = mWorksheet.Cells[row, 1].Value.ToString();
+                    if (string.IsNullOrEmpty(memberNo))
+                    {
+                        continue;
+                    }
+                    var existingMember = db.Memberships.SingleOrDefault(i => i.MembershipNumber == memberNo);
+                    if (existingMember == null)
+                    {
+                        continue;
+                    }
+
+                    var payStatus = mWorksheet.Cells[row, 3].Value == null ? null : mWorksheet.Cells[row, 3].Value.ToString();
+
+                    var paidUpTo = DateTime.MinValue;
+
+                    if ( DateTime.TryParse(payStatus, out paidUpTo) && paidUpTo != DateTime.MinValue ) 
+                    {
+                        existingMember.PaidUpTo = paidUpTo;
+                        db.SaveChanges();
+                    }
+
+                  
                 }
             }
         }
