@@ -119,8 +119,10 @@ namespace SLBS.Membership.Web
             myMessage.AddSubstitution("-PAYSTATUS-", new List<string> { payStatus });
             myMessage.AddSubstitution("-MEMBERNO-", new List<string> { member.MembershipNumber });
 
-            myMessage.Html = "<i>Theruwan Saranai, SLSBS</i>";
-            myMessage.Text = "Theruwan Saranai, SLSBS";
+            myMessage.Html = "Theruwan Saranai";
+            myMessage.Text = "Theruwan Saranai";
+
+            myMessage.AddSubstitution("-SENDER-", new List<string> { "Treasurer- SLSBS" });
 
             return await Send(myMessage);
         }
