@@ -54,7 +54,7 @@ namespace SLBS.Membership.Web
                     }
                 }
             }
-            log.Info("Sent {0} emails out of {1}",count,members.Count);
+            log.Info("Sent {0} emails",count);
             return count;
         }
 

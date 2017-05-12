@@ -165,7 +165,6 @@ namespace SLBS.Membership.Web.Controllers
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

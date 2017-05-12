@@ -10,12 +10,15 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Member = SLBS.Membership.Web.Models.Member;
+using NLog;
 
 namespace SLBS.Membership.Web.Controllers
 {
     public class MemberController : Controller
     {
         private SlsbsContext db = new SlsbsContext();
+
+        private Logger log = LogManager.GetCurrentClassLogger();
 
         public ActionResult Index()
         {
@@ -363,7 +366,7 @@ namespace SLBS.Membership.Web.Controllers
             using (var package = new ExcelPackage(file.InputStream))
             {
                 ExcelWorksheet mWorksheet = package.Workbook.Worksheets[SystemConfig.PayStatusSheetName];
-                for (int row = 3; mWorksheet.Cells[row, 1].Value != null; row++)
+                for (int row = 2; mWorksheet.Cells[row, 1].Value != null; row++)
                 {
                     var memberNo = mWorksheet.Cells[row, 1].Value.ToString();
                     if (string.IsNullOrEmpty(memberNo))
@@ -375,8 +378,10 @@ namespace SLBS.Membership.Web.Controllers
                     {
                         continue;
                     }
-
+                    
                     var payStatus = mWorksheet.Cells[row, 3].Value == null ? null : mWorksheet.Cells[row, 3].Value.ToString();
+
+                    log.Debug("Updating payment status for {0}", memberNo);
 
                     var paidUpTo = DateTime.MinValue;
 
@@ -384,8 +389,8 @@ namespace SLBS.Membership.Web.Controllers
                     {
                         existingMember.PaidUpTo = paidUpTo;
                         db.SaveChanges();
+                        log.Debug("Updated payment status for {0} to {1}", memberNo, paidUpTo.ToShortDateString());
                     }
-
                   
                 }
             }
