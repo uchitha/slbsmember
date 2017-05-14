@@ -10,6 +10,8 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using NLog;
 using SendGrid;
+using SLBS.Membership.Domain;
+using System.Data.Entity;
 
 namespace SLBS.Membership.Web
 {
@@ -19,12 +21,13 @@ namespace SLBS.Membership.Web
         private const string MembershipPayStatusTemplateId = "0eccb659-e657-439b-a8e5-eb5f8cafceca";
 
         private const string BuildingTemplateId = "fce5f540-5873-438f-bd4b-f52cced63abf";
-        private List<Member> _memeberList;
         private EnumMode _mode;
 
         private readonly bool IsProduction = false;
 
         private Logger log = LogManager.GetCurrentClassLogger();
+
+        private SlsbsContext db = new SlsbsContext();
 
         public EmailSender(EnumMode mode)
         {
@@ -35,6 +38,10 @@ namespace SLBS.Membership.Web
         public async Task<int> SendMail(List<Domain.Membership> members, EnumNoticeTypes noticeType)
         {
             int count = 0;
+            List<int> membershipIdsMailSentTo = new List<int>();
+
+            var mailSentDate = DateTime.Now;
+
             foreach (var member in members)
             {
                 if (member.BlockEmails.HasValue && member.BlockEmails.Value) continue;
@@ -50,11 +57,19 @@ namespace SLBS.Membership.Web
                         if (await SendPayStatusEmail(member, email))
                         {
                             count++;
+                            var memberDbInstance = db.Memberships.SingleOrDefault(m => m.MembershipNumber == member.MembershipNumber);
+                            if (memberDbInstance != null)
+                            {
+                                memberDbInstance.LastNotificationDate = mailSentDate;
+                                db.SaveChanges();
+                            }
+                           
                         }
                     }
                 }
             }
-            log.Info("Sent {0} emails",count);
+
+            log.Info("Sent {0} emails in total",count);
             return count;
         }
 

@@ -29,6 +29,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.PaidUpTo)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastNotificationDate)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -49,6 +52,9 @@
                 </td>
                 <td>
                     @(item.PaidUpTo.HasValue ? item.PaidUpTo.Value.ToString("MMM/yy") : "-")
+                </td>
+                <td>
+                    @(item.LastNotificationDate.HasValue ? item.LastNotificationDate.Value.ToString("yyyy-MM-dd HH:mm") : "-")
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.MembershipId }) |

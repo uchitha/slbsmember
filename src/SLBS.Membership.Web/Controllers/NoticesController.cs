@@ -24,17 +24,17 @@ namespace SLBS.Membership.Web.Controllers
                 var ids = (List<int>)Session["SelectedMemberIds"];
 
                 var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
-                //Do filtering for pilot
-                var pilotMembers = ConfigurationManager.AppSettings["PilotEmailsMemberList"].Split(',');
-                var pilotMemberIdList = await db.Memberships.Where(m => pilotMembers.Contains(m.MembershipNumber)).Select(m => m.MembershipId).ToListAsync();
+                ////Do filtering for pilot
+                //var pilotMembers = ConfigurationManager.AppSettings["PilotEmailsMemberList"].Split(',');
+                //var pilotMemberIdList = await db.Memberships.Where(m => pilotMembers.Contains(m.MembershipNumber)).Select(m => m.MembershipId).ToListAsync();
 
-                var list = members.Where(m => pilotMemberIdList.Contains(m.MembershipId)).ToList();
+                //var list = members.Where(m => ids.Contains(m.MembershipId)).ToList();
 
-                Session["SelectedMemberIds"] = list.Select(m => m.MembershipId).ToList();
+                Session["SelectedMemberIds"] = members.Select(m => m.MembershipId).ToList();
 
                 var model = new NoticeViewModel
                 {
-                    Receipients = list,
+                    Receipients = members,
                     NoticeType = EnumNoticeTypes.PaymentStatus //Default
                 };
 

@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLBS.Membership.Web", "SLBS.Membership.Web\SLBS.Membership.Web.csproj", "{252BAEEA-6FB8-49C9-B4C3-74090CBA74C1}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SLBS.Membership.Data", "SLBS.Membership.Data\SLBS.Membership.Data.sqlproj", "{70C32C8E-5D96-4940-AB14-1405B275ED46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLBS.Membership.Domain", "SLBS.Membership.Domain\SLBS.Membership.Domain.csproj", "{D4BD621E-CA50-4C40-BCE4-7B4A34C6BB44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE761C43-5DA0-4C2D-8604-69CC0C1751BE}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

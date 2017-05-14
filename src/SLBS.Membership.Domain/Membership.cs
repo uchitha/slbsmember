@@ -38,6 +38,10 @@ namespace SLBS.Membership.Domain
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ApplicationDate { get; set; }
 
+        [DisplayName("Last Notification Date")]
+        [DataType(DataType.DateTime)]
+        public DateTime? LastNotificationDate { get; set; }
+
         [DisplayName("Emails Blocked")]
         public bool? BlockEmails { get; set; }
 
