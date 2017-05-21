@@ -41,6 +41,7 @@ namespace SLBS.Membership.Web.Controllers
                 ws.Cells[row, 1].Value = "Membership Number";
                 ws.Cells[row, 2].Value = "Membership Details";
                 ws.Cells[row, 3].Value = "Paid Upto";
+                ws.Cells[row, 4].Value = "Last Notification Sent";
 
                 row++;
 
@@ -49,6 +50,7 @@ namespace SLBS.Membership.Web.Controllers
                     ws.Cells[row, 1].Value = o.MembershipNumber;
                     ws.Cells[row, 2].Value = o.ContactName;
                     ws.Cells[row, 3].Value = o.PaidUpto;
+                    ws.Cells[row, 4].Value = o.LastNotificationDate;
 
                     row++;
                 }
@@ -182,37 +184,43 @@ namespace SLBS.Membership.Web.Controllers
 
               int row = 1;
               ws.Row(row).Style.Font.Bold = true;
-              ws.Cells[row, 1].Value = "Membership Number";
-              ws.Cells[row, 2].Value = "Membership Details";
-              ws.Cells[row, 3].Value = "Paid Upto";
+              var col = 1;
 
-              ws.Cells[row, 4].Value = "Fathers Name";
-              ws.Cells[row, 5].Value = "Fathers Mobile";
-              ws.Cells[row, 6].Value = "Fathers Landphone";
-              ws.Cells[row, 7].Value = "Fathers Email";
+              ws.Cells[row, col++].Value = "Membership Number";
+              ws.Cells[row, col++].Value = "Membership Details";
+              ws.Cells[row, col++].Value = "Paid Upto";
+              ws.Cells[row, col++].Value = "Notification Sent";
 
-              ws.Cells[row, 8].Value = "Mothers Name";
-              ws.Cells[row, 9].Value = "Mothers Mobile";
-              ws.Cells[row, 10].Value = "Mothers Landphone";
-              ws.Cells[row, 11].Value = "Mothers Email";
+
+              ws.Cells[row, col++].Value = "Fathers Name";
+              ws.Cells[row, col++].Value = "Fathers Mobile";
+              ws.Cells[row, col++].Value = "Fathers Landphone";
+              ws.Cells[row, col++].Value = "Fathers Email";
+
+              ws.Cells[row, col++].Value = "Mothers Name";
+              ws.Cells[row, col++].Value = "Mothers Mobile";
+              ws.Cells[row, col++].Value = "Mothers Landphone";
+              ws.Cells[row, col++].Value = "Mothers Email";
 
               row++;
 
               foreach (var o in list)
               {
-                  ws.Cells[row, 1].Value = o.MembershipNumber;
-                  ws.Cells[row, 2].Value = o.ContactName;
-                  ws.Cells[row, 3].Value = o.PaidUpto;
+                  col = 1;
+                  ws.Cells[row, col++].Value = o.MembershipNumber;
+                  ws.Cells[row, col++].Value = o.ContactName;
+                  ws.Cells[row, col++].Value = o.PaidUpto;
+                  ws.Cells[row, col++].Value = o.LastNotificationDate.HasValue ? o.LastNotificationDate.Value.ToString("yyyy-MM-dd HH:mm") : string.Empty;
 
-                  ws.Cells[row, 4].Value = o.FathersName;
-                  ws.Cells[row, 5].Value = o.FathersMobile;
-                  ws.Cells[row, 6].Value = o.FathersLandphone;
-                  ws.Cells[row, 7].Value = o.FathersEmail;
+                  ws.Cells[row, col++].Value = o.FathersName;
+                  ws.Cells[row, col++].Value = o.FathersMobile;
+                  ws.Cells[row, col++].Value = o.FathersLandphone;
+                  ws.Cells[row, col++].Value = o.FathersEmail;
 
-                  ws.Cells[row, 8].Value = o.MothersName;
-                  ws.Cells[row, 9].Value = o.MothersMobile;
-                  ws.Cells[row, 10].Value = o.MothersLandphone;
-                  ws.Cells[row, 11].Value = o.MothersEmail;
+                  ws.Cells[row, col++].Value = o.MothersName;
+                  ws.Cells[row, col++].Value = o.MothersMobile;
+                  ws.Cells[row, col++].Value = o.MothersLandphone;
+                  ws.Cells[row, col++].Value = o.MothersEmail;
 
                   row++;
               }

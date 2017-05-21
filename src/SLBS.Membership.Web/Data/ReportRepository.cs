@@ -18,7 +18,10 @@ namespace SLBS.Membership.Web.Data
                 return
                     members.Select(
                         m =>
-                            new PayStatusViewModel(m.MembershipNumber, m.ContactName,m.PaidUpTo.HasValue ? m.PaidUpTo.Value.ToString("yyyy-MM") : string.Empty)).ToList();
+                            new PayStatusViewModel(m.MembershipNumber,
+                            m.ContactName,
+                            m.PaidUpTo.HasValue ? m.PaidUpTo.Value.ToString("yyyy-MM") : string.Empty,
+                            m.LastNotificationDate.HasValue ? m.LastNotificationDate.Value.ToString("yyyy-MM-dd HH:mm") : string.Empty)).ToList();
 
             }
         }
@@ -79,7 +82,7 @@ namespace SLBS.Membership.Web.Data
 
         private static string GetMembershipDetailsSql()
         {
-            return @"select m.MembershipNumber, m.ContactName,LEFT(CONVERT(VARCHAR, m.PaidUpTo, 120), 10) PaidUpTo,
+            return @"select m.MembershipNumber, m.ContactName,LEFT(CONVERT(VARCHAR, m.PaidUpTo, 120), 10) PaidUpTo,LastNotificationDate,
                             Father.FullName as FathersName, Father.MobilePhone as FathersMobile, Father.Landphone as FathersLandphone, Father.Email as FathersEmail,
                             Mother.FullName as MothersName, Mother.MobilePhone as MothersMobile, Mother.Landphone as MothersLandphone, Mother.Email as MothersEmail,
 							cast (CASE WHEN Child.ChildCount IS NULL THEN 0 ELSE 1 END as bit) as HasDsKids
