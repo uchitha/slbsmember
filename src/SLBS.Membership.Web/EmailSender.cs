@@ -205,11 +205,11 @@ namespace SLBS.Membership.Web
         {
             if (paidUpTo.HasValue)
             {
-                return paidUpTo.Value.ToString("Y");
+                return string.Format("paid up to {0}", paidUpTo.Value.ToString("Y"));
             }
             else
             {
-                return "-";
+                return "due";
             }
         }
 
