@@ -41,7 +41,16 @@
                     @Html.DisplayFor(modelItem => item.Membership.MembershipNumber)
                 </td>
                 <td>
+                    <span>
                     @Html.DisplayFor(modelItem => item.FullName)
+                    @{ 
+                        if (item.Comments.Any())
+                        {
+                            <i class="fa fa-sticky-note-o" aria-hidden="true" title="Click details to see notes"> <mark>N</mark></i>
+                        }
+                    }
+                     </span>
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ClassLevel)
