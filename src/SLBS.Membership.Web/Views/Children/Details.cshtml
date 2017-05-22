@@ -89,5 +89,24 @@
 
     }
 
+    function removeComment(commentId) {
+        console.log(commentId);
+        var postData = { commentId: commentId };
+
+          $.ajax({
+            url: "@Url.Action("DeleteComment","Children")",
+            type: 'POST',
+            data: JSON.stringify(postData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function () {
+                console.log('removed');
+                location.reload();
+
+            },
+            error: function () { alert("Error adding note");}
+        });
+    }
+
 </script>
 

@@ -31,6 +31,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedBy)
                 </td>
+                <td>
+                    <a href="#" onclick="removeComment(@item.ChildCommentId)">Remove</a>
+                </td>
             </tr>
         }
     </tbody>

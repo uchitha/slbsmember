@@ -151,6 +151,16 @@ namespace SLBS.Membership.Web.Controllers
             return Json(new { result = "OK" });
         }
 
+        [HttpPost, ActionName("DeleteComment")]
+        public JsonResult DeleteComment(int commentId)
+        {
+            var comment = db.ChlidComments.Find(commentId);
+            db.ChlidComments.Remove(comment);
+            db.SaveChanges();
+
+            return Json(new { result = "OK" });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
