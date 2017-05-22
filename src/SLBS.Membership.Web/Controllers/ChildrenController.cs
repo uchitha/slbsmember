@@ -16,7 +16,7 @@ namespace SLBS.Membership.Web.Controllers
         // GET: Children
         public async Task<ActionResult> Index()
         {
-            var children = db.Children.Include(c => c.Membership);
+            var children = db.Children.Include(c => c.Membership).Include(c => c.Comments);
             return View(await children.ToListAsync());
         }
         
