@@ -52,7 +52,7 @@ namespace SLBS.Membership.Web
 
                 foreach (var email in validEmails)
                 {
-                    if (noticeType == EnumNoticeTypes.PaymentStatus &&  member.PaidUpTo.HasValue)
+                    if (noticeType == EnumNoticeTypes.PaymentStatus)
                     {
                         if (await SendPayStatusEmail(member, email))
                         {
