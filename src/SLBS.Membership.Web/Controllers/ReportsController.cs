@@ -66,6 +66,7 @@ namespace SLBS.Membership.Web.Controllers
             }
         }
 
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> BsDetailsReport()
         {
             var fileDownloadName = "MembershipDetails.xlsx";
@@ -90,6 +91,7 @@ namespace SLBS.Membership.Web.Controllers
             }
         }
 
+        [SimpleAuthorize(Roles = "BSEditor")]
         public async Task<ActionResult> BsDsDetailsReport()
         {
             var fileDownloadName = "MembershipDetails.xlsx";
