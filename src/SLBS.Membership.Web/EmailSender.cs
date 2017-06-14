@@ -129,9 +129,15 @@ namespace SLBS.Membership.Web
           
             var payStatus = GetPaidUptoMonth(member.PaidUpTo);
 
+            var date = DateTime.Now;
+            var lastDateOfMonth = DateTime.DaysInMonth(date.Year, date.Month - 1);
+            var paymentStatusDate = new DateTime(date.Year, date.Month - 1, lastDateOfMonth);
+
+
             myMessage.AddSubstitution("-TREASURER-", new List<string> { SystemConfig.TreasurerName });
             myMessage.AddSubstitution("-NAME-", new List<string> { member.ContactName });
             myMessage.AddSubstitution("-PAYSTATUS-", new List<string> { payStatus });
+            myMessage.AddSubstitution("-PAYCALCDATE-", new List<string> { paymentStatusDate.ToString("dd MMM yyyy") });
             myMessage.AddSubstitution("-MEMBERNO-", new List<string> { member.MembershipNumber });
 
             myMessage.Html = "Theruwan Saranai";
@@ -205,11 +211,11 @@ namespace SLBS.Membership.Web
         {
             if (paidUpTo.HasValue)
             {
-                return string.Format("paid up to {0}", paidUpTo.Value.ToString("Y"));
+                return paidUpTo.Value.ToString("Y");
             }
             else
             {
-                return "due";
+                return "Payments are due";
             }
         }
 
