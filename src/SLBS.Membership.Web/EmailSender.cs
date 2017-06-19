@@ -125,7 +125,7 @@ namespace SLBS.Membership.Web
             var paymentStatusDate = new DateTime(date.Year, date.Month - 1, lastDateOfMonth);
 
             myMessage.From = new MailAddress("slsbsmembershipstatus@srilankanvihara.org.au", "SLSBS Treasurer"); //This needs to be a valid SLSBS email
-            myMessage.Subject = string.Format("Your SLSBS Membership {0} Status as at {1}", paymentStatusDate.ToString("dd MMM yyyy"), member.MembershipNumber);
+            myMessage.Subject = string.Format("Your SLSBS Membership {0} Status as at {1}", member.MembershipNumber, paymentStatusDate.ToString("dd MMM yyyy"));
 
             myMessage.EnableTemplateEngine(MembershipPayStatusTemplateId);
 
