@@ -120,8 +120,12 @@ namespace SLBS.Membership.Web
         
             var myMessage = new SendGridMessage();
 
+            var date = DateTime.Now;
+            var lastDateOfMonth = DateTime.DaysInMonth(date.Year, date.Month - 1);
+            var paymentStatusDate = new DateTime(date.Year, date.Month - 1, lastDateOfMonth);
+
             myMessage.From = new MailAddress("slsbsmembershipstatus@srilankanvihara.org.au", "SLSBS Treasurer"); //This needs to be a valid SLSBS email
-            myMessage.Subject = string.Format("SLSBS Membership Status - {0}", member.MembershipNumber);
+            myMessage.Subject = string.Format("Your SLSBS Membership {0} Status as at {1}", paymentStatusDate.ToString("dd MMM yyyy"), member.MembershipNumber);
 
             myMessage.EnableTemplateEngine(MembershipPayStatusTemplateId);
 
@@ -129,9 +133,7 @@ namespace SLBS.Membership.Web
           
             var payStatus = GetPaidUptoMonth(member.PaidUpTo);
 
-            var date = DateTime.Now;
-            var lastDateOfMonth = DateTime.DaysInMonth(date.Year, date.Month - 1);
-            var paymentStatusDate = new DateTime(date.Year, date.Month - 1, lastDateOfMonth);
+          
 
 
             myMessage.AddSubstitution("-TREASURER-", new List<string> { SystemConfig.TreasurerName });
