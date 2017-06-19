@@ -41,6 +41,7 @@ namespace SLBS.Membership.Web
             List<int> membershipIdsMailSentTo = new List<int>();
 
             var mailSentDate = DateTime.Now;
+            var queueManager = new QueueManager();
 
             foreach (var member in members)
             {
@@ -54,17 +55,19 @@ namespace SLBS.Membership.Web
                 {
                     if (noticeType == EnumNoticeTypes.PaymentStatus)
                     {
-                        if (await SendPayStatusEmail(member, email))
-                        {
-                            count++;
-                            var memberDbInstance = db.Memberships.SingleOrDefault(m => m.MembershipNumber == member.MembershipNumber);
-                            if (memberDbInstance != null)
-                            {
-                                memberDbInstance.LastNotificationDate = mailSentDate;
-                                db.SaveChanges();
-                            }
-                           
-                        }
+
+                        queueManager.InsertMail(member,email);
+                        //if (await SendPayStatusEmail(member, email))
+                        //{
+                        //    count++;
+                        //    var memberDbInstance = db.Memberships.SingleOrDefault(m => m.MembershipNumber == member.MembershipNumber);
+                        //    if (memberDbInstance != null)
+                        //    {
+                        //        memberDbInstance.LastNotificationDate = mailSentDate;
+                        //        db.SaveChanges();
+                        //    }
+
+                        //}
                     }
                 }
             }
@@ -133,9 +136,6 @@ namespace SLBS.Membership.Web
           
             var payStatus = GetPaidUptoMonth(member.PaidUpTo);
 
-          
-
-
             myMessage.AddSubstitution("-TREASURER-", new List<string> { SystemConfig.TreasurerName });
             myMessage.AddSubstitution("-NAME-", new List<string> { member.ContactName });
             myMessage.AddSubstitution("-PAYSTATUS-", new List<string> { payStatus });
@@ -168,8 +168,6 @@ namespace SLBS.Membership.Web
 
             await Send(myMessage);
         }
-
-
 
         private async Task<bool> Send(SendGrid.SendGridMessage message)
         {

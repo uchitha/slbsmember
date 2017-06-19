@@ -124,6 +124,7 @@
     <Compile Include="Mother.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlsbsContext.cs" />
+    <Compile Include="SlsbsEmailObject.cs" />
     <Compile Include="SlsbsInitializer.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentAddress.cs" />

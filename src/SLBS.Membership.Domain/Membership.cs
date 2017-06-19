@@ -24,7 +24,6 @@ namespace SLBS.Membership.Domain
         [DisplayName("Membership Number")]
         public string MembershipNumber { get; set; }
 
-
         [DisplayName("Contact Name")]
         public string ContactName { get; set; }
 
