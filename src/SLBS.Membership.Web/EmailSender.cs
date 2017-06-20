@@ -53,10 +53,11 @@ namespace SLBS.Membership.Web
 
                 foreach (var email in validEmails)
                 {
+                    queueManager.InsertMail(member.MembershipId, email,noticeType);
+                    count++;
+
                     if (noticeType == EnumNoticeTypes.PaymentStatus)
                     {
-
-                        queueManager.InsertMail(member,email);
                         //if (await SendPayStatusEmail(member, email))
                         //{
                         //    count++;
@@ -72,7 +73,7 @@ namespace SLBS.Membership.Web
                 }
             }
 
-            log.Info("Sent {0} emails in total",count);
+            log.Info("{0} emails queued to be sent in total",count);
             return count;
         }
 
