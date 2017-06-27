@@ -95,17 +95,17 @@ namespace SLBS.Membership.Web.Controllers
         {
             var memberSendList = new List<Member>();
             var membershipList = new List<Member>();
-            var sender = new EmailSender(EnumMode.None);
+            var sender = new QueueSender();
             int sendCount = 0;
             if (mode.Equals(EnumMode.Membership))
             {
                 membershipList = (List<Member>) Session["MembershipList"];
-                sender = new EmailSender(EnumMode.Membership);
+                sender = new QueueSender();
             }
             else if (mode.Equals(EnumMode.BuildingFund))
             {
                 membershipList = (List<Member>) Session["BuildingFundList"];
-                sender = new EmailSender(EnumMode.BuildingFund);
+                sender = new QueueSender();
             }
          
             if (membershipList.Count > 0)

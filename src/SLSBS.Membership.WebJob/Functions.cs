@@ -1,11 +1,7 @@
 ﻿using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage.Queue;
-using System;
-using System.Collections.Generic;
+using SLBS.Membership.WebJobEmail;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SLSBS.Membership.WebJob
 {
@@ -15,7 +11,17 @@ namespace SLSBS.Membership.WebJob
         {
             dynamic payload = Newtonsoft.Json.JsonConvert.DeserializeObject(message.AsString);
 
-            log.WriteLine("Message processed");
+            var memberId = (int)payload.MembershipId.Value;
+            var email = payload.Email.Value;
+            var noticeType = (EnumNoticeTypes)(int)payload.NoticeType.Value;
+
+            var sender = new EmailSender(EnumMode.Membership);
+            sender.SendMail(memberId, email);
+
+            log.WriteLine("Message processed : Member {0}, Email {1}",memberId, email);
         }
+
+
+
     }
 }

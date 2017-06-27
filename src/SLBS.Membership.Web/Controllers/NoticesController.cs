@@ -46,12 +46,12 @@ namespace SLBS.Membership.Web.Controllers
         public async Task<ActionResult> Send()
         {
             //Send emails
-            var sender = new EmailSender(EnumMode.Membership);
+            var sender = new QueueSender();
             var ids = (List<int>)Session["SelectedMemberIds"];
 
             var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
 
-            var sentCount = await sender.SendMail(members, EnumNoticeTypes.PaymentStatus);
+            var sentCount = await sender.QueueMail(members, EnumNoticeTypes.PaymentStatus);
 
             return Json(new {sentCount}, JsonRequestBehavior.AllowGet);
         }

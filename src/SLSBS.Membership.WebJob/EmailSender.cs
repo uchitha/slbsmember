@@ -1,7 +1,6 @@
 ﻿using System.Configuration;
 using System.Text;
 using Exceptions;
-using SLBS.Membership.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,8 +11,9 @@ using NLog;
 using SendGrid;
 using SLBS.Membership.Domain;
 using System.Data.Entity;
+using SLBS.Membership.Web;
 
-namespace SLBS.Membership.Web
+namespace SLBS.Membership.WebJobEmail
 {
     public class EmailSender
     {
@@ -32,49 +32,32 @@ namespace SLBS.Membership.Web
         public EmailSender(EnumMode mode)
         {
             _mode = mode;
-            IsProduction = ConfigurationManager.AppSettings["Environment"] == "Production";
+            IsProduction = true;
         }
 
-        public async Task<int> SendMail(List<Domain.Membership> members, EnumNoticeTypes noticeType)
+        public async Task<bool> SendMail(int membershipId, string email)
         {
             int count = 0;
-            List<int> membershipIdsMailSentTo = new List<int>();
+            var existingMember = db.Memberships.SingleOrDefault(m => m.MembershipId == membershipId);
+
+            if (existingMember == null) return false;
 
             var mailSentDate = DateTime.Now;
-            var queueManager = new QueueManager();
 
-            foreach (var member in members)
+            if (await SendPayStatusEmail(existingMember, email))
             {
-                if (member.BlockEmails.HasValue && member.BlockEmails.Value) continue;
-
-                var validEmails = member.Adults.Where(a => !string.IsNullOrEmpty(a.Email) && IsValidEmail(a.Email)).Select(a => a.Email).ToList();
-
-                log.Debug("Found {0} emails for membership {1}",validEmails.Count(),member.MembershipNumber);
-
-                foreach (var email in validEmails)
+                count++;
+                var memberDbInstance = db.Memberships.SingleOrDefault(m => m.MembershipNumber == existingMember.MembershipNumber);
+                if (memberDbInstance != null)
                 {
-                    queueManager.InsertMail(member.MembershipId, email,noticeType);
-                    count++;
-
-                    if (noticeType == EnumNoticeTypes.PaymentStatus)
-                    {
-                        //if (await SendPayStatusEmail(member, email))
-                        //{
-                        //    count++;
-                        //    var memberDbInstance = db.Memberships.SingleOrDefault(m => m.MembershipNumber == member.MembershipNumber);
-                        //    if (memberDbInstance != null)
-                        //    {
-                        //        memberDbInstance.LastNotificationDate = mailSentDate;
-                        //        db.SaveChanges();
-                        //    }
-
-                        //}
-                    }
+                    memberDbInstance.LastNotificationDate = mailSentDate;
+                    db.SaveChanges();
                 }
+
             }
 
-            log.Info("{0} emails queued to be sent in total",count);
-            return count;
+            log.Info("{0} emails sent in total",count);
+            return true;
         }
 
         public async Task<int> SendAll(List<Domain.Member> memberList)
@@ -119,7 +102,7 @@ namespace SLBS.Membership.Web
         //    await Send(myMessage);
         //}
 
-        public async Task<bool> SendPayStatusEmail(Domain.Membership member, string email)
+        private async Task<bool> SendPayStatusEmail(Domain.Membership member, string email)
         {
         
             var myMessage = new SendGridMessage();
@@ -137,7 +120,7 @@ namespace SLBS.Membership.Web
           
             var payStatus = GetPaidUptoMonth(member.PaidUpTo);
 
-            myMessage.AddSubstitution("-TREASURER-", new List<string> { SystemConfig.TreasurerName });
+            myMessage.AddSubstitution("-TREASURER-", new List<string> { EmailConfig.TreasurerName });
             myMessage.AddSubstitution("-NAME-", new List<string> { member.ContactName });
             myMessage.AddSubstitution("-PAYSTATUS-", new List<string> { payStatus });
             myMessage.AddSubstitution("-PAYCALCDATE-", new List<string> { paymentStatusDate.ToString("dd MMM yyyy") });
@@ -163,7 +146,7 @@ namespace SLBS.Membership.Web
             myMessage.EnableTemplateEngine(BuildingTemplateId);
             var amountString = string.Format("${0}", GetPaidUptoMonth(member.PaidUpTo));
 
-            myMessage.AddSubstitution("-SECRETARY-", new List<string> { SystemConfig.TreasurerName });
+            myMessage.AddSubstitution("-SECRETARY-", new List<string> { EmailConfig.TreasurerName });
             myMessage.AddSubstitution("-NAME-", new List<string> { member.FamilyName });
             myMessage.AddSubstitution("-AMOUNT-", new List<string> { amountString });
 
