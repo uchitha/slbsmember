@@ -106,7 +106,7 @@ namespace SLBS.Membership.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SimpleAuthorize(Roles = "BSEditor")]
-        public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo,ApplicationDate,BlockEmails")] Domain.Membership membership, string comment)
+        public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo,ApplicationDate,BlockEmails,LastNotificationDate")] Domain.Membership membership, string comment)
         {
             if (ModelState.IsValid)
             {
@@ -117,6 +117,10 @@ namespace SLBS.Membership.Web.Controllers
                 membershipComment.MembershipId = membership.MembershipId;
 
                 membership.MembershipComments.Add(membershipComment);
+
+                //var existingLastNotificationDate = db.Memberships.Single(m => m.MembershipId == membership.MembershipId).LastNotificationDate;
+
+                //membership.LastNotificationDate = existingLastNotificationDate;
 
                 db.Entry(membership).State = EntityState.Modified;
                 db.Entry(membershipComment).State = EntityState.Added;

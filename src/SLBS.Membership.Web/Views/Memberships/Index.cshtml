@@ -55,6 +55,10 @@
                 </td>
                 <td>
                     @(item.LastNotificationDate.HasValue ? item.LastNotificationDate.Value.ToString("yyyy-MM-dd HH:mm") : "-")
+                    @if (item.BlockEmails == true)
+                    {
+                        <i>&nbsp;<mark>B</mark></i>
+                    }
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.MembershipId }) |

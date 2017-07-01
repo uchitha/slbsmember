@@ -39,6 +39,18 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.LastNotificationDate)
+        </dt>
+
+        <dd>
+            @if (Model.LastNotificationDate.HasValue)
+            {
+                @(Model.LastNotificationDate.Value.ToString("dd-MMM-yyyy"));
+            }
+        </dd>
+
+
+        <dt>
             @Html.DisplayNameFor(model => model.ApplicationDate)
         </dt>
 

@@ -142,7 +142,11 @@ namespace SLBS.Membership.Web.Controllers
 
                     colIndex++;
                     var childName = worksheet.Cells[row, colIndex++].Value.ToString();
-                    var level = worksheet.Cells[row, colIndex].Value.ToString() == "senior" ? 10 : int.Parse(worksheet.Cells[row, colIndex].Value.ToString());
+                    int? level = null;
+                    if (worksheet.Cells[row, colIndex].Value != null)
+                    {
+                        level = worksheet.Cells[row, colIndex].Value.ToString() == "senior" ? 10 : int.Parse(worksheet.Cells[row, colIndex].Value.ToString());
+                    }
                     colIndex++;
                     var ambulanceCover = worksheet.Cells[row, colIndex].Value != null && (worksheet.Cells[row, colIndex].Value.ToString() == "YES");
                     colIndex++;
@@ -159,7 +163,7 @@ namespace SLBS.Membership.Web.Controllers
                         c.FullName = childName;
                         c.MediaConsent = mediaConsent;
                         c.AmbulanceCover = ambulanceCover;
-                        c.ClassLevel = (ClassLevelEnum)level;
+                        if (level.HasValue) c.ClassLevel = (ClassLevelEnum)level.Value;
                         db.Children.Add(c);
                         db.SaveChanges();
                     }
@@ -202,6 +206,11 @@ namespace SLBS.Membership.Web.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Add new members to the system
+        /// </summary>
+        /// <param name="file"></param>
         private void ProcessMembershipFile(HttpPostedFileBase file)
         {
             using (var package = new ExcelPackage(file.InputStream))
@@ -225,8 +234,9 @@ namespace SLBS.Membership.Web.Controllers
                     }
 
 
-                    var contactName = worksheet.Cells[row, 2].Value.ToString();
-                    var statusString = worksheet.Cells[row, 3].Value.ToString();
+                    var contactName = worksheet.Cells[row, 2].Value == null ? string.Empty : worksheet.Cells[row, 2].Value.ToString();
+
+                    var statusString = worksheet.Cells[row, 3].Value == null ? string.Empty : worksheet.Cells[row, 3].Value.ToString();
                     DateTime? payStatus = null;
 
                     if (!string.IsNullOrEmpty(statusString))
@@ -290,6 +300,10 @@ namespace SLBS.Membership.Web.Controllers
             } 
         }
 
+        /// <summary>
+        /// Update the member information. Only update empty information. Never overwrite existing info
+        /// </summary>
+        /// <param name="file"></param>
         private void SafeUpdateMembers(HttpPostedFileBase file)
         {
             using (var package = new ExcelPackage(file.InputStream))
