@@ -29,7 +29,7 @@ namespace SLBS.Membership.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var membership = await db.Memberships.FindAsync(id);
+            var membership = await db.Memberships.Include(m => m.MembershipComments).SingleAsync(m => m.MembershipId == id);
             if (membership == null)
             {
                 return HttpNotFound();
@@ -106,27 +106,41 @@ namespace SLBS.Membership.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SimpleAuthorize(Roles = "BSEditor")]
-        public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo,ApplicationDate,BlockEmails,LastNotificationDate")] Domain.Membership membership, string comment)
+        public async Task<ActionResult> Edit([Bind(Include = "MembershipId,MembershipNumber,ContactName,PaidUpTo,ApplicationDate,BlockEmails,LastNotificationDate")] Domain.Membership membership, string comment, string commentedBy)
         {
             if (ModelState.IsValid)
             {
-                var membershipComment = new MembershipComment();
-                membershipComment.Comment = comment;
-                membershipComment.CommentedOn = DateTime.Now;
-                membershipComment.StatusUpdatedOn = DateTime.Now;
-                membershipComment.MembershipId = membership.MembershipId;
-
-                membership.MembershipComments.Add(membershipComment);
-
+                if (!string.IsNullOrEmpty(comment))
+                {
+                    if (string.IsNullOrEmpty(commentedBy))
+                    {
+                        ModelState.AddModelError("CommentedBy", "Comment needs to be associated with a name of the commentor");
+                        return View(membership);
+                    }
+                   
+                    if (ModelState.IsValid)
+                    {
+                        var membershipComment = new MembershipComment();
+                        membershipComment.Comment = comment;
+                        membershipComment.CommentedOn = DateTime.Now;
+                        membershipComment.StatusUpdatedOn = DateTime.Now;
+                        membershipComment.CreatedBy = commentedBy;
+                        membershipComment.MembershipId = membership.MembershipId;
+                        membership.MembershipComments.Add(membershipComment);
+                        db.Entry(membershipComment).State = EntityState.Added;
+                    }
+            
+                }
+              
                 //var existingLastNotificationDate = db.Memberships.Single(m => m.MembershipId == membership.MembershipId).LastNotificationDate;
 
                 //membership.LastNotificationDate = existingLastNotificationDate;
-
-                db.Entry(membership).State = EntityState.Modified;
-                db.Entry(membershipComment).State = EntityState.Added;
-
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(membership).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             }
             return View(membership);
         }

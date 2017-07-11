@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SLBS.Membership.Domain.MembershipComment>
+
+
+<h4>Membership Comments</h4>
+
+<table class="table-striped" id="childCommentTable" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CommentedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="height: 30px">
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommentedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+

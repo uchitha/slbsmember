@@ -76,7 +76,14 @@
 
     </dl>
 </div>
+
+<hr />
+
+@{
+    Html.RenderPartial("_Comments", Model.MembershipComments);
+}
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MembershipId }) |
+    @Html.ActionLink("Edit Membership", "Edit", new { id = Model.MembershipId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
