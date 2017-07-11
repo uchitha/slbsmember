@@ -124,7 +124,7 @@ namespace SLBS.Membership.Web.Controllers
                         membershipComment.Comment = comment;
                         membershipComment.CommentedOn = DateTime.Now;
                         membershipComment.StatusUpdatedOn = DateTime.Now;
-                        membershipComment.CreatedBy = commentedBy;
+                        membershipComment.CreatedBy = string.Format("{0} ({1})", commentedBy, User.Identity.Name);
                         membershipComment.MembershipId = membership.MembershipId;
                         membership.MembershipComments.Add(membershipComment);
                         db.Entry(membershipComment).State = EntityState.Added;
