@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SLBS.Membership.Domain.MembershipComment>
+﻿@model IEnumerable<SLBS.Membership.Domain.ChildComment>
 
 
 <h4>Membership Notes</h4>
@@ -7,7 +7,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedOn)
+                @Html.DisplayNameFor(model => model.CommentedOn)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment)
@@ -23,7 +23,7 @@
         {
             <tr style="height: 30px">
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                    @Html.DisplayFor(modelItem => item.CommentedOn)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Comment)
