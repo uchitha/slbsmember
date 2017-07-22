@@ -20,7 +20,7 @@ namespace SLBS.Membership.Web.Controllers
         // GET: Adults
         public async Task<ActionResult> Index()
         {
-            var adults = db.Adults.Include(a => a.Membership);
+            var adults = db.Adults.Include(a => a.Membership).Where(a => a.IsActive);
             return View(await adults.ToListAsync());
         }
 
@@ -139,7 +139,7 @@ namespace SLBS.Membership.Web.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Adult adult = await db.Adults.FindAsync(id);
-            db.Adults.Remove(adult);
+            adult.IsActive = false;
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

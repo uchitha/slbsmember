@@ -18,7 +18,13 @@ namespace SLBS.Membership.Web.Controllers
         [SimpleAuthorize(Roles = "BSEditor,Viewer")]
         public async Task<ActionResult> Index()
         {
-            return View(await db.Memberships.ToListAsync());
+            return View(await db.Memberships.Where(m => m.IsActive).ToListAsync());
+        }
+
+        [SimpleAuthorize(Roles = "BSEditor")]
+        public async Task<ActionResult> Inactive()
+        {
+            return View("Index",await db.Memberships.Where(m => !m.IsActive).ToListAsync());
         }
 
         // GET: Memberships/Details/5
@@ -168,7 +174,21 @@ namespace SLBS.Membership.Web.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             var membership = await db.Memberships.FindAsync(id);
-            db.Memberships.Remove(membership);
+            var adults = await db.Adults.Where(a => a.MembershipId == id).ToListAsync();
+            var children = await db.Children.Where(c => c.MembershipId == id).ToListAsync();
+
+            foreach (var child in children)
+            {
+                child.IsActive = false;
+            }
+
+            foreach (var adult in adults)
+            {
+                adult.IsActive = false;
+            }
+
+            membership.IsActive = false;
+
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

@@ -37,7 +37,9 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    var className = item.IsActive ? "" : "text-muted";
+
+    <tr class="@className">
         <td>
             @Html.DisplayFor(modelItem => item.Membership.MembershipNumber)
         </td>

@@ -36,7 +36,8 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr style="height: 30px">
+            var className = item.IsActive ? "" : "text-muted";
+            <tr style="height: 30px" class="@className">
                 <td>
                     @Html.DisplayFor(modelItem => item.Membership.MembershipNumber)
                 </td>

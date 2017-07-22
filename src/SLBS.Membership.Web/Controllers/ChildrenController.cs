@@ -16,7 +16,7 @@ namespace SLBS.Membership.Web.Controllers
         // GET: Children
         public async Task<ActionResult> Index()
         {
-            var children = db.Children.Include(c => c.Membership).Include(c => c.Comments);
+            var children = db.Children.Include(c => c.Membership).Include(c => c.Comments).Where(c => c.IsActive);
             return View(await children.ToListAsync());
         }
         
@@ -36,7 +36,7 @@ namespace SLBS.Membership.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Child child = await db.Children.Include(c => c.Comments).SingleOrDefaultAsync(c => c.ChildId == id);
+            Child child = await db.Children.Include(c => c.Comments).SingleOrDefaultAsync(c => c.ChildId == id && c.IsActive);
             if (child == null)
             {
                 return HttpNotFound();
@@ -134,7 +134,7 @@ namespace SLBS.Membership.Web.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Child child = await db.Children.FindAsync(id);
-            db.Children.Remove(child);
+            child.IsActive = false;
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
