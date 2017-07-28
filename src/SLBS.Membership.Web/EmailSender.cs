@@ -19,6 +19,7 @@ namespace SLBS.Membership.Web
     {
         private const string MembershipTemplateId = "cbff537b-6b71-4d32-af3d-45363c5540a9";
         private const string MembershipPayStatusTemplateId = "0eccb659-e657-439b-a8e5-eb5f8cafceca";
+        private const string NewMemberWelcomeTemplateId = "97dfee8d-9f5e-4179-a57f-c74ceeb04b4f";
 
         private const string BuildingTemplateId = "fce5f540-5873-438f-bd4b-f52cced63abf";
         private EnumMode _mode;
@@ -66,36 +67,20 @@ namespace SLBS.Membership.Web
                            
                         }
                     }
+                    if (noticeType == EnumNoticeTypes.NewMember)
+                    {
+                        if (await SendNewMemberEmail(member, email))
+                        {
+                            count++;
+                        }
+                            
+                    }
                 }
             }
 
             log.Info("Sent {0} emails in total",count);
             return count;
         }
-
-        public async Task<int> SendAll(List<Domain.Member> memberList)
-        {
-            int count = 0;
-            foreach (var member in memberList)
-            {
-                if (IsValidEmail(member.Mother.Email))
-                {
-                    if (_mode == EnumMode.Membership)
-                    {
-                        //await SendPayStatusEmail(member);
-                        count++;
-                    }
-                    else if (_mode == EnumMode.BuildingFund)
-                    {
-                        await SendBuildingFundEmail(member);
-                        count++;
-                    } 
-                }
-            }
-
-            return count;
-        }
-
 
         //public async Task SendPayStatusEmail(Member member)
         //{
@@ -133,9 +118,6 @@ namespace SLBS.Membership.Web
           
             var payStatus = GetPaidUptoMonth(member.PaidUpTo);
 
-          
-
-
             myMessage.AddSubstitution("-TREASURER-", new List<string> { SystemConfig.TreasurerName });
             myMessage.AddSubstitution("-NAME-", new List<string> { member.ContactName });
             myMessage.AddSubstitution("-PAYSTATUS-", new List<string> { payStatus });
@@ -150,6 +132,28 @@ namespace SLBS.Membership.Web
             return await Send(myMessage);
         }
 
+        public async Task<bool> SendNewMemberEmail(Domain.Membership member, string email)
+        {
+            var myMessage = new SendGridMessage();
+
+            myMessage.From = new MailAddress("slsbsmembershipstatus@srilankanvihara.org.au", "SLSBS Treasurer"); //This needs to be a valid SLSBS email
+            myMessage.Subject = string.Format("Welcome to SLSBS");
+
+            myMessage.EnableTemplateEngine(NewMemberWelcomeTemplateId);
+
+            myMessage = HandleIfTest(myMessage, email);
+
+            myMessage.AddSubstitution("-TREASURER-", new List<string> { SystemConfig.TreasurerName });
+            myMessage.AddSubstitution("-NAME-", new List<string> { member.ContactName });
+            myMessage.AddSubstitution("-MEMBERNO-", new List<string> { member.MembershipNumber });
+
+            myMessage.Html = "Theruwan Saranai";
+            myMessage.Text = "Theruwan Saranai";
+
+            myMessage.AddSubstitution("-SENDER-", new List<string> { "Treasurer- SLSBS" });
+
+            return await Send(myMessage);
+        }
 
         public async Task SendBuildingFundEmail(Domain.Member member)
         {
@@ -168,8 +172,6 @@ namespace SLBS.Membership.Web
 
             await Send(myMessage);
         }
-
-
 
         private async Task<bool> Send(SendGrid.SendGridMessage message)
         {

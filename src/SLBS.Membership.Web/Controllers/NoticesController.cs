@@ -43,7 +43,7 @@ namespace SLBS.Membership.Web.Controllers
             return View(new NoticeViewModel());
         }
 
-        public async Task<ActionResult> Send()
+        public async Task<ActionResult> Send(EnumNoticeTypes noticeType)
         {
             //Send emails
             var sender = new EmailSender(EnumMode.Membership);
@@ -51,7 +51,7 @@ namespace SLBS.Membership.Web.Controllers
 
             var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
 
-            var sentCount = await sender.SendMail(members, EnumNoticeTypes.PaymentStatus);
+            var sentCount = await sender.SendMail(members, noticeType);
 
             return Json(new {sentCount}, JsonRequestBehavior.AllowGet);
         }
