@@ -160,7 +160,8 @@ namespace SLBS.Membership.WebJobEmail
             {
                 var apiKey = ConfigurationManager.AppSettings["SendgridKey"];
                 var transportWeb = new SendGrid.Web(apiKey);
-                await transportWeb.DeliverAsync(message);
+                //await transportWeb.DeliverAsync(message);
+                await Task.Delay(500);
                 return true;
             }
             catch (InvalidApiRequestException apiEx)
