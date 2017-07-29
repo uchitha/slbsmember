@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web.Mvc;
 using SLBS.Membership.Domain;
+using NLog;
 
 namespace SLBS.Membership.Web.Controllers
 {
@@ -14,10 +15,13 @@ namespace SLBS.Membership.Web.Controllers
     {
         private SlsbsContext db = new SlsbsContext();
 
+        private Logger log = LogManager.GetCurrentClassLogger();
+
         // GET: Memberships
         [SimpleAuthorize(Roles = "BSEditor,Viewer")]
         public async Task<ActionResult> Index()
         {
+            log.Debug("Loading members");
             return View(await db.Memberships.ToListAsync());
         }
 
