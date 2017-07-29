@@ -77,7 +77,10 @@ namespace SLBS.Membership.Web.Controllers
 
         private async Task StartMailSendingWebJob()
         {
-            var url = string.Format("https://{0}.scm.azurewebsites.net/api/triggeredwebjobs/{1}/run", ConfigurationManager.AppSettings["appservicename"], ConfigurationManager.AppSettings["emailwebjobname"]);
+            var url = string.Format("https://{0}.scm.azurewebsites.net/api/triggeredwebjobs/{1}/run", 
+                ConfigurationManager.AppSettings["AppServiceName"], 
+                ConfigurationManager.AppSettings["WebJobName"]);
+            log.Debug(string.Format("Triggering web job at {0}", url));
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             request.Method = "POST";
             var creds = ConfigurationManager.AppSettings["EmailJobCredentials"];
