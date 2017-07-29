@@ -52,11 +52,20 @@ namespace SLBS.Membership.Web.Controllers
             var ids = (List<int>)Session["SelectedMemberIds"];
 
             var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
-
-            log.Debug("About to send mail request to the queue");
-            var sentCount = await sender.QueueMail(members, EnumNoticeTypes.PaymentStatus);
-            log.Debug("Send mail request to the queue completed");
-            return Json(new {sentCount}, JsonRequestBehavior.AllowGet);
+            try
+            {
+                log.Debug("About to send mail request to the queue");
+                var sentCount = await sender.QueueMail(members, EnumNoticeTypes.PaymentStatus);
+                log.Debug("Send mail request to the queue completed");
+                return Json(new { sentCount }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message);
+                log.Error(e.StackTrace);
+                throw;
+            }
+          
         }
 
         private SelectList BuildEnumList()
