@@ -78,7 +78,7 @@ namespace SLBS.Membership.Web.Controllers
         private async Task StartMailSendingWebJob()
         {
             var url = string.Format("https://{0}.scm.azurewebsites.net/api/triggeredwebjobs/{1}/run", ConfigurationManager.AppSettings["appservicename"], ConfigurationManager.AppSettings["emailwebjobname"]);
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://<web appname>.scm.azurewebsites.net/api/triggeredwebjobs/<web job name>/run");
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             request.Method = "POST";
             var creds = ConfigurationManager.AppSettings["EmailJobCredentials"];
             var byteArray = Encoding.ASCII.GetBytes(creds); //we could find user name and password in Azure web app publish profile 
@@ -91,6 +91,7 @@ namespace SLBS.Membership.Web.Controllers
             catch (Exception e)
             {
                 log.Error(e, "Triggering web job failed");
+                throw e;
             }
         }
 
