@@ -36,6 +36,7 @@ namespace SLBS.Membership.Web
             var mailSentDate = DateTime.Now;
             var queueManager = new QueueManager();
 
+            log.Debug(string.Format("Received {0} members",members.Count));
             foreach (var member in members)
             {
                 if (member.BlockEmails.HasValue && member.BlockEmails.Value) continue;
@@ -46,6 +47,7 @@ namespace SLBS.Membership.Web
 
                 foreach (var email in validEmails)
                 {
+                    log.Debug("About to insert to queue");
                     queueManager.InsertMail(member.MembershipId,email,noticeType);
                     count++;
 

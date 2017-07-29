@@ -8,12 +8,14 @@ using System.Web.Mvc.Html;
 using SLBS.Membership.Domain;
 using SLBS.Membership.Web.Models;
 using System.Configuration;
+using NLog;
 
 namespace SLBS.Membership.Web.Controllers
 {
     [SimpleAuthorize(Roles = "Sender")]
     public class NoticesController : Controller
     {
+        private Logger log = LogManager.GetCurrentClassLogger();
 
         private SlsbsContext db = new SlsbsContext();
 
@@ -51,8 +53,9 @@ namespace SLBS.Membership.Web.Controllers
 
             var members = await db.Memberships.Where(m => ids.Contains(m.MembershipId)).ToListAsync();
 
+            log.Debug("About to send mail request to the queue");
             var sentCount = await sender.QueueMail(members, EnumNoticeTypes.PaymentStatus);
-
+            log.Debug("Send mail request to the queue completed");
             return Json(new {sentCount}, JsonRequestBehavior.AllowGet);
         }
 

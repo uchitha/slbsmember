@@ -8,6 +8,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Newtonsoft.Json;
 using SLBS.Membership.Web.Models;
+using NLog;
 
 namespace SLBS.Membership.Web
 {
@@ -16,6 +17,7 @@ namespace SLBS.Membership.Web
     {
         private const string _queueName = "slsbs-mailqueue";
         private CloudQueueClient _queueClient;
+        private Logger log = LogManager.GetCurrentClassLogger();
 
         public QueueManager()
         {
@@ -30,12 +32,14 @@ namespace SLBS.Membership.Web
             CloudQueue queue = _queueClient.GetQueueReference(_queueName);
 
             // Create the queue if it doesn't already exist.
+            log.Debug("About to create queue if not exists");
             queue.CreateIfNotExists();
 
             // Create a message and add it to the queue.
             var emailMessage = JsonConvert.SerializeObject(new { MembershipId = membershipId, Email = email, NoticeType = noticeType });
             CloudQueueMessage message = new CloudQueueMessage(emailMessage);
             queue.AddMessage(message);
+            log.Debug(string.Format("Added message {0} to queue ", emailMessage));
         }
 
     }

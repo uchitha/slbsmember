@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System.IO;
-using Microsoft.WindowsAzure.Storage.Queue;
+﻿using Microsoft.Azure.WebJobs;
 
 namespace SLSBS.Membership.WebJobEmail
 {
