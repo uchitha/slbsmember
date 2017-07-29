@@ -118,6 +118,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\ondemand-mail-job.pubxml" />
+    <None Include="Properties\PublishProfiles\slsbsmember - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\slsbsstaging - Web Deploy.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>

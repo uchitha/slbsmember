@@ -9,6 +9,8 @@ using SLBS.Membership.Domain;
 using SLBS.Membership.Web.Models;
 using System.Configuration;
 using NLog;
+using System.Net;
+using System.Text;
 
 namespace SLBS.Membership.Web.Controllers
 {
@@ -57,6 +59,11 @@ namespace SLBS.Membership.Web.Controllers
                 log.Debug("About to send mail request to the queue");
                 var sentCount = await sender.QueueMail(members, EnumNoticeTypes.PaymentStatus);
                 log.Debug("Send mail request to the queue completed");
+
+                log.Debug("Triggering the web job to start sending emails");
+                await StartMailSendingWebJob();
+                log.Debug("Triggering the web job completed");
+
                 return Json(new { sentCount }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -66,6 +73,25 @@ namespace SLBS.Membership.Web.Controllers
                 throw;
             }
           
+        }
+
+        private async Task StartMailSendingWebJob()
+        {
+            var url = string.Format("https://{0}.scm.azurewebsites.net/api/triggeredwebjobs/{1}/run", ConfigurationManager.AppSettings["appservicename"], ConfigurationManager.AppSettings["emailwebjobname"]);
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("https://<web appname>.scm.azurewebsites.net/api/triggeredwebjobs/<web job name>/run");
+            request.Method = "POST";
+            var creds = ConfigurationManager.AppSettings["EmailJobCredentials"];
+            var byteArray = Encoding.ASCII.GetBytes(creds); //we could find user name and password in Azure web app publish profile 
+            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(byteArray));
+            request.ContentLength = 0;
+            try
+            {
+                await request.GetResponseAsync();
+            }
+            catch (Exception e)
+            {
+                log.Error(e, "Triggering web job failed");
+            }
         }
 
         private SelectList BuildEnumList()

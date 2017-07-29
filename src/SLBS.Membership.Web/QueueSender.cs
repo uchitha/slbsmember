@@ -50,58 +50,11 @@ namespace SLBS.Membership.Web
                     log.Debug("About to insert to queue");
                     queueManager.InsertMail(member.MembershipId,email,noticeType);
                     count++;
-
-                    if (noticeType == EnumNoticeTypes.PaymentStatus)
-                    {
-                        //if (await SendPayStatusEmail(member, email))
-                        //{
-                        //    count++;
-                        //    var memberDbInstance = db.Memberships.SingleOrDefault(m => m.MembershipNumber == member.MembershipNumber);
-                        //    if (memberDbInstance != null)
-                        //    {
-                        //        memberDbInstance.LastNotificationDate = mailSentDate;
-                        //        db.SaveChanges();
-                        //    }
-
-                        //}
-                    }
                 }
             }
 
             log.Info("{0} emails queued to be sent in total",count);
             return count;
-        }
-
-        private async Task<bool> Send(SendGrid.SendGridMessage message)
-        {
-            try
-            {
-                var apiKey = ConfigurationManager.AppSettings["SendgridKey"];
-                var transportWeb = new SendGrid.Web(apiKey);
-                await transportWeb.DeliverAsync(message);
-                return true;
-            }
-            catch (InvalidApiRequestException apiEx)
-            {
-                var details = new StringBuilder();
-
-                details.Append("ResponseStatusCode: " + apiEx.ResponseStatusCode + ".   ");
-
-                int i = 1;
-                foreach (var error in apiEx.Errors)
-                {
-                    details.Append(" -- Error #" + i + " : " + error);
-                    i++;
-                }
-
-                log.Error("Error sending emails (InvalidApiRequest from Sendgrid): {0}", details);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex,"Error sending email to {0}", message.To[0]);
-                return false;
-            }
         }
 
         private bool IsValidEmail(string email)

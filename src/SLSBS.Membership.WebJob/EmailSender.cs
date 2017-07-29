@@ -37,6 +37,7 @@ namespace SLBS.Membership.WebJobEmail
 
         public async Task<bool> SendMail(int membershipId, string email)
         {
+            log.Info(string.Format("Email sending job starting for {0}",email));
             int count = 0;
             var existingMember = db.Memberships.SingleOrDefault(m => m.MembershipId == membershipId);
 
