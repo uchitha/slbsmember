@@ -3,7 +3,7 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using SLBS.Membership.WebJobEmail;
 using System.IO;
 
-namespace SLSBS.Membership.WebJob
+namespace SLSBS.Membership.WebJobEmail
 {
     public class Functions
     {

@@ -61,30 +61,7 @@ namespace SLBS.Membership.WebJobEmail
             return true;
         }
 
-        public async Task<int> SendAll(List<Domain.Member> memberList)
-        {
-            int count = 0;
-            foreach (var member in memberList)
-            {
-                if (IsValidEmail(member.Mother.Email))
-                {
-                    if (_mode == EnumMode.Membership)
-                    {
-                        //await SendPayStatusEmail(member);
-                        count++;
-                    }
-                    else if (_mode == EnumMode.BuildingFund)
-                    {
-                        await SendBuildingFundEmail(member);
-                        count++;
-                    } 
-                }
-            }
-
-            return count;
-        }
-
-
+       
         //public async Task SendPayStatusEmail(Member member)
         //{
         //    var myMessage = new SendGrid.SendGridMessage();

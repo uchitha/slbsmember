@@ -14,8 +14,6 @@ namespace SLSBS.Membership.WebJobEmail
             //    config.UseDevelopmentSettings();
             //}
 
-            JobHost host = new JobHost();
-            host.RunAndBlock();
         }
 
        
