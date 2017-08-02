@@ -45,7 +45,7 @@ namespace SLBS.Membership.Web
             var roleManager = new RoleManager<AppRole>(new RoleStore<AppRole>(context));
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            var defaultRoles = new List<string> {"Admin", "Viewer", "BSEditor", "DSEditor","DSTeacher", "Sender"};
+            var defaultRoles = new List<string> {"Admin", "Viewer", "BSEditor", "DSEditor","DSTeacher", "Sender", "Uploader"};
 
             defaultRoles.ForEach(r =>
             {
@@ -62,7 +62,7 @@ namespace SLBS.Membership.Web
 
             if (!userManager.Users.Any(u => u.UserName == "chandana"))
             {
-                CreateUser(userManager, "chandana", "!Chandana123", "treasurer@slsbsmembership.net",new List<string> {"BSEditor", "DSEditor", "Sender"});
+                CreateUser(userManager, "chandana", "!Chandana123", "treasurer@slsbsmembership.net",new List<string> {"BSEditor", "DSEditor", "Sender", "Uploader"});
             }
 
             if (!userManager.Users.Any(u => u.UserName == "BsEditor"))

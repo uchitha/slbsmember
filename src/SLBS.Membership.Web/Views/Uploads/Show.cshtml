@@ -1,0 +1,88 @@
+﻿@using SLBS.Membership.Web.Models
+@model IEnumerable<SLBS.Membership.Web.Models.Member>
+           
+@section scripts
+{
+    <script type="text/javascript" >
+        $(document).ready(function () {
+            $("#toggleAll").click(function () {
+                $(".selectMember").prop("checked", $("#toggleAll:checked").length > 0);
+                console.log('done');
+            });
+        });
+    </script>
+   
+
+}
+
+@using (Html.BeginForm("Send", "Member",   new { mode = @ViewBag.Mode }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h3>@ViewBag.Mode Notification</h3>
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-md-12">
+            <h3>
+                Found @Model.Count() members who have paid for this cycle
+            </h3>
+            <p>
+                Select the people you'd like to send the notification to and click send.
+            </p>
+            <input type="submit" name="submit" id="Submit" value="Send" class="btn btn-primary" />
+        </div>
+    </div>
+    
+    <br/>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th><input type="checkbox" name="selectAll"  id="toggleAll" /></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MemberNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MemberName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Payment)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selectedMemberNumbers" value="@item.MemberNo" class="selectMember" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MemberNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MemberName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Payment)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+  
+}
+ 
+

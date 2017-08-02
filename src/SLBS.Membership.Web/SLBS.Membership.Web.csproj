@@ -205,6 +205,7 @@
     <Compile Include="Controllers\MembershipsController.cs" />
     <Compile Include="Controllers\NoticesController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Data\MainRepository.cs" />
     <Compile Include="Data\ReportRepository.cs" />
     <Compile Include="EmailSender.cs" />
@@ -320,6 +321,10 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Children\_Comments.cshtml" />
     <Content Include="Views\Memberships\_Comments.cshtml" />
+    <Content Include="Views\Uploads\Index.cshtml" />
+    <Content Include="Views\Uploads\Mode.cshtml" />
+    <Content Include="Views\Uploads\SendReport.cshtml" />
+    <Content Include="Views\Uploads\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

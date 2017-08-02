@@ -1,0 +1,44 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h2>Update membership details</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Update Payment Status (Monthly Update)</h4>
+        <p>
+            To update the payment details you need to upload the excel sheet with a pre-defined format. It also needs to follow
+            <ul>
+                <li>Name        : PayStatus.xlsx</li>
+                <li>Sheet Name  : PayStatus</li>
+                <li>Header Row  : The first row of the sheet should be column names</li>
+                <li>Column Order: Member Number, Name, Payment Status</li>
+            </ul>
+        </p>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-6">
+        @using (Html.BeginForm("Load", "Uploads", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="file" name="file" class="btn btn-default" />
+            <br/><br/>
+            <input type="submit" name="Submit" id="Submit" value="Update Payment Status" class="btn btn-primary" />
+        }
+    </div>
+    
+    <div class="col-md-6">
+        @using (Html.BeginForm("Update", "Uploads", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="file" name="file" class="btn btn-default" />
+            <br /><br />
+            <input type="submit" name="Submit" id="Submit" value="Update Member Details" class="btn btn-primary" />
+        }
+    </div>
+
+</div>
+
