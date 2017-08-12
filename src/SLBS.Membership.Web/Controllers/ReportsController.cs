@@ -199,6 +199,8 @@ namespace SLBS.Membership.Web.Controllers
               ws.Cells[row, col++].Value = "Fathers Landphone";
               ws.Cells[row, col++].Value = "Fathers Email";
 
+              ws.Cells[row, col++].Value = "Family Address";
+
               ws.Cells[row, col++].Value = "Mothers Name";
               ws.Cells[row, col++].Value = "Mothers Mobile";
               ws.Cells[row, col++].Value = "Mothers Landphone";
@@ -218,6 +220,8 @@ namespace SLBS.Membership.Web.Controllers
                   ws.Cells[row, col++].Value = o.FathersMobile;
                   ws.Cells[row, col++].Value = o.FathersLandphone;
                   ws.Cells[row, col++].Value = o.FathersEmail;
+
+                  ws.Cells[row, col++].Value = o.FamilyAddress;
 
                   ws.Cells[row, col++].Value = o.MothersName;
                   ws.Cells[row, col++].Value = o.MothersMobile;
