@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Mvc;
 
 namespace SLBS.Membership.Web.Controllers
@@ -14,6 +15,7 @@ namespace SLBS.Membership.Web.Controllers
     public class ExternalController : ApiController
     {
         [System.Web.Http.HttpPost]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public async Task<JsonResult> SendMail(string message,string subject)
         {
             //Send emails
