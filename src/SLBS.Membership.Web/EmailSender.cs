@@ -36,6 +36,21 @@ namespace SLBS.Membership.Web
             IsProduction = ConfigurationManager.AppSettings["Environment"] == "Production";
         }
 
+        public async Task SendExternalMail(string message, string subject, string to)
+        {
+            var myMessage = new SendGridMessage();
+
+            myMessage.From = new MailAddress("slsbsmembershipstatus@srilankanvihara.org.au", "TNU - External"); //This needs to be a valid SLSBS email
+            myMessage.Subject = string.Format(subject);
+            myMessage.Text = message;
+            foreach(var address in to.Split(','))
+            {
+                myMessage.AddTo(address.Trim());
+            }
+           
+            await Send(myMessage);
+        }
+
         public async Task<int> SendMail(List<Domain.Membership> members, EnumNoticeTypes noticeType)
         {
             int count = 0;
@@ -81,24 +96,6 @@ namespace SLBS.Membership.Web
             log.Info("Sent {0} emails in total",count);
             return count;
         }
-
-        //public async Task SendPayStatusEmail(Member member)
-        //{
-        //    var myMessage = new SendGrid.SendGridMessage();
-        //    myMessage.AddTo("slbsmembershipstatus@gmail.com"); //member.Email
-        //    myMessage.From = new MailAddress("slbsmembershipstatus@uchithar.net", "SLSBS Treasurer");
-        //    myMessage.Subject = string.Format("THANK YOU - Acknowledgement of Payments for Membership ({0})", member.Email);
-        //    myMessage.Text = "Much Merits to You and Your Family members.";
-
-        //    myMessage.EnableTemplateEngine(MembershipTemplateId);
-        //    var amountString = string.Format("${0}", member.Payment);
-
-        //    myMessage.AddSubstitution("-SECRETARY-",new List<string>{ SystemConfig.TreasurerName});
-        //    myMessage.AddSubstitution("-NAME-", new List<string> { member.MemberName });
-        //    myMessage.AddSubstitution("-AMOUNT-", new List<string> { amountString });
-
-        //    await Send(myMessage);
-        //}
 
         public async Task<bool> SendPayStatusEmail(Domain.Membership member, string email)
         {

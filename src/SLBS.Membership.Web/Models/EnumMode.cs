@@ -9,6 +9,7 @@ namespace SLBS.Membership.Web.Models
     {
         None = 0,
         Membership = 1,
-        BuildingFund = 2
+        BuildingFund = 2,
+        External = 3
     }
 }
