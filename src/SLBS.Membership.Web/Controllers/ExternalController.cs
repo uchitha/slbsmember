@@ -13,19 +13,33 @@ using System.Web.Mvc;
 
 namespace SLBS.Membership.Web.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [System.Web.Http.Route("External")]
     public class ExternalController : ApiController
     {
         [System.Web.Http.HttpPost]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public async Task<JsonResult> SendMail(string message,string subject)
+        [System.Web.Http.Route("SendMail")]
+        public int SendMail()
         {
-            //Send emails
+            ////Send emails
             var sender = new EmailSender(EnumMode.External);
+            //await sender.SendExternalMail(message, subject, ConfigurationManager.AppSettings["ExternalMailTo"]);
 
-            await sender.SendExternalMail(message, subject, ConfigurationManager.AppSettings["ExternalMailTo"]);
-
-            return new JsonResult();
+            return 20;
         }
 
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("SendMail")]
+        public string SendMailGet()
+        {
+            ////Send emails
+            var sender = new EmailSender(EnumMode.External);
+            //await sender.SendExternalMail(message, subject, ConfigurationManager.AppSettings["ExternalMailTo"]);
+
+            return "Send";
+        }
+
+
+        public string Get() { return "GET"; }
     }
 }

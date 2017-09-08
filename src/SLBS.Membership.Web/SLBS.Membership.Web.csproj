@@ -333,6 +333,15 @@
     <Content Include="Views\Uploads\Mode.cshtml" />
     <Content Include="Views\Uploads\SendReport.cshtml" />
     <Content Include="Views\Uploads\Show.cshtml" />
+    <Content Include="Templates\Children.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\Members.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\PayStatus.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
