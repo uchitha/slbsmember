@@ -6,6 +6,8 @@ namespace SLBS.Membership.Web.Models
         public string ClassName { get; set; }
         public string MembershipNumber { get; set; }
         public string ChildName { get; set; }
+        public string Active { get; set; }
+        public string Comment { get; set; }
         public string MediaConsent { get; set; }
         public string AmbulanceCover { get; set; }
         public string PaymentStatus { get; set; }

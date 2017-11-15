@@ -55,12 +55,14 @@ namespace SLBS.Membership.Web.Data
             return
                 @"select CASE WHEN c.ClassLevel = 10 THEN 'Senior' ELSE 'Level ' + Convert (varchar(10),c.ClassLevel) End ClassName, 
                 MembershipNumber, c.FullName as ChildName, 
+				CASE WHEN c.IsActive = 1 THEN 'Active' ELSE 'Deleted' END Active, 
+				CASE WHEN cc.Comment is NULL THEN '' ELSE cc.Comment END Note,
                 CASE WHEN c.MediaConsent = 1 THEN 'YES' ELSE 'NO' END MediaConsent,
                 CASE WHEN c.AmbulanceCover = 1 THEN 'YES' ELSE 'NO' END AmbulanceCover,
                 LEFT(CONVERT(VARCHAR, PaidUpTo, 120), 10) PaymentStatus,
                 FatherName, MotherName, FatherEmail, FatherMobile, FatherLandphone,MotherEmail,MotherMobile,MotherLandphone
-
                 from Child c
+				left outer join ChildComment cc on cc.ChildId = c.ChildId
                 inner join 
                 (select distinct Membership.MembershipId, Membership.MembershipNumber, Membership.PaidUpto, Father.FullName as FatherName, Mother.FullName as MotherName, 
                 Father.Email as FatherEmail, Father.MobilePhone as FatherMobile, Father.LandPhone as FatherLandphone, 

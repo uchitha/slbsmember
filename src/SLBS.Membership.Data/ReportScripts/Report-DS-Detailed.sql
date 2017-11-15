@@ -1,25 +1,21 @@
-select CASE WHEN c.ClassLevel = 10 THEN 'Senior' ELSE 'Level ' + Convert (varchar(10),c.ClassLevel) End Class,
-MembershipNumber, c.FullName as ChildName, 
-CASE WHEN c.MediaConsent = 1 THEN 'YES' ELSE 'NO' END MemberConsent,
-CASE WHEN c.AmbulanceCover = 1 THEN 'YES' ELSE 'NO' END AmbulanceCover,
-LEFT(CONVERT(VARCHAR, PaidUpTo, 120), 10) PaymentStatus,
-FatherName, MotherName, FatherEmail, FatherMobile, FatherLandphone,MotherEmail,MotherMobile,MotherLandphone
+select m.MembershipNumber, m.ContactName,LEFT(CONVERT(VARCHAR, m.PaidUpTo, 120), 10) PaidUpTo,LastNotificationDate,
+                            Father.FullName as FathersName, Father.MobilePhone as FathersMobile, Father.Landphone as FathersLandphone, Father.Email as FathersEmail, COALESCE(Father.[Address],Mother.[Address]) as FamilyAddress,
+                            Mother.FullName as MothersName, Mother.MobilePhone as MothersMobile, Mother.Landphone as MothersLandphone, Mother.Email as MothersEmail, 
+							cast (CASE WHEN Child.ChildCount IS NULL THEN 0 ELSE 1 END as bit) as HasDsKids
+                            from Membership m
+                            left outer join 
+                            (select m.MembershipId, m.MembershipNumber, a.FullName, a.MobilePhone, a.Email, a.LandPhone, a.[Address]
+                            from Membership m left outer join Adult a on a.MembershipId = m.MembershipId
+                            where a.[Role] = 1) as Father
+                            on Father.MembershipId = m.MembershipId
+                            left outer join 
+                            (select m.MembershipId, m.MembershipNumber, a.FullName,a.MobilePhone, a.Email,a.LandPhone, a.[Address]
+                            from Membership m left outer join Adult a on a.MembershipId = m.MembershipId
+                            where a.[Role] = 2) as Mother
+                            on Mother.MembershipId = m.MembershipId
+							left outer join
+							(select m.MembershipId, count(*) ChildCount from Child c inner join Membership m on c.MembershipId = m.MembershipId group by m.MembershipId ) as Child
+							on Child.MembershipId = m.MembershipId
 
-from Child c
-inner join 
-(select distinct Membership.MembershipId, Membership.MembershipNumber, Membership.PaidUpto, Father.FullName as FatherName, Mother.FullName as MotherName, 
-Father.Email as FatherEmail, Father.MobilePhone as FatherMobile, Father.LandPhone as FatherLandphone, 
-Mother.Email as MotherEmail, Mother.MobilePhone as MotherMobile, Mother.LandPhone as MotherLandphone
-from Membership
-left outer join
-(select m.MembershipId, m.MembershipNumber, a.FullName, a.MobilePhone, a.Email, a.LandPhone
-from Membership m left outer join Adult a on a.MembershipId = m.MembershipId
-where a.[Role] = 1) as Father
-on Father.MembershipId = Membership.MembershipId
-left outer join 
-(select m.MembershipId, m.MembershipNumber, a.FullName,a.MobilePhone, a.Email,a.LandPhone
-from Membership m left outer join Adult a on a.MembershipId = m.MembershipId
-where a.[Role] = 2) as Mother
-on Mother.MembershipId = Membership.MembershipId) as MemberDetails
-on MemberDetails.MembershipId = c.MembershipId 
-order by ClassLevel, MembershipNumber
+                            where m.MembershipNumber not like 'X%'
+                            order by m.MembershipNumber

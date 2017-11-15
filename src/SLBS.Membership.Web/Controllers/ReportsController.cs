@@ -136,6 +136,8 @@ namespace SLBS.Membership.Web.Controllers
                 ws.Cells[row, col++].Value = "Class";
                 ws.Cells[row, col++].Value = "Membership Number";
                 ws.Cells[row, col++].Value = "Child name";
+                ws.Cells[row, col++].Value = "Active";
+                ws.Cells[row, col++].Value = "Comment";
                 ws.Cells[row, col++].Value = "Amblance Cover";
                 ws.Cells[row, col++].Value = "Media Consent";
                 ws.Cells[row, col++].Value = "Pay Status";
@@ -155,6 +157,8 @@ namespace SLBS.Membership.Web.Controllers
                     ws.Cells[row, col++].Value = o.ClassName;
                     ws.Cells[row, col++].Value = o.MembershipNumber;
                     ws.Cells[row, col++].Value = o.ChildName;
+                    ws.Cells[row, col++].Value = o.Active;
+                    ws.Cells[row, col++].Value = o.Comment;
                     ws.Cells[row, col++].Value = o.AmbulanceCover;
                     ws.Cells[row, col++].Value = o.MediaConsent;
                     ws.Cells[row, col++].Value = o.PaymentStatus;
